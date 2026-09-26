@@ -238,10 +238,10 @@ function seed() {
   const tA = T0 - 2 * D - 3 * H, tB = T0 - 2 * D + 3 * H + 15 * MIN;
   const phieu = [
     { so: 'GTV-0014', xe: 'xe 7', lo: 'L03', tt: 'duyet', nguon: 'SMB', ht: T0 - 3 * D, rows: [r('k50', T0 - 3 * D), r('k51', null)] },
-    { so: 'GTV-0011', xe: 'X103', lo: 'L03', tt: 'duyet', nguon: 'app', ht: tA, rows: [r('k20', tA), r('k21', tA + 4 * MIN), r('k22', tA + 9 * MIN, { daLay: true, gioLay: T0 - 70 * MIN, nguoiLay: 'Hoa' }), r('k23', tB)] },
-    { so: 'GTV-0015', xe: 'X107', lo: 'L03', tt: 'duyet', nguon: 'app', ht: T0 - 17 * H, rows: [r('k23', tB), r('k24', tB + 25 * MIN), r('k25', tA + 12 * MIN)] },
-    { so: 'GTV-0016', xe: 'X107', lo: 'L04', tt: 'duyet', nguon: 'app', ht: T0 - 70 * MIN, rows: [r('k30', T0 - 70 * MIN)] },
-    { so: 'GTV-0017', xe: 'X111', lo: 'L05', tt: 'duyet', nguon: 'app', ht: T0 - 5 * H, rows: [r('k40', T0 - 5 * H)] },
+    { so: 'GTV-0011', xe: '103', lo: 'L03', tt: 'duyet', nguon: 'app', ht: tA, rows: [r('k20', tA), r('k21', tA + 4 * MIN), r('k22', tA + 9 * MIN, { daLay: true, gioLay: T0 - 70 * MIN, nguoiLay: 'Hoa' }), r('k23', tB)] },
+    { so: 'GTV-0015', xe: '107', lo: 'L03', tt: 'duyet', nguon: 'app', ht: T0 - 17 * H, rows: [r('k23', tB), r('k24', tB + 25 * MIN), r('k25', tA + 12 * MIN)] },
+    { so: 'GTV-0016', xe: '107', lo: 'L04', tt: 'duyet', nguon: 'app', ht: T0 - 70 * MIN, rows: [r('k30', T0 - 70 * MIN)] },
+    { so: 'GTV-0017', xe: '111', lo: 'L05', tt: 'duyet', nguon: 'app', ht: T0 - 5 * H, rows: [r('k40', T0 - 5 * H)] },
   ];
   return {
     offset: 0, seq, nextSo: 18, offline: false,
@@ -259,8 +259,10 @@ const cayBy = id => S.cay.find(c => c.id === id);
 // Vị trí mới nhất của cây = dòng có seq lớn nhất (R21)
 function lastRow(id) { let b = null; for (const p of S.phieu) for (const r of p.rows) if (r.cay === id && (!b || r.seq > b.r.seq)) b = { r, p }; return b; }
 function trangThai(id) { const l = lastRow(id); if (!l) return 'chua'; return l.r.daLay ? 'lay' : 'tren'; }
-const isXe = code => /^X\d{3}$/.test(code);
-const xeHopLe = code => { const n = +code.slice(1); return n >= 101 && n <= 500; };
+const isXe = code => /^\d{3}$/.test(code);
+const xeHopLe = code => { const n = +code; return n >= 101 && n <= 500; };
+// Tên xe để đọc: mã tem là số trần (109), trên màn hình ghi "xe 109" cho khỏi lẫn với số mét
+const tx = (x, hoa) => isXe(x) ? (hoa ? 'Xe ' : 'xe ') + x : x;
 function ngayU(c) { const xs = NGAY_U.filter(x => x.lo === c.lo && x.vai === c.vai).map(x => x.ngay); return xs.length ? Math.max(...xs) : null; }
 // Tình trạng ủ: ok (đủ) · wait (còn left ms) · nokhai (chưa khai ngày ủ) · nogio (dòng không có giờ xả)
 function u(c, r) {
@@ -294,7 +296,7 @@ function go(screen, params = {}) { S.screen = screen; S.params = params; S.sheet
 // Phiếu nháp của xe + Lô: dùng phiếu nháp đang có (app hay SMB), chưa có thì tạo (R11)
 function phieuNhap(xe, lo) {
   let p = S.phieu.find(p => p.tt === 'nhap' && p.xe === xe && p.lo === lo);
-  if (!p) { p = { so: 'GTV-' + String(S.nextSo++).padStart(4, '0'), xe, lo, tt: 'nhap', nguon: 'app', ht: now(), rows: [] }; S.phieu.push(p); log(`Tạo phiếu nháp ${p.so} · ${xe} · ${loTen(lo)}`); }
+  if (!p) { p = { so: 'GTV-' + String(S.nextSo++).padStart(4, '0'), xe, lo, tt: 'nhap', nguon: 'app', ht: now(), rows: [] }; S.phieu.push(p); log(`Tạo phiếu nháp ${p.so} · ${tx(xe)} · ${loTen(lo)}`); }
   return p;
 }
 function themDong(c, gioXa, kieu) {
@@ -302,7 +304,7 @@ function themDong(c, gioXa, kieu) {
   const r = { cay: c.id, gioXa, daLay: false, gioLay: null, nguoiLay: null, seq: ++S.seq };
   p.rows.push(r); S.lastSeq = r.seq;
   S.recentLo = [c.lo, ...S.recentLo.filter(x => x !== c.lo)];
-  log(`${kieu} ${c.ma} · ${met(c.met)} → ${S.sess.xe} (${p.so})`);
+  log(`${kieu} ${c.ma} · ${met(c.met)} → ${tx(S.sess.xe)} (${p.so})`);
   return { p, r };
 }
 // Đưa cây vào xe đang mở; xe đang chứa Lô khác → hỏi trước khi ghi (R13)
@@ -311,10 +313,10 @@ function vaoXe(c, kieu = 'Xả mới', gioGoc = null) {
   if (c.lo !== S.sess.lo) { S.sess.lo = c.lo; toast('warn', `Đã chuyển sang ${loTen(c.lo)}.`); }
   const tren = trenXe(S.sess.xe);
   const loMoi = tren.length && !tren.some(x => x.c.lo === c.lo);
-  if (loMoi && !S.sess.warned[c.lo]) { S.sheet = { kind: 'tronlo', cay: c.id, kieu, gioGoc }; log(`Hỏi: ${S.sess.xe} đang chứa Lô khác, thêm cây ${LO[c.lo].lo}?`, 'wr'); return; }
+  if (loMoi && !S.sess.warned[c.lo]) { S.sheet = { kind: 'tronlo', cay: c.id, kieu, gioGoc }; log(`Hỏi: ${tx(S.sess.xe)} đang chứa Lô khác, thêm cây ${LO[c.lo].lo}?`, 'wr'); return; }
   const { r } = themDong(c, gioGoc ?? now(), kieu);
   bip(); S.sheet = null;
-  S.snack = { seq: r.seq, text: `${met(c.met)} vào ${S.sess.xe}`, until: Date.now() + 5000 };
+  S.snack = { seq: r.seq, text: `${met(c.met)} vào ${tx(S.sess.xe)}`, until: Date.now() + 5000 };
 }
 function hoanTac(seq) {
   if (!online()) return;
@@ -335,19 +337,19 @@ function ketThuc(tiep) {
   if (!online()) return;
   const xe = S.sess.xe, ps = S.phieu.filter(p => p.tt === 'nhap' && p.xe === xe);
   ps.forEach(p => { p.tt = 'duyet'; });
-  log(`Kết thúc ${xe}: duyệt ${ps.length} phiếu ${ps.map(p => p.so).join(', ')}`);
-  toast('ok', `Đã kết thúc ${xe}.`);
+  log(`Kết thúc ${tx(xe)}: duyệt ${ps.length} phiếu ${ps.map(p => p.so).join(', ')}`);
+  toast('ok', `Đã kết thúc ${tx(xe)}.`);
   S.sess = null; S.snack = null; S.sheet = null;
   if (tiep) moXe(tiep); else go('xa-xe');
 }
-function moXe(xe) { S.sess = { xe, lo: null, start: now(), warned: {} }; log(`Mở lượt xả ${xe}`, 'in'); bip(); go('xa-lo'); }
+function moXe(xe) { S.sess = { xe, lo: null, start: now(), warned: {} }; log(`Mở lượt xả ${tx(xe)}`, 'in'); bip(); go('xa-lo'); }
 function layCay(c, ep = false) {
   const l = lastRow(c.id); const st = u(c, l.r);
   if (st.k === 'wait' && !ep) { S.sheet = { kind: 'laysom', cay: c.id }; log(`Cảnh báo: ${c.ma} chưa đủ ngày ủ, ${conLai(st.left)}`, 'wr'); return; }
   if (!online()) return;
   l.r.daLay = true; l.r.gioLay = now(); l.r.nguoiLay = S.user.ten; S.lastSeq = l.r.seq;
   S.layGan = [{ id: c.id, xe: l.p.xe, som: st.k === 'wait' }, ...(S.layGan || [])].slice(0, 6);
-  log(`Lấy ${c.ma} · ${met(c.met)} khỏi ${l.p.xe}${st.k === 'wait' ? ' — lấy sớm, ' + conLai(st.left) : ''}`);
+  log(`Lấy ${c.ma} · ${met(c.met)} khỏi ${tx(l.p.xe)}${st.k === 'wait' ? ' — lấy sớm, ' + conLai(st.left) : ''}`);
   bip(); S.sheet = null;
 }
 // Đưa phần dư lại lên xe (R27)
@@ -356,8 +358,8 @@ function duaLai(c) {
   const l = lastRow(c.id);
   if (l.p.xe === S.sess.xe) {
     const cu = { gioLay: l.r.gioLay, nguoiLay: l.r.nguoiLay };
-    l.r.daLay = false; l.r.gioLay = null; l.r.nguoiLay = null; S.lastSeq = l.r.seq; log(`Đưa ${c.ma} lại lên ${S.sess.xe} (bỏ Đã lấy)`); bip(); S.sheet = null;
-    S.snack = { seq: l.r.seq, lai: cu, text: `${c.ma} về lại ${S.sess.xe}`, until: Date.now() + 5000 };
+    l.r.daLay = false; l.r.gioLay = null; l.r.nguoiLay = null; S.lastSeq = l.r.seq; log(`Đưa ${c.ma} lại lên ${tx(S.sess.xe)} (bỏ Đã lấy)`); bip(); S.sheet = null;
+    S.snack = { seq: l.r.seq, lai: cu, text: `${c.ma} về lại ${tx(S.sess.xe)}`, until: Date.now() + 5000 };
   }
   else vaoXe(c, 'Đưa lại', l.r.gioXa);
 }
@@ -381,8 +383,8 @@ function scanXe(code) {
   const sc = S.screen;
   if (sc === 'xa-xe') return moXe(code);
   if ((sc === 'xa' || sc === 'xa-lo') && S.sess) {
-    if (code === S.sess.xe) { toast('ok', `Đang xả ${code}.`); return; }
-    S.sheet = { kind: 'doixe', xe: code }; log(`Hỏi: kết thúc ${S.sess.xe} và chuyển sang ${code}?`, 'wr'); return;
+    if (code === S.sess.xe) { toast('ok', `Đang xả ${tx(code)}.`); return; }
+    S.sheet = { kind: 'doixe', xe: code }; log(`Hỏi: kết thúc ${tx(S.sess.xe)} và chuyển sang ${tx(code)}?`, 'wr'); return;
   }
   bip();
   if (sc === 'lay' || sc === 'lay-xe') return go('lay-xe', { xe: code });
@@ -399,9 +401,9 @@ function scanCayXa(code, recs) {
   }
   if (S.screen === 'xa-lo') go('xa');
   const c = recs[recs.length - 1], l = lastRow(c.id);
-  if (l.r.daLay) { S.sheet = { kind: 'duallai', cay: c.id }; log(`Hỏi: đưa ${code} (đã lấy) lại lên ${S.sess.xe}?`, 'wr'); return; }
-  if (l.p.xe === S.sess.xe) { toast('err', `${code} đã ở trên ${S.sess.xe}.`); return; }
-  S.sheet = { kind: 'chuyen', cay: c.id, tu: l.p.xe }; log(`Hỏi: ${code} đang ở ${l.p.xe}, chuyển sang ${S.sess.xe}?`, 'wr');
+  if (l.r.daLay) { S.sheet = { kind: 'duallai', cay: c.id }; log(`Hỏi: đưa ${code} (đã lấy) lại lên ${tx(S.sess.xe)}?`, 'wr'); return; }
+  if (l.p.xe === S.sess.xe) { toast('err', `${code} đã ở trên ${tx(S.sess.xe)}.`); return; }
+  S.sheet = { kind: 'chuyen', cay: c.id, tu: l.p.xe }; log(`Hỏi: ${code} đang ở ${tx(l.p.xe)}, chuyển sang ${tx(S.sess.xe)}?`, 'wr');
 }
 function scanCayLay(code, recs) {
   const tren = recs.filter(c => trangThai(c.id) === 'tren');
@@ -514,8 +516,8 @@ function scrHome() {
   const tren = S.cay.map(c => ({ c, l: lastRow(c.id) })).filter(x => x.l && !x.l.r.daLay);
   const du = tren.filter(x => u(x.c, x.l.r).k === 'ok'), cho = tren.filter(x => u(x.c, x.l.r).k === 'wait');
   const s = S.sess;
-  const hero = s ? `<div class="hero"><div style="display:flex;align-items:baseline;gap:10px"><b style="font-size:30px">${s.xe}</b><span style="font-size:15px;font-weight:700">${trenXe(s.xe).length} cây</span></div>
-    <button class="cta sec" style="border:none" data-a="go" data-v="${s.lo ? 'xa' : 'xa-lo'}">${I('barcode_scanner', 22, '#007AFF')}Tiếp tục xả ${s.xe}</button></div>`
+  const hero = s ? `<div class="hero"><div style="display:flex;align-items:baseline;gap:10px"><b style="font-size:30px">${tx(s.xe, 1)}</b><span style="font-size:15px;font-weight:700">${trenXe(s.xe).length} cây</span></div>
+    <button class="cta sec" style="border:none" data-a="go" data-v="${s.lo ? 'xa' : 'xa-lo'}">${I('barcode_scanner', 22, '#007AFF')}Tiếp tục xả ${tx(s.xe)}</button></div>`
     : `<div class="hero"><button class="cta sec" style="border:none" data-a="go" data-v="xa-xe">${I('barcode_scanner', 22, '#007AFF')}Bắt đầu xả vải</button></div>`;
   return `<div class="scr"><div class="scroll">
   <div style="display:flex;align-items:center;gap:12px;padding:14px 14px 10px">
@@ -537,7 +539,7 @@ function scrXaXe() {
 function scrXaLo() {
   const s = S.sess;
   const los = [...new Set([...trenXe(s.xe).map(x => x.c.lo), ...loChuaXa()])];
-  return `<div class="scr">${hdr('home', s.xe, 'Chọn Lô')}
+  return `<div class="scr">${hdr('home', tx(s.xe, 1), 'Chọn Lô')}
   <div class="scroll"><div style="display:flex;flex-direction:column;gap:10px;margin:12px 14px">${los.map(lo => `<button class="acard" data-a="lo" data-v="${lo}"><span class="tt"><b>${loTen(lo)}</b><span>${xaMoi(lo).length} cây</span></span>${I('chevron_right', 22, '#64748B')}</button>`).join('') || '<p class="rong">Hết cây chưa xả.</p>'}</div></div></div>`;
 }
 function scrXa() {
@@ -550,23 +552,23 @@ function scrXa() {
     list = Object.keys(g).map(k => `<div class="grp"><b>${k}</b><div class="tiles">${g[k].map(c => `<button class="tile" data-a="cham" data-v="${c.id}">${met(c.met)}${c.motPhan ? '<small style="color:#B45309">1 phần</small>' : ''}${!c.tem ? '<small style="color:#64748B">không tem</small>' : ''}</button>`).join('')}</div></div>`).join('') || `<p class="rong">${s.lo ? 'Hết cây chưa xả.' : 'Chọn Lô.'}</p>`;
   } else {
     const xs = s.lo ? chuyenList(s.lo, s.xe) : [];
-    list = `<div class="box" style="margin-top:10px">${xs.map(({ c, l }) => `<button class="li" data-a="chuyen" data-v="${c.id}"><span class="m">${met(c.met)}</span><span class="d"><b>${c.ma} · ${esc(l.p.xe)}</b><span>xả ${l.r.gioXa ? fmt(l.r.gioXa) : '—'}</span></span>${pillU(c, l.r)}</button>`).join('') || '<p class="rong">Không có.</p>'}</div>`;
+    list = `<div class="box" style="margin-top:10px">${xs.map(({ c, l }) => `<button class="li" data-a="chuyen" data-v="${c.id}"><span class="m">${met(c.met)}</span><span class="d"><b>${c.ma} · ${esc(tx(l.p.xe))}</b><span>xả ${l.r.gioXa ? fmt(l.r.gioXa) : '—'}</span></span>${pillU(c, l.r)}</button>`).join('') || '<p class="rong">Không có.</p>'}</div>`;
   }
-  const trongXe = `<p class="stitle">Trên ${s.xe} · ${tren.length}</p><div class="box">${tren.slice().reverse().map(({ c, r }) => `<div class="li"><span class="m">${met(c.met)}</span><span class="d"><b>${c.ma} · ${LO[c.lo].lo}</b><span>xả ${gio(r.gioXa)}</span></span>${pillU(c, r)}</div>`).join('') || '<p class="rong">Xe trống.</p>'}</div>`;
-  return `<div class="scr">${hdr('home', s.xe, tren.length + ' cây', `<button class="chip ket" data-a="ketthuc">Kết thúc xe</button>`)}
+  const trongXe = `<p class="stitle">Trên ${tx(s.xe, 1)} · ${tren.length}</p><div class="box">${tren.slice().reverse().map(({ c, r }) => `<div class="li"><span class="m">${met(c.met)}</span><span class="d"><b>${c.ma} · ${LO[c.lo].lo}</b><span>xả ${gio(r.gioXa)}</span></span>${pillU(c, r)}</div>`).join('') || '<p class="rong">Xe trống.</p>'}</div>`;
+  return `<div class="scr">${hdr('home', tx(s.xe, 1), tren.length + ' cây', `<button class="chip ket" data-a="ketthuc">Kết thúc xe</button>`)}
   ${cam()}
   <div class="scroll"><div class="chips">${chips.map(lo => `<button class="chip ${lo === s.lo ? 'act' : ''}" data-a="lo" data-v="${lo}">${LO[lo].lo}</button>`).join('')}<button class="chip" style="color:#007AFF" data-a="go" data-v="xa-lo" aria-label="Lô khác">${I('add', 20, '#007AFF')}Lô</button></div>
   <div class="seg"><button class="${S.tab === 'moi' ? 'act' : ''}" data-a="tab" data-v="moi">Xả mới · ${s.lo ? xaMoi(s.lo).length : 0}</button><button class="${S.tab === 'chuyen' ? 'act' : ''}" data-a="tab" data-v="chuyen">Từ xe khác · ${s.lo ? chuyenList(s.lo, s.xe).length : 0}</button></div>
   ${list}${trongXe}</div></div>`;
 }
 function scrLay() {
-  const g = (S.layGan || []).map(x => { const c = cayBy(x.id); return `<div class="li">${I(x.som ? 'warning' : 'check_circle', 24, x.som ? '#B45309' : '#047857', 'f')}<span class="d"><b>${met(c.met)} · ${c.ma}</b><span>từ ${esc(x.xe)}${conDu(c)}</span></span></div>`; }).join('');
+  const g = (S.layGan || []).map(x => { const c = cayBy(x.id); return `<div class="li">${I(x.som ? 'warning' : 'check_circle', 24, x.som ? '#B45309' : '#047857', 'f')}<span class="d"><b>${met(c.met)} · ${c.ma}</b><span>từ ${esc(tx(x.xe))}${conDu(c)}</span></span></div>`; }).join('');
   return `<div class="scr">${hdr('home', 'Lấy vải', 'Quét tem cây hoặc tem xe')}${cam()}
   <div class="scroll">${g ? `<p class="stitle">Vừa lấy</p><div class="box">${g}</div>` : ''}</div></div>`;
 }
 function scrLayXe() {
   const xe = S.params.xe, tren = trenXe(xe), du = tren.filter(x => u(x.c, x.r).k === 'ok');
-  return `<div class="scr">${hdr('lay', 'Lấy vải · ' + xe, tren.length + ' cây')}<div class="scroll" style="padding-top:4px">
+  return `<div class="scr">${hdr('lay', 'Lấy vải · ' + tx(xe), tren.length + ' cây')}<div class="scroll" style="padding-top:4px">
   ${du.length ? `<button class="cta" style="margin:4px 14px 12px;width:calc(100% - 28px)" data-a="layhet" data-v="${xe}">${I('outbox', 22, '#fff')}Lấy hết ${du.length} cây đủ</button>` : ''}
   ${boxesByLo(tren, 'lay')}</div></div>`;
 }
@@ -580,14 +582,14 @@ function scrCacXe() {
   const card = xe => { const t = trenXe(xe), du = t.filter(x => u(x.c, x.r).k === 'ok').length;
     const nk = t.every(x => u(x.c, x.r).k === 'nokhai');
     const pill = nk ? '<span class="pill p-n">Chưa khai ủ</span>' : du === t.length ? '<span class="pill p-ok">Đủ hết</span>' : du ? '<span class="pill p-warn">Một phần</span>' : '<span class="pill p-n">Chưa đủ</span>';
-    return `<button class="acard" data-a="xe" data-v="${esc(xe)}"><b style="font-size:20px;min-width:60px">${esc(xe)}</b><span class="tt"><b style="font-size:15px">${du}/${t.length} cây đủ</b><span>${[...new Set(t.map(x => LO[x.c.lo].lo))].join(', ')}</span></span>${pill}</button>`; };
+    return `<button class="acard" data-a="xe" data-v="${esc(xe)}"><b style="font-size:20px;min-width:60px">${esc(tx(xe))}</b><span class="tt"><b style="font-size:15px">${du}/${t.length} cây đủ</b><span>${[...new Set(t.map(x => LO[x.c.lo].lo))].join(', ')}</span></span>${pill}</button>`; };
   const ok = xs.filter(isXe), la = xs.filter(x => !isXe(x));
   return `<div class="scr">${hdr('home', 'Các xe')}<div class="scroll"><div style="display:flex;flex-direction:column;gap:10px;margin:4px 14px">${ok.map(card).join('')}</div>
-  ${la.length ? `<p class="stitle">Không rõ xe</p><div style="display:flex;flex-direction:column;gap:10px;margin:0 14px">${la.map(xe => { const t = trenXe(xe); return `<button class="acard" data-a="xe" data-v="${esc(xe)}">${I('help', 28, '#B45309')}<span class="tt"><b style="font-size:15px">“${esc(xe)}” · ${t.length} cây</b><span>${[...new Set(t.map(x => x.p.so))].join(', ')}</span></span></button>`; }).join('')}</div>` : ''}</div></div>`;
+  ${la.length ? `<p class="stitle">Không rõ xe</p><div style="display:flex;flex-direction:column;gap:10px;margin:0 14px">${la.map(xe => { const t = trenXe(xe); return `<button class="acard" data-a="xe" data-v="${esc(xe)}">${I('help', 28, '#B45309')}<span class="tt"><b style="font-size:15px">“${esc(tx(xe))}” · ${t.length} cây</b><span>${[...new Set(t.map(x => x.p.so))].join(', ')}</span></span></button>`; }).join('')}</div>` : ''}</div></div>`;
 }
 function scrXe() {
   const xe = S.params.xe, t = trenXe(xe), du = t.filter(x => u(x.c, x.r).k === 'ok').length;
-  return `<div class="scr">${hdr('cacxe', esc(xe), `${t.length} cây · ${du} đủ`)}<div class="scroll" style="padding-top:4px">
+  return `<div class="scr">${hdr('cacxe', esc(tx(xe, 1)), `${t.length} cây · ${du} đủ`)}<div class="scroll" style="padding-top:4px">
   ${t.length ? `<button class="cta sec" style="margin:4px 14px 12px;width:calc(100% - 28px)" data-a="golayxe" data-v="${esc(xe)}">${I('outbox', 22, '#007AFF')}Lấy vải từ xe này</button>` : ''}${boxesByLo(t, '')}</div></div>`;
 }
 function scrTheoLo() {
@@ -596,7 +598,7 @@ function scrTheoLo() {
     if (!t.length) return '';
     const du = t.filter(x => u(x.c, x.l.r).k === 'ok'), cho = t.filter(x => u(x.c, x.l.r).k !== 'ok');
     const n = ngayU(t[0].c), sum = a => met(a.reduce((s, x) => s + x.c.met, 0));
-    const xes = a => { const m = {}; a.forEach(x => m[x.l.p.xe] = (m[x.l.p.xe] || 0) + 1); return Object.entries(m).map(([xe, k]) => `<button class="xechip" data-a="xe" data-v="${esc(xe)}">${esc(xe)} · ${k}</button>`).join(''); };
+    const xes = a => { const m = {}; a.forEach(x => m[x.l.p.xe] = (m[x.l.p.xe] || 0) + 1); return Object.entries(m).map(([xe, k]) => `<button class="xechip" data-a="xe" data-v="${esc(xe)}">${esc(tx(xe))} · ${k}</button>`).join(''); };
     return `<div class="card2" style="margin:0 14px 12px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between"><b style="font-size:16px">${loTen(lo)}</b>${n != null ? `<span style="font-size:13px;color:#64748B">ủ ${n} ngày</span>` : '<span class="pill p-n">Chưa khai ủ</span>'}</div>
     ${n != null ? `<div class="bar2"><i style="width:${Math.round(du.length / t.length * 100)}%"></i></div>` : ''}
     ${du.length ? `<span style="font-size:14px"><b style="color:#047857">Đủ ${du.length} cây</b> · ${sum(du)}</span><div class="row">${xes(du)}</div>` : ''}
@@ -614,7 +616,7 @@ function scrTim() {
     <div class="kv"><span>Xả lúc</span><span>${l && l.r.gioXa ? fmt(l.r.gioXa) : '—'}</span></div>
     <div class="kv"><span>Đủ ủ lúc</span><span>${ngayU(c) != null ? (l && l.r.gioXa ? fmt(l.r.gioXa + ngayU(c) * D) : '—') : 'chưa khai'}</span></div>
     ${S.banCat[c.id] ? `<div class="kv"><span>Còn lại</span><span>${met(c.met - S.banCat[c.id])}</span></div>` : ''}
-    ${hist.length ? `<div style="margin-top:8px;font-size:13px;display:flex;flex-direction:column;gap:6px">${hist.map(({ r, p }) => `<span><b>${r.gioXa ? fmt(r.gioXa) : '—'}</b> · ${esc(p.xe)}${r.daLay ? ' · lấy ' + fmt(r.gioLay) + ' · ' + esc(r.nguoiLay) : ''}</span>`).join('')}</div>` : ''}</div>`; }).join('') : `<p class="rong">${esc(code)} không có trong Sewman.</p>`) : '';
+    ${hist.length ? `<div style="margin-top:8px;font-size:13px;display:flex;flex-direction:column;gap:6px">${hist.map(({ r, p }) => `<span><b>${r.gioXa ? fmt(r.gioXa) : '—'}</b> · ${esc(tx(p.xe))}${r.daLay ? ' · lấy ' + fmt(r.gioLay) + ' · ' + esc(r.nguoiLay) : ''}</span>`).join('')}</div>` : ''}</div>`; }).join('') : `<p class="rong">${esc(code)} không có trong Sewman.</p>`) : '';
   return `<div class="scr">${hdr('home', 'Tìm cây')}<form data-f="tim" style="display:flex;gap:8px;margin:6px 14px 14px"><label for="tcode" style="position:absolute;left:-9999px">Mã cây</label><input id="tcode" value="${esc(code)}" placeholder="Mã cây" autocomplete="off" style="flex:1;height:52px;border:1.5px solid #007AFF;border-radius:12px;padding:0 14px;font-size:16px;font-weight:700"><button class="cta" style="width:52px;padding:0" type="submit" aria-label="Tìm">${I('search', 24, '#fff')}</button></form>
   <div class="scroll">${res}</div></div>`;
 }
@@ -627,29 +629,29 @@ function sheetHtml() {
   if (sh.kind === 'chonlan' || sh.kind === 'chonlay') {
     const cs = sh.ids.map(cayBy);
     h = `<h3>${cs[0].ma} · chọn cây</h3>
-    ${cs.map(x => `<button class="opt" data-a="${sh.kind === 'chonlan' ? 'cham' : 'lay'}" data-v="${x.id}"><span class="m">${met(x.met)}</span><span class="tt"><b style="font-size:14px">${x.px}</b>${sh.kind === 'chonlay' ? `<span>${esc(lastRow(x.id).p.xe)}</span>` : ''}</span></button>`).join('')}
+    ${cs.map(x => `<button class="opt" data-a="${sh.kind === 'chonlan' ? 'cham' : 'lay'}" data-v="${x.id}"><span class="m">${met(x.met)}</span><span class="tt"><b style="font-size:14px">${x.px}</b>${sh.kind === 'chonlay' ? `<span>${esc(tx(lastRow(x.id).p.xe))}</span>` : ''}</span></button>`).join('')}
     <button class="cta grey" data-a="close">Huỷ</button>`;
   } else if (sh.kind === 'tronlo') {
     const los = [...new Set(trenXe(S.sess.xe).map(x => LO[x.c.lo].lo))].join(', ');
-    h = `<div class="bao" style="background:#FEF3C7">${I('warning', 30, '#B45309', 'f')}<b style="color:#78350F">${S.sess.xe} đang có ${los}.<br>Thêm ${LO[c.lo].lo}?</b></div>
+    h = `<div class="bao" style="background:#FEF3C7">${I('warning', 30, '#B45309', 'f')}<b style="color:#78350F">${tx(S.sess.xe)} đang có ${los}.<br>Thêm ${LO[c.lo].lo}?</b></div>
     <div class="two"><button class="cta grey" data-a="close">Huỷ</button><button class="cta" data-a="tronok">Thêm</button></div>`;
   } else if (sh.kind === 'chuyen') {
-    h = `<h3>${c.ma} đang ở ${esc(sh.tu)}</h3><p>${met(c.met)} · giữ giờ xả gốc</p>
-    <div class="two"><button class="cta grey" data-a="close">Không</button><button class="cta" data-a="chuyen" data-v="${c.id}">Chuyển sang ${S.sess.xe}</button></div>`;
+    h = `<h3>${c.ma} đang ở ${esc(tx(sh.tu))}</h3><p>${met(c.met)} · giữ giờ xả gốc</p>
+    <div class="two"><button class="cta grey" data-a="close">Không</button><button class="cta" data-a="chuyen" data-v="${c.id}">Chuyển sang ${tx(S.sess.xe)}</button></div>`;
   } else if (sh.kind === 'duallai') {
     h = `<h3>${c.ma} đã lấy ra</h3><p>${S.banCat[c.id] ? 'Còn ' + met(c.met - S.banCat[c.id]) : met(c.met)} · giữ giờ xả gốc</p>
-    <div class="two"><button class="cta grey" data-a="close">Không</button><button class="cta" data-a="dualai" data-v="${c.id}">Đưa lại lên ${S.sess.xe}</button></div>`;
+    <div class="two"><button class="cta grey" data-a="close">Không</button><button class="cta" data-a="dualai" data-v="${c.id}">Đưa lại lên ${tx(S.sess.xe)}</button></div>`;
   } else if (sh.kind === 'laysom') {
     const l = lastRow(c.id), st = u(c, l.r);
     h = `<div class="bao" style="background:#FEE2E2">${I('warning', 32, '#B91C1C', 'f')}<span style="display:flex;flex-direction:column"><b style="color:#B91C1C">Chưa đủ ngày ủ</b><b style="color:#7F1D1D;font-size:15px">${conLai(st.left)}</b></span></div>
-    <p><b style="color:#0F172A">${met(c.met)} · ${c.ma}</b> · ${esc(l.p.xe)}</p>
+    <p><b style="color:#0F172A">${met(c.met)} · ${c.ma}</b> · ${esc(tx(l.p.xe))}</p>
     <div class="two"><button class="cta" data-a="close">Để lại</button><button class="cta danger" data-a="laysom" data-v="${c.id}">Vẫn lấy</button></div>`;
   } else if (sh.kind === 'doixe') {
-    h = `<h3>Kết thúc ${S.sess.xe}, mở ${sh.xe}?</h3>
+    h = `<h3>Kết thúc ${tx(S.sess.xe)}, mở ${tx(sh.xe)}?</h3>
     <div class="two"><button class="cta grey" data-a="close">Không</button><button class="cta" data-a="doixe" data-v="${sh.xe}">Có</button></div>`;
   } else if (sh.kind === 'ketthuc') {
     const n = trenXe(S.sess.xe).length;
-    h = `<h3>Kết thúc ${S.sess.xe}?</h3><p>${n} cây trên xe</p>
+    h = `<h3>Kết thúc ${tx(S.sess.xe)}?</h3><p>${n} cây trên xe</p>
     <div class="two"><button class="cta grey" data-a="close">Chưa</button><button class="cta" data-a="ketthucok">Kết thúc</button></div>`;
   }
   return `<div class="dim" data-a="close"></div><div class="sheet"><div class="grab"></div>${h}</div>`;
@@ -669,20 +671,20 @@ function phoneHtml() {
 
 // ===== Cột trái: cách thử =====
 const KICHBAN = [
-  { t: 'Xả một xe từ đầu', d: 'Quét xe X109, chọn Lô 03, quét 2 cây. Nhìn bảng phải: mỗi cây một dòng có giờ xả.', b: [['go', 'xa-xe'], ['scan', 'X109'], ['lo', 'L03'], ['scan', 'C-0801'], ['scan', 'C-0802']] },
-  { t: 'Cây không có tem', d: 'Chạm ô 82 m thay cho quét.', b: [['go', 'xa-xe'], ['scan', 'X109'], ['lo', 'L03'], ['cham', 'k8']] },
-  { t: 'Một mã, hai cây', d: 'C-0851 xuất 2 lần (40 m, 60 m). App hỏi chọn theo số mét.', b: [['go', 'xa-xe'], ['scan', 'X109'], ['lo', 'L03'], ['scan', 'C-0851']] },
-  { t: 'Hai Lô chung một xe', d: 'Xe đang có Lô 03, quét cây Lô 04 → app hỏi trước khi ghi.', b: [['go', 'xa-xe'], ['scan', 'X109'], ['lo', 'L03'], ['scan', 'C-0801'], ['scan', 'C-0902']] },
-  { t: 'Chuyển cây sang xe khác', d: 'C-0840 đang ở X107, quét ở X109 → hỏi chuyển. Giờ xả giữ nguyên.', b: [['go', 'xa-xe'], ['scan', 'X109'], ['lo', 'L03'], ['scan', 'C-0840'], ['chuyen', 'k23']] },
-  { t: 'Đưa phần dư lại lên xe', d: 'C-0799 đã lấy ra trải, còn 35 m. Quét ở xe đang xả → hỏi đưa lại.', b: [['go', 'xa-xe'], ['scan', 'X109'], ['lo', 'L03'], ['scan', 'C-0799']] },
-  { t: 'Tem sai', d: 'Phiếu xuất chưa duyệt · mã không có · xe lạ. App báo đỏ, không ghi.', b: [['go', 'xa-xe'], ['scan', 'X109'], ['lo', 'L03'], ['scan', 'C-0999'], ['scan', 'C-7777'], ['scan', 'X650']] },
-  { t: 'Kết thúc xe', d: 'Đang xả X109 thì quét X110 → hỏi kết thúc X109. Bấm Có: phiếu thành Đã duyệt.', b: [['go', 'xa-xe'], ['scan', 'X109'], ['lo', 'L03'], ['scan', 'C-0801'], ['scan', 'C-0802'], ['scan', 'X110']] },
+  { t: 'Xả một xe từ đầu', d: 'Quét xe 109, chọn Lô 03, quét 2 cây. Nhìn bảng phải: mỗi cây một dòng có giờ xả.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0801'], ['scan', 'C-0802']] },
+  { t: 'Cây không có tem', d: 'Chạm ô 82 m thay cho quét.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['cham', 'k8']] },
+  { t: 'Một mã, hai cây', d: 'C-0851 xuất 2 lần (40 m, 60 m). App hỏi chọn theo số mét.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0851']] },
+  { t: 'Hai Lô chung một xe', d: 'Xe đang có Lô 03, quét cây Lô 04 → app hỏi trước khi ghi.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0801'], ['scan', 'C-0902']] },
+  { t: 'Chuyển cây sang xe khác', d: 'C-0840 đang ở xe 107, quét ở xe 109 → hỏi chuyển. Giờ xả giữ nguyên.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0840'], ['chuyen', 'k23']] },
+  { t: 'Đưa phần dư lại lên xe', d: 'C-0799 đã lấy ra trải, còn 35 m. Quét ở xe đang xả → hỏi đưa lại.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0799']] },
+  { t: 'Tem sai', d: 'Phiếu xuất chưa duyệt · mã không có · xe lạ. App báo đỏ, không ghi.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0999'], ['scan', 'C-7777'], ['scan', '650']] },
+  { t: 'Kết thúc xe', d: 'Đang xả xe 109 thì quét xe 110 → hỏi kết thúc xe 109. Bấm Có: phiếu thành Đã duyệt.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0801'], ['scan', 'C-0802'], ['scan', '110']] },
   { t: 'Lấy cây chưa đủ ngày ủ', d: 'C-0842 chưa đủ → cảnh báo đỏ, vẫn lấy được.', b: [['go', 'lay'], ['scan', 'C-0842']] },
-  { t: 'Lấy hết cây đủ ở một xe', d: 'Ở màn Lấy vải quét tem xe X103.', b: [['go', 'lay'], ['scan', 'X103']] },
-  { t: 'Mất mạng', d: 'Thanh đỏ trên cùng; quét gì cũng không ghi.', b: [['go', 'xa-xe'], ['scan', 'X109'], ['lo', 'L03'], ['net'], ['scan', 'C-0801']] },
-  { t: 'Tắt app giữa chừng', d: 'Mở lại → vào thẳng xe đang xả.', b: [['go', 'xa-xe'], ['scan', 'X109'], ['lo', 'L03'], ['scan', 'C-0801'], ['appoff'], ['appoff']] },
+  { t: 'Lấy hết cây đủ ở một xe', d: 'Ở màn Lấy vải quét tem xe 103.', b: [['go', 'lay'], ['scan', '103']] },
+  { t: 'Mất mạng', d: 'Thanh đỏ trên cùng; quét gì cũng không ghi.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['net'], ['scan', 'C-0801']] },
+  { t: 'Tắt app giữa chừng', d: 'Mở lại → vào thẳng xe đang xả.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0801'], ['appoff'], ['appoff']] },
 ];
-const TEM_IN = [['X109', 'Tem xe'], ['X110', 'Tem xe'], ['X103', 'Tem xe'], ['C-0801', '85 m · Lô 03'], ['C-0802', '90 m · Lô 03'], ['C-0851', '2 cây 40/60 m'], ['C-0902', '72 m · Lô 04'], ['C-0840', 'đang ở X107'], ['C-0799', 'đã lấy, dư 35 m'], ['C-0842', 'chưa đủ ủ'], ['C-0812', 'đủ ủ'], ['C-7777', 'mã lạ']];
+const TEM_IN = [['109', 'Tem xe'], ['110', 'Tem xe'], ['103', 'Tem xe'], ['C-0801', '85 m · Lô 03'], ['C-0802', '90 m · Lô 03'], ['C-0851', '2 cây 40/60 m'], ['C-0902', '72 m · Lô 04'], ['C-0840', 'đang ở xe 107'], ['C-0799', 'đã lấy, dư 35 m'], ['C-0842', 'chưa đủ ủ'], ['C-0812', 'đủ ủ'], ['C-7777', 'mã lạ']];
 let TEM_MO = false;
 function khayHtml() {
   const nut = (ma, gc, xe) => `<button class="tem${xe ? ' xe' : ''}" data-a="scan" data-v="${ma}">${ma}${gc ? `<small>${gc}</small>` : ''}</button>`;
@@ -691,17 +693,17 @@ function khayHtml() {
   S.cay.forEach(c => { if (!c.tem || !c.pxDuyet || seen.has(c.ma)) return; seen.add(c.ma); const st = trangThai(c.id); (st === 'chua' ? chua : st === 'tren' ? tren : lay).push(c); });
   const hai = c => S.cay.filter(x => x.ma === c.ma).length > 1;
   const tenCua = c => { const l = lastRow(c.id); if (!l) return met(c.met) + (hai(c) ? ' · 2 cây' : ''); const st = u(c, l.r);
-    if (l.r.daLay) return 'đã lấy' + (S.banCat[c.id] ? ' · dư ' + met(c.met - S.banCat[c.id]) : ''); return l.p.xe + ' · ' + (st.k === 'ok' ? 'đủ ủ' : st.k === 'wait' ? 'chưa đủ' : st.k === 'nokhai' ? 'chưa khai' : '—'); };
+    if (l.r.daLay) return 'đã lấy' + (S.banCat[c.id] ? ' · dư ' + met(c.met - S.banCat[c.id]) : ''); return tx(l.p.xe) + ' · ' + (st.k === 'ok' ? 'đủ ủ' : st.k === 'wait' ? 'chưa đủ' : st.k === 'nokhai' ? 'chưa khai' : '—'); };
   return `<div class="hop"><h3>Cách thử</h3>
   <div class="buoc"><b><span class="so">1</span>Đăng nhập</b>${S.user ? `<span class="gt">Đã đăng nhập: ${esc(S.user.ten)}.</span>` : `<div class="row"><button class="btn" data-a="dangnhap">Đăng nhập nhanh</button><span class="gt" style="margin:0">hoặc gõ mật khẩu <b>123456</b> trên điện thoại</span></div>`}</div>
   <div class="buoc"><b><span class="so">2</span>Chọn một tình huống</b><p class="gt">Bấm là app tự chạy tới đúng chỗ đó từ dữ liệu ban đầu. Sau đó bấm tiếp trên điện thoại.</p><div class="kb">
   ${KICHBAN.map((k, i) => `<button type="button" data-a="kb" data-v="${i}"><span class="t">${k.t}</span><span class="d">${k.d}</span></button>`).join('')}</div></div>
   <div class="buoc"><b><span class="so">3</span>Hoặc tự quét: bấm tem</b><p class="gt">Mỗi nút là một tem dán trên xe hoặc cây vải. Bấm = đưa tem vào camera.</p>
-  ${nhom('Tem xe', ['X103', 'X107', 'X109', 'X110', 'X111'].map(x => nut(x, (() => { const t = trenXe(x); return t.length ? t.length + ' cây' : 'trống'; })(), 1)).join(''))}
+  ${nhom('Tem xe', ['103', '107', '109', '110', '111'].map(x => nut(x, (() => { const t = trenXe(x); return t.length ? t.length + ' cây' : 'trống'; })(), 1)).join(''))}
   ${nhom('Cây chưa lên xe', chua.map(c => nut(c.ma, tenCua(c))).join('') || '<span class="gt">Hết.</span>')}
   ${nhom('Cây đang trên xe', tren.map(c => nut(c.ma, tenCua(c))).join(''))}
   ${lay.length ? nhom('Cây đã lấy ra', lay.map(c => nut(c.ma, tenCua(c))).join('')) : ''}
-  ${nhom('Tem sai', nut('C-0999', 'PX chưa duyệt') + nut('C-7777', 'mã lạ') + nut('X650', 'xe lạ', 1))}
+  ${nhom('Tem sai', nut('C-0999', 'PX chưa duyệt') + nut('C-7777', 'mã lạ') + nut('650', 'xe lạ', 1))}
   <form class="tay" data-f="go"><label for="gotay" style="position:absolute;left:-9999px">Mã tem</label><input id="gotay" placeholder="Gõ mã rồi Enter" autocomplete="off" spellcheck="false"><button class="btn" type="submit">Quét</button></form></div></div>
   <div class="hop"><h3>Giả lập</h3><div class="row" style="margin-bottom:8px"><span class="clock">${fmt(now())}</span><button class="btn phu" data-a="clock" data-v="240">+4 giờ</button><button class="btn phu" data-a="clock" data-v="1440">+1 ngày</button></div>
   <div class="row"><button class="btn ${S.offline ? 'on' : 'phu'}" data-a="net">${S.offline ? 'Có mạng lại' : 'Mất mạng'}</button><button class="btn phu" data-a="appoff">${S.appOff ? 'Mở lại app' : 'Tắt app'}</button><button class="btn phu" data-a="reset">Làm lại từ đầu</button></div></div>
