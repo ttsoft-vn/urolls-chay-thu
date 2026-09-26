@@ -29,8 +29,11 @@ button,input,textarea{font-family:inherit}
 .chu-giai i{font-style:normal;font:700 11px Inter,sans-serif;background:#1E293B;border:1px solid #334155;border-radius:5px;padding:1px 7px;color:#fff}
 .bo{display:grid;gap:14px;padding:14px 16px;align-items:start;grid-template-columns:minmax(0,1fr);grid-template-areas:"dt" "tr" "ph"}
 .cot-dt{grid-area:dt}.cot-trai{grid-area:tr}.cot-phai{grid-area:ph}
-@media (min-width:760px){.bo{grid-template-columns:330px minmax(0,1fr);grid-template-areas:"tr dt" "ph ph"}}
+/* Chú giải khớp bố cục: dưới 760 xếp dọc · 760–1179 hai cột (tem | điện thoại, SMB dưới) · từ 1180 ba cột */
+.cg-2,.cg-3{display:none}
+@media (min-width:760px){.bo{grid-template-columns:330px minmax(0,1fr);grid-template-areas:"tr dt" "ph ph"}.cg-1{display:none}.cg-2{display:flex}}
 @media (min-width:1180px){
+  .cg-2{display:none}.cg-3{display:flex}
   .bo{grid-template-columns:330px 376px minmax(0,1fr);grid-template-areas:"tr dt ph";height:calc(100vh - 56px);overflow:hidden}
   .cot-trai,.cot-phai,.cot-dt{height:100%;overflow-y:auto;padding-right:4px}
 }
@@ -125,7 +128,7 @@ tr.new td{animation:hl 2.4s ease-out}
 .chip.act{background:#0F172A;color:#fff}
 .chip.ket{background:#fff;color:#007AFF;border:1.5px solid #007AFF}
 .seg{display:flex;margin:10px 14px 4px;padding:3px;border-radius:12px;background:#CBD5E1;gap:3px}
-.seg button{flex:1;height:40px;border:none;border-radius:10px;background:transparent;font-size:14px;font-weight:600;color:#334155;cursor:pointer}
+.seg button{flex:1;height:40px;border:none;border-radius:10px;background:transparent;font-size:13px;font-weight:600;color:#334155;cursor:pointer}
 .seg button.act{background:#fff;color:#0F172A;font-weight:800}
 .grp{padding:0 14px;display:flex;flex-direction:column;gap:6px;margin:10px 0}
 .grp>b{font-size:13px;color:#475569}
@@ -170,12 +173,15 @@ tr.new td{animation:hl 2.4s ease-out}
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 14px}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 14px 0}
 .bar2{height:8px;border-radius:4px;background:#FEF3C7;overflow:hidden;display:flex}.bar2 i{background:#10B981}
+.acard .tt .som{color:#047857;font-weight:700}
 .xechip{height:36px;padding:0 12px;border-radius:999px;background:#F1F5F9;border:none;color:#0F172A;font-size:14px;font-weight:700;cursor:pointer}
 @media print{body *{visibility:hidden}#tem-in,#tem-in *{visibility:visible}#tem-in{position:absolute;left:0;top:0;width:100%}}
 </style>
 
 <div class="top"><h1>Thử app u@Rolls</h1>
-  <div class="chu-giai"><span><i>Giữa</i> điện thoại công nhân cầm</span><span><i>Trái</i> tem giả để bấm thay cho quét</span><span><i>Phải</i> phiếu Xả vải trên SMB thay đổi theo</span></div></div>
+  <div class="chu-giai cg-1" data-bo="dt tr ph"><span><i>Trên</i> điện thoại công nhân cầm</span><span><i>Giữa</i> tem giả để bấm thay cho quét</span><span><i>Dưới</i> phiếu Xả vải trên SMB thay đổi theo</span></div>
+  <div class="chu-giai cg-2" data-bo="tr dt ph"><span><i>Phải</i> điện thoại công nhân cầm</span><span><i>Trái</i> tem giả để bấm thay cho quét</span><span><i>Dưới</i> phiếu Xả vải trên SMB thay đổi theo</span></div>
+  <div class="chu-giai cg-3" data-bo="tr dt ph"><span><i>Giữa</i> điện thoại công nhân cầm</span><span><i>Trái</i> tem giả để bấm thay cho quét</span><span><i>Phải</i> phiếu Xả vải trên SMB thay đổi theo</span></div></div>
 <div class="bo">
   <div class="cot-dt"><div class="phone" id="phone"></div>
     <div class="ghichu">Bản mô phỏng, dữ liệu giả. Tải lại trang là về dữ liệu ban đầu.</div></div>
@@ -201,7 +207,7 @@ const LO = {
   L04: { po: 'PO 2451', lo: 'Lô 04', style: 'ST-8812', dvsx: 'Xưởng 1' },
   L05: { po: 'PO 2463', lo: 'Lô 05', style: 'ST-9020', dvsx: 'Xưởng 1' },
 };
-// Ngày ủ khai trên phiếu Tác nghiệp cắt, theo Lô + Loại BTP (R29: mã vải dùng cho nhiều BTP → lấy số lớn nhất)
+// Ngày ủ khai trên phiếu Tác nghiệp cắt, theo Lô + Loại BTP (R28: mã vải dùng cho nhiều BTP → lấy số lớn nhất)
 const NGAY_U = [
   { lo: 'L03', btp: 'Thân', vai: 'CT32-NV', ngay: 2 },
   { lo: 'L03', btp: 'Phối', vai: 'CT32-NV', ngay: 1 },
@@ -233,6 +239,10 @@ function seed() {
     c('k43', 'C-0999', 'PL-GR', 'D', 92, 'L05', 'PX-0931', { pxDuyet: false }),
     c('k50', 'C-0760', 'CT32-NV', 'A', 70, 'L03', 'PX-0901'),
     c('k51', 'C-0761', 'CT32-NV', 'A', 65, 'L03', 'PX-0901'),
+    c('k9', 'C-0807', 'CT32-NV', 'B', 76, 'L03', 'PX-0921'),
+    c('k44', 'C-0953', 'PL-GR', 'D', 91, 'L05', 'PX-0927'),
+    c('k45', 'C-0954', 'PL-GR', 'D', 87, 'L05', 'PX-0927'),
+    c('k46', 'C-0955', 'PL-GR', 'D', 93, 'L05', 'PX-0927'),
   ];
   let seq = 0;
   const r = (cay, gioXa, o = {}) => ({ cay, gioXa, daLay: false, gioLay: null, nguoiLay: null, seq: ++seq, ...o });
@@ -243,6 +253,12 @@ function seed() {
     { so: 'GTV-0015', xe: '107', lo: 'L03', tt: 'duyet', nguon: 'app', ht: T0 - 17 * H, rows: [r('k23', tB), r('k24', tB + 25 * MIN), r('k25', tA + 12 * MIN)] },
     { so: 'GTV-0016', xe: '107', lo: 'L04', tt: 'duyet', nguon: 'app', ht: T0 - 70 * MIN, rows: [r('k30', T0 - 70 * MIN)] },
     { so: 'GTV-0017', xe: '111', lo: 'L05', tt: 'duyet', nguon: 'app', ht: T0 - 5 * H, rows: [r('k40', T0 - 5 * H)] },
+    // Văn phòng gõ tay trên SMB: Số xe ngoài 101–500 hoặc để trống → app xếp vào "Không rõ xe" (R33)
+    { so: 'GTV-0008', xe: '650', lo: 'L05', tt: 'duyet', nguon: 'SMB', ht: T0 - 3 * D, rows: [r('k44', T0 - 3 * D)] },
+    { so: 'GTV-0009', xe: 'X112', lo: 'L05', tt: 'duyet', nguon: 'SMB', ht: T0 - 3 * D, rows: [r('k45', T0 - 3 * D)] },
+    { so: 'GTV-0010', xe: '', lo: 'L05', tt: 'duyet', nguon: 'SMB', ht: T0 - 3 * D, rows: [r('k46', T0 - 3 * D)] },
+    // Phiếu nháp văn phòng lập trên SMB cho xe 109 · Lô 03, chưa duyệt: app không ghi vào, Kết thúc xe không duyệt (R11, R16)
+    { so: 'GTV-0012', xe: '109', lo: 'L03', tt: 'nhap', nguon: 'SMB', ht: T0 - 2 * D - 6 * H, rows: [r('k9', T0 - 2 * D - 6 * H)] },
   ];
   return {
     offset: 0, seq, nextSo: 18, offline: false,
@@ -257,13 +273,15 @@ function seed() {
 let S = seed();
 const now = () => T0 + S.offset;
 const cayBy = id => S.cay.find(c => c.id === id);
-// Vị trí mới nhất của cây = dòng có seq lớn nhất (R21)
+// Vị trí mới nhất của cây = dòng có seq lớn nhất (R20)
 function lastRow(id) { let b = null; for (const p of S.phieu) for (const r of p.rows) if (r.cay === id && (!b || r.seq > b.r.seq)) b = { r, p }; return b; }
 function trangThai(id) { const l = lastRow(id); if (!l) return 'chua'; return l.r.daLay ? 'lay' : 'tren'; }
-const isXe = code => /^\d{3}$/.test(code);
-const xeHopLe = code => { const n = +code; return n >= 101 && n <= 500; };
-// Tên xe để đọc: mã tem là số trần (109), trên màn hình ghi "xe 109" cho khỏi lẫn với số mét
-const tx = (x, hoa) => isXe(x) ? (hoa ? 'Xe ' : 'xe ') + x : x;
+// Mã 3 chữ số từ 101 đến 500 là xe; mã khác là cây (R4)
+const xeHopLe = code => /^\d{3}$/.test(code) && +code >= 101 && +code <= 500;
+// Tên xe để đọc: mã tem là số trần (109), trên màn hình ghi "xe 109" cho khỏi lẫn với số mét.
+// Số xe SMB ngoài dải (650, X112, trống) giữ nguyên như đã ghi (R33)
+const tx = (x, hoa) => xeHopLe(x) ? (hoa ? 'Xe ' : 'xe ') + x : x;
+const txLa = x => x ? `“${x}”` : 'Số xe trống';
 function ngayU(c) { const xs = NGAY_U.filter(x => x.lo === c.lo && x.vai === c.vai).map(x => x.ngay); return xs.length ? Math.max(...xs) : null; }
 // Tình trạng ủ: ok (đủ) · wait (còn left ms) · nokhai (chưa khai ngày ủ) · nogio (dòng không có giờ xả)
 function u(c, r) {
@@ -276,13 +294,17 @@ function trenXe(xe) { const out = []; for (const c of S.cay) { const l = lastRow
 function allXe() { const s = new Set(); for (const c of S.cay) { const l = lastRow(c.id); if (l && !l.r.daLay) s.add(l.p.xe); } return [...s].sort(); }
 function xaMoi(lo) { return S.cay.filter(c => c.lo === lo && c.pxDuyet && trangThai(c.id) === 'chua'); }
 function chuyenList(lo, xe) { return S.cay.filter(c => c.lo === lo).map(c => ({ c, l: lastRow(c.id) })).filter(x => x.l && !x.l.r.daLay && x.l.p.xe !== xe); }
+function daLayList(lo) { return S.cay.filter(c => c.lo === lo).map(c => ({ c, l: lastRow(c.id) })).filter(x => x.l && x.l.r.daLay); }
 function loChuaXa() { return Object.keys(LO).filter(lo => xaMoi(lo).length > 0); }
 
 // ===== Tiện ích hiển thị =====
 const pad = n => String(n).padStart(2, '0');
 const fmt = t => { const d = new Date(t); return `${pad(d.getDate())}/${pad(d.getMonth() + 1)} ${pad(d.getHours())}:${pad(d.getMinutes())}`; };
 const gio = t => fmt(t).slice(6);
-function conLai(ms) { const m = Math.ceil(ms / MIN), d = Math.floor(m / 1440), h = Math.floor((m % 1440) / 60), mm = m % 60; return 'còn ' + (d ? d + ' ngày ' : '') + (h ? h + ' giờ' : '') + (d || !mm ? '' : (h ? ' ' : '') + mm + ' phút'); }
+// Thời gian còn lại bằng giờ và phút, không đổi sang ngày (R30)
+function conLai(ms) { const m = Math.ceil(ms / MIN), h = Math.floor(m / 60), mm = m % 60; return 'còn ' + (h ? h + ' giờ' : '') + (mm ? (h ? ' ' : '') + mm + ' phút' : ''); }
+// Giờ cây đủ ngày ủ; null khi không tính được (chưa khai / không giờ xả)
+function gioDu(c, r) { const n = ngayU(c); return r && r.gioXa != null && n != null ? r.gioXa + n * D : null; }
 const met = x => String(x).replace('.', ',') + ' m';
 const loTen = lo => LO[lo] ? `${LO[lo].po} · ${LO[lo].lo}` : lo;
 const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
@@ -294,28 +316,32 @@ function bip() { S.hit = Date.now(); try { navigator.vibrate && navigator.vibrat
 function online() { if (S.offline) { toast('err', 'Mất mạng, chưa ghi.'); return false; } return true; }
 function go(screen, params = {}) { S.screen = screen; S.params = params; S.sheet = null; S.manual = false; }
 
-// Phiếu nháp của xe + Lô: dùng phiếu nháp đang có (app hay SMB), chưa có thì tạo (R11)
+// Phiếu nháp của lượt xả này cho Lô đó; chưa có thì tạo. Phiếu nháp lập trên SMB hoặc của lượt khác: không ghi vào (R11)
 function phieuNhap(xe, lo) {
-  let p = S.phieu.find(p => p.tt === 'nhap' && p.xe === xe && p.lo === lo);
-  if (!p) { p = { so: 'GTV-' + String(S.nextSo++).padStart(4, '0'), xe, lo, tt: 'nhap', nguon: 'app', ht: now(), rows: [] }; S.phieu.push(p); log(`Tạo phiếu nháp ${p.so} · ${tx(xe)} · ${loTen(lo)}`); }
+  let p = S.phieu.find(p => p.tt === 'nhap' && S.sess.phieu.includes(p.so) && p.xe === xe && p.lo === lo);
+  if (!p) { p = { so: 'GTV-' + String(S.nextSo++).padStart(4, '0'), xe, lo, tt: 'nhap', nguon: 'app', ht: now(), rows: [] }; S.phieu.push(p); S.sess.phieu.push(p.so); log(`Tạo phiếu nháp ${p.so} · ${tx(xe)} · ${loTen(lo)}`); }
   return p;
 }
-function themDong(c, gioXa, kieu) {
+// Giờ xả của dòng mới: xả mới = lúc đưa vào (R12). Chuyển xe / đưa lại lên xe khác = giờ xả gốc;
+// dòng gốc trống giờ xả → Hạch toán + Thời gian xả vải của phiếu đích (R19, R26)
+function themDong(c, kieu, gioGoc) {
   const p = phieuNhap(S.sess.xe, c.lo);
+  const gioXa = kieu === 'Xả mới' ? now() : gioGoc != null ? gioGoc : p.ht;
   const r = { cay: c.id, gioXa, daLay: false, gioLay: null, nguoiLay: null, seq: ++S.seq };
   p.rows.push(r); S.lastSeq = r.seq; S.sess.ghi++;
   S.recentLo = [c.lo, ...S.recentLo.filter(x => x !== c.lo)];
   log(`${kieu} ${c.ma} · ${met(c.met)} → ${tx(S.sess.xe)} (${p.so})`);
   return { p, r };
 }
-// Đưa cây vào xe đang mở; xe đang chứa Lô khác → hỏi trước khi ghi (R13)
+// Đưa cây vào xe đang mở; xe đang chứa Lô khác → hỏi trước khi ghi (R13).
+// Cây của Lô khác Lô đang chọn → chuyển sang Lô của cây (R14), nhưng chỉ sau khi người xả đồng ý
 function vaoXe(c, kieu = 'Xả mới', gioGoc = null) {
   if (!online()) return;
-  if (c.lo !== S.sess.lo) { S.sess.lo = c.lo; toast('warn', `Đã chuyển sang ${loTen(c.lo)}.`); }
   const tren = trenXe(S.sess.xe);
   const loMoi = tren.length && !tren.some(x => x.c.lo === c.lo);
   if (loMoi && !S.sess.warned[c.lo]) { S.sheet = { kind: 'tronlo', cay: c.id, kieu, gioGoc }; log(`Hỏi: ${tx(S.sess.xe)} đang chứa Lô khác, thêm cây ${LO[c.lo].lo}?`, 'wr'); return; }
-  const { r } = themDong(c, gioGoc ?? now(), kieu);
+  if (c.lo !== S.sess.lo) { S.sess.lo = c.lo; toast('warn', `Đã chuyển sang ${loTen(c.lo)}.`); }
+  const { r } = themDong(c, kieu, gioGoc);
   bip(); S.sheet = null;
   S.snack = { seq: r.seq, text: `${met(c.met)} vào ${tx(S.sess.xe)}`, until: Date.now() + 5000 };
 }
@@ -334,18 +360,33 @@ function hoanTacLai(seq) {
   for (const p of S.phieu) for (const r of p.rows) if (r.seq === seq && sn && sn.lai) { r.daLay = true; r.gioLay = sn.lai.gioLay; r.nguoiLay = sn.lai.nguoiLay; if (S.sess) S.sess.ghi = Math.max(0, S.sess.ghi - 1); S.lastSeq = r.seq; log(`Hoàn tác: ${cayBy(r.cay).ma} trở lại Đã lấy (${p.so})`); }
   S.snack = null;
 }
+// Chỉ duyệt phiếu nháp do lượt xả này tạo; phiếu nháp văn phòng lập trên SMB giữ Nháp (R16)
+function duyetLuot(chu) {
+  const xe = S.sess.xe, ps = S.phieu.filter(p => p.tt === 'nhap' && S.sess.phieu.includes(p.so));
+  ps.forEach(p => { p.tt = 'duyet'; });
+  log(`${chu} ${tx(xe)}: duyệt ${ps.length} phiếu ${ps.map(p => p.so).join(', ')}`);
+  S.sess = null; S.snack = null; S.sheet = null;
+}
 function ketThuc(tiep) {
   if (!online()) return;
-  const xe = S.sess.xe, ps = S.phieu.filter(p => p.tt === 'nhap' && p.xe === xe);
-  ps.forEach(p => { p.tt = 'duyet'; });
-  log(`Kết thúc ${tx(xe)}: duyệt ${ps.length} phiếu ${ps.map(p => p.so).join(', ')}`);
+  const xe = S.sess.xe; duyetLuot('Kết thúc');
   toast('ok', `Đã kết thúc ${tx(xe)}.`);
-  S.sess = null; S.snack = null; S.sheet = null;
   if (tiep) moXe(tiep); else go('xa-xe');
 }
+// Thoát app, đăng xuất, mở app sang ngày khác → lượt xả đang mở tự Kết thúc như R16, không hỏi;
+// chưa xả cây nào thì bỏ lượt (R6). Mất mạng thì chưa ghi được → lượt vẫn mở (R35). Trả về true khi đã đóng lượt.
+function tuKetThuc(lyDo) {
+  if (!S.sess) return false;
+  if (!S.sess.ghi) { log(`Bỏ ${tx(S.sess.xe)} (${lyDo}, chưa xả cây nào)`, 'in'); S.sess = null; S.snack = null; S.sheet = null; return true; }
+  if (!online()) return false;
+  duyetLuot(`Tự kết thúc (${lyDo})`); return true;
+}
+const ngayCua = t => { const d = new Date(t); return d.getFullYear() * 10000 + d.getMonth() * 100 + d.getDate(); };
+// Mở app lại (bật màn hình, mở sau khi thoát): lượt mở từ hôm trước thì tự kết thúc (R6)
+function sangNgayKhac() { if (S.sess && ngayCua(S.sess.start) !== ngayCua(now()) && tuKetThuc('sang ngày khác')) { go('xa-xe'); return true; } return false; }
 // Bỏ lượt xả chưa ghi dòng nào (quét nhầm tem xe): không có gì trên SMB để duyệt
 function boXe() { log(`Bỏ ${tx(S.sess.xe)} (chưa xả cây nào)`, 'in'); S.sess = null; S.snack = null; S.sheet = null; }
-function moXe(xe) { S.sess = { xe, lo: null, start: now(), warned: {}, ghi: 0 }; log(`Mở lượt xả ${tx(xe)}`, 'in'); bip(); go('xa-lo'); }
+function moXe(xe) { S.sess = { xe, lo: null, start: now(), warned: {}, ghi: 0, phieu: [] }; log(`Mở lượt xả ${tx(xe)}`, 'in'); bip(); go('xa-lo'); }
 function layCay(c, ep = false) {
   const l = lastRow(c.id); const st = u(c, l.r);
   if (st.k === 'wait' && !ep) { S.sheet = { kind: 'laysom', cay: c.id }; log(`Cảnh báo: ${c.ma} chưa đủ ngày ủ, ${conLai(st.left)}`, 'wr'); return; }
@@ -355,7 +396,7 @@ function layCay(c, ep = false) {
   log(`Lấy ${c.ma} · ${met(c.met)} khỏi ${tx(l.p.xe)}${st.k === 'wait' ? ' — lấy sớm, ' + conLai(st.left) : ''}`);
   bip(); S.sheet = null;
 }
-// Đưa phần dư lại lên xe (R27)
+// Đưa phần dư lại lên xe (R26)
 function duaLai(c) {
   if (!online()) return;
   const l = lastRow(c.id);
@@ -372,7 +413,7 @@ function scan(raw) {
   const code = String(raw || '').trim().toUpperCase();
   if (!code || !S.user) return;
   S.sheet = null;
-  if (isXe(code)) return scanXe(code);
+  if (xeHopLe(code)) return scanXe(code);
   const recs = S.cay.filter(c => c.ma === code);
   if (!recs.length) { toast('err', `${code} không có trong Sewman.`); return; }
   const sc = S.screen;
@@ -382,8 +423,9 @@ function scan(raw) {
   bip(); go('tim', { code });
 }
 function scanXe(code) {
-  if (!xeHopLe(code)) { toast('err', `${code} không có trong danh mục xe.`); return; }
-  const sc = S.screen;
+  let sc = S.screen;
+  // Trang chính: quét xe → mở xe để xả; đang có lượt xả thì vào lượt đó rồi làm như màn xả (R4, R17)
+  if (sc === 'home') { if (!S.sess) return moXe(code); go(S.sess.lo ? 'xa' : 'xa-lo'); sc = S.screen; }
   if (sc === 'xa-xe') return moXe(code);
   if ((sc === 'xa' || sc === 'xa-lo') && S.sess) {
     if (code === S.sess.xe) { toast('ok', `Đang xả ${tx(code)}.`); return; }
@@ -452,8 +494,10 @@ async function batCam() {
     v.srcObject = st;
     await v.play();
     CAM.st = 'bat';
+    // Đèn flash (R3): chỉ hiện nút khi camera báo có đèn
+    CAM.track = st.getVideoTracks ? st.getVideoTracks()[0] || null : null; CAM.den = false; CAM.coDen = false;
+    try { const cap = CAM.track && CAM.track.getCapabilities && CAM.track.getCapabilities(); CAM.coDen = !!(cap && cap.torch); } catch (e) {}
     // Bộ đọc mã vạch: Android có sẵn trong máy; iPhone không có thì dùng zxing-cpp (cùng cách gọi).
-    // Đo 26/09 trên 60 khung hình tem nghiêng/mờ/nền tối: zxing-cpp đọc 47/60, thư viện ZXing JS cũ 0/60.
     let fm = [];
     if ('BarcodeDetector' in window) { try { fm = await window.BarcodeDetector.getSupportedFormats(); } catch (e) {} }
     const BoDoc = fm.includes('code_128') ? window.BarcodeDetector : await (huaBoDoc || Promise.resolve(napBoDoc()).catch(() => null));
@@ -507,7 +551,7 @@ function docMa(raw) {
   // ghi nhớ tem đang trong khung kể cả lúc bỏ qua, để sang màn khác không quét lại chính tem đó
   const vanCon = code === CAM.cuoi && Date.now() - CAM.luc < 1500;
   CAM.cuoi = code; CAM.luc = Date.now();
-  if (vanCon || !document.getElementById('camslot') || S.sheet || S.appOff) return;
+  if (vanCon || !document.getElementById('camslot') || S.sheet || S.appOff || S.manTat) return;
   pip(); doAct('scan', code); render();
 }
 
@@ -524,18 +568,22 @@ function cam() {
       ? `<div class="cam-cho chan">${I('no_photography', 36, '#94A3B8')}Không mở được camera — dùng tem thử bên cạnh hoặc gõ tay</div>`
       : `<div class="cam-cho chan">${I('no_photography', 36, '#94A3B8')}Trang này bị chặn camera<a class="cta" style="height:44px;font-size:14px;text-decoration:none;margin-top:4px" href="${BAN_CAMERA}" target="_blank" rel="noopener">Mở bản có camera</a></div>`)
     : `<button class="cam-cho" data-a="camon"><span class="vong">${I('photo_camera_back', 38, '#fff', 'f')}</span>Bật camera sau</button>`;
+  const den = CAM.st === 'bat' && CAM.coDen ? `<button class="camb trai" aria-label="${CAM.den ? 'Tắt' : 'Bật'} đèn flash" aria-pressed="${CAM.den}" data-a="den">${I(CAM.den ? 'flashlight_off' : 'flashlight_on', 24, '#fff', 'f')}</button>` : '';
   return `<div class="cam${hit}${CAM.st === 'bat' ? ' song' : ''}" id="camslot">${giua}
-  ${CAM.st === 'bat' ? '' : ''}<button class="camb" aria-label="Gõ tay mã" data-a="manual">${I('keyboard', 24, '#fff')}</button></div>
+  ${den}<button class="camb" aria-label="Gõ tay mã" data-a="manual">${I('keyboard', 24, '#fff')}</button></div>
   ${S.manual ? `<form class="manual" data-f="manual"><label for="mcode" style="position:absolute;left:-9999px">Mã tem</label><input id="mcode" placeholder="Mã tem" autocomplete="off" autocapitalize="characters"><button class="chip act" type="submit">Nhập</button></form>` : ''}`;
 }
 function pillU(c, r) {
   const st = u(c, r);
   if (st.k === 'ok') return `<span class="pill p-ok">Đủ</span>`;
   if (st.k === 'wait') return `<span class="pill p-warn">${conLai(st.left)}</span>`;
-  if (st.k === 'nokhai') return `<span class="pill p-n">Chưa khai ủ</span>`;
-  return `<span class="pill p-n">Không giờ xả</span>`;
+  if (st.k === 'nokhai') return `<span class="pill p-n">Chưa khai ngày ủ</span>`;
+  return `<span class="pill p-n">Chưa có giờ xả</span>`;
 }
-function conDu(c) { const d = S.banCat[c.id]; return d ? ` · còn ${met(c.met - d)}` : ''; }
+// Số mét đã dùng theo Bàn cắt và còn lại = xuất − đã dùng (R27)
+const daDung = c => S.banCat[c.id] || 0;
+const conMet = c => c.met - daDung(c);
+function conDu(c) { const d = daDung(c); return d ? ` · đã dùng ${met(d)} · còn ${met(conMet(c))}` : ''; }
 
 function scrLogin() {
   return `<div class="scr" style="background:#F8FAFC;padding:56px 22px 20px;align-items:stretch">
@@ -555,11 +603,12 @@ function scrHome() {
   const hero = s ? `<div class="hero"><div style="display:flex;align-items:baseline;gap:10px"><b style="font-size:30px">${tx(s.xe, 1)}</b><span style="font-size:15px;font-weight:700">${trenXe(s.xe).length} cây</span></div>
     <button class="cta sec" style="border:none" data-a="go" data-v="${s.lo ? 'xa' : 'xa-lo'}">${I('barcode_scanner', 22, '#007AFF')}Tiếp tục xả ${tx(s.xe)}</button></div>`
     : `<div class="hero"><button class="cta sec" style="border:none" data-a="go" data-v="xa-xe">${I('barcode_scanner', 22, '#007AFF')}Bắt đầu xả vải</button></div>`;
-  return `<div class="scr"><div class="scroll">
-  <div style="display:flex;align-items:center;gap:12px;padding:14px 14px 10px">
+  return `<div class="scr">
+  <div style="display:flex;align-items:center;gap:12px;padding:8px 14px">
   <div style="width:44px;height:44px;border-radius:22px;background:linear-gradient(135deg,#94A3B8,#475569);display:flex;align-items:center;justify-content:center">${I('person', 28, '#fff', 'f')}</div>
   <div class="tt"><b style="font-size:16px">${S.user.ten}</b><span>Nhà cắt · Xưởng 1</span></div>
   <button class="ib" data-a="logout" aria-label="Đăng xuất">${I('logout')}</button></div>
+  ${cam()}<div class="scroll" style="padding-top:10px">
   ${hero}
   <div class="grid2"><button class="tile2" data-a="go" data-v="cacxe"><b style="font-size:13px">Đủ ngày ủ</b><b style="font-size:28px;color:#047857">${du.length}</b></button>
   <button class="tile2" data-a="go" data-v="cacxe"><b style="font-size:13px">Đang ủ</b><b style="font-size:28px;color:#B45309">${cho.length}</b></button></div>
@@ -587,6 +636,10 @@ function scrXa() {
     const xs = s.lo ? xaMoi(s.lo) : [];
     const g = {}; xs.forEach(c => { const k = VAI[c.vai] + ' · lot ' + c.lot; (g[k] = g[k] || []).push(c); });
     list = Object.keys(g).map(k => `<div class="grp"><b>${k}</b><div class="tiles">${g[k].map(c => `<button class="tile" data-a="cham" data-v="${c.id}">${met(c.met)}${c.motPhan ? '<small style="color:#B45309">1 phần</small>' : ''}${!c.tem ? '<small style="color:#64748B">không tem</small>' : ''}</button>`).join('')}</div></div>`).join('') || `<p class="rong">${s.lo ? 'Hết cây chưa xả.' : 'Chọn Lô.'}</p>`;
+  } else if (S.tab === 'lai') {
+    // Cây đã lấy của Lô đang chọn: chạm để đưa phần dư lại lên xe (R26)
+    const xs = s.lo ? daLayList(s.lo) : [];
+    list = `<div class="box" style="margin-top:10px">${xs.map(({ c, l }) => `<button class="li" data-a="chonlai" data-v="${c.id}"><span class="m">${met(conMet(c))}</span><span class="d"><b>${c.ma} · lấy từ ${esc(tx(l.p.xe))}</b><span>xả ${l.r.gioXa ? fmt(l.r.gioXa) : '—'}${conDu(c)}</span></span></button>`).join('') || '<p class="rong">Không có.</p>'}</div>`;
   } else {
     const xs = s.lo ? chuyenList(s.lo, s.xe) : [];
     list = `<div class="box" style="margin-top:10px">${xs.map(({ c, l }) => `<button class="li" data-a="chuyen" data-v="${c.id}"><span class="m">${met(c.met)}</span><span class="d"><b>${c.ma} · ${esc(tx(l.p.xe))}</b><span>xả ${l.r.gioXa ? fmt(l.r.gioXa) : '—'}</span></span>${pillU(c, l.r)}</button>`).join('') || '<p class="rong">Không có.</p>'}</div>`;
@@ -595,7 +648,7 @@ function scrXa() {
   return `<div class="scr">${hdr('home', tx(s.xe, 1), tren.length + ' cây', nutXe(s))}
   ${cam()}
   <div class="scroll"><div class="chips">${chips.map(lo => `<button class="chip ${lo === s.lo ? 'act' : ''}" data-a="lo" data-v="${lo}">${LO[lo].lo}</button>`).join('')}<button class="chip" style="color:#007AFF" data-a="go" data-v="xa-lo" aria-label="Lô khác">${I('add', 20, '#007AFF')}Lô</button></div>
-  <div class="seg"><button class="${S.tab === 'moi' ? 'act' : ''}" data-a="tab" data-v="moi">Xả mới · ${s.lo ? xaMoi(s.lo).length : 0}</button><button class="${S.tab === 'chuyen' ? 'act' : ''}" data-a="tab" data-v="chuyen">Từ xe khác · ${s.lo ? chuyenList(s.lo, s.xe).length : 0}</button></div>
+  <div class="seg"><button class="${S.tab === 'moi' ? 'act' : ''}" data-a="tab" data-v="moi">Xả mới · ${s.lo ? xaMoi(s.lo).length : 0}</button><button class="${S.tab === 'chuyen' ? 'act' : ''}" data-a="tab" data-v="chuyen">Xe khác · ${s.lo ? chuyenList(s.lo, s.xe).length : 0}</button><button class="${S.tab === 'lai' ? 'act' : ''}" data-a="tab" data-v="lai">Đã lấy · ${s.lo ? daLayList(s.lo).length : 0}</button></div>
   ${list}${trongXe}</div></div>`;
 }
 function scrLay() {
@@ -605,28 +658,31 @@ function scrLay() {
 }
 function scrLayXe() {
   const xe = S.params.xe, tren = trenXe(xe), du = tren.filter(x => u(x.c, x.r).k === 'ok');
-  return `<div class="scr">${hdr('lay', 'Lấy vải · ' + tx(xe), tren.length + ' cây')}<div class="scroll" style="padding-top:4px">
+  return `<div class="scr">${hdr('lay', 'Lấy vải · ' + tx(xe), tren.length + ' cây')}${cam()}<div class="scroll" style="padding-top:4px">
   ${du.length ? `<button class="cta" style="margin:4px 14px 12px;width:calc(100% - 28px)" data-a="layhet" data-v="${xe}">${I('outbox', 22, '#fff')}Lấy hết ${du.length} cây đủ</button>` : ''}
   ${boxesByLo(tren, 'lay')}</div></div>`;
 }
 function boxesByLo(tren, act) {
   const g = {}; tren.forEach(x => (g[x.c.lo] = g[x.c.lo] || []).push(x));
-  return Object.keys(g).map(lo => { const n = ngayU(g[lo][0].c); return `<div class="box"><div class="boxh"><b>${loTen(lo)}</b>${n != null ? `<span style="font-size:13px;color:#64748B">ủ ${n} ngày</span>` : '<span class="pill p-n">Chưa khai ủ</span>'}</div>
+  return Object.keys(g).map(lo => { const n = ngayU(g[lo][0].c); return `<div class="box"><div class="boxh"><b>${loTen(lo)}</b>${n != null ? `<span style="font-size:13px;color:#64748B">ủ ${n} ngày</span>` : '<span class="pill p-n">Chưa khai ngày ủ</span>'}</div>
   ${g[lo].map(({ c, r }) => `<${act ? 'button' : 'div'} class="li" ${act ? `data-a="${act}" data-v="${c.id}"` : ''}><span class="m">${met(c.met)}</span><span class="d"><b>${c.ma}</b><span>xả ${r.gioXa ? fmt(r.gioXa) : '—'}${conDu(c)}</span></span>${pillU(c, r)}</${act ? 'button' : 'div'}>`).join('')}</div>`; }).join('') || '<p class="rong">Xe trống.</p>';
 }
 function scrCacXe() {
   const xs = allXe();
   const card = xe => { const t = trenXe(xe), du = t.filter(x => u(x.c, x.r).k === 'ok').length;
     const nk = t.every(x => u(x.c, x.r).k === 'nokhai');
-    const pill = nk ? '<span class="pill p-n">Chưa khai ủ</span>' : du === t.length ? '<span class="pill p-ok">Đủ hết</span>' : du ? '<span class="pill p-warn">Một phần</span>' : '<span class="pill p-n">Chưa đủ</span>';
-    return `<button class="acard" data-a="xe" data-v="${esc(xe)}"><b style="font-size:20px;min-width:60px">${esc(tx(xe))}</b><span class="tt"><b style="font-size:15px">${du}/${t.length} cây đủ</b><span>${[...new Set(t.map(x => LO[x.c.lo].lo))].join(', ')}</span></span>${pill}</button>`; };
-  const ok = xs.filter(isXe), la = xs.filter(x => !isXe(x));
+    const pill = nk ? '<span class="pill p-n">Chưa khai ngày ủ</span>' : du === t.length ? '<span class="pill p-ok">Đủ hết</span>' : du ? '<span class="pill p-warn">Một phần</span>' : '<span class="pill p-n">Chưa đủ</span>';
+    // Giờ đủ sớm nhất: giờ sớm nhất mà một cây chưa đủ trong xe sẽ đủ (R31)
+    const sap = t.filter(x => u(x.c, x.r).k === 'wait').map(x => gioDu(x.c, x.r)).sort((a, b) => a - b)[0];
+    return `<button class="acard" data-a="xe" data-v="${esc(xe)}"><b style="font-size:20px;min-width:60px">${esc(tx(xe))}</b><span class="tt"><b style="font-size:15px">${du}/${t.length} cây đủ</b><span>${[...new Set(t.map(x => LO[x.c.lo].lo))].join(', ')}</span>${sap != null ? `<span class="som">đủ sớm nhất ${fmt(sap)}</span>` : ''}</span>${pill}</button>`; };
+  // Nhóm xe theo dải 101–500; số xe SMB khác (650, X112, trống) → "Không rõ xe", hiện nguyên số đã ghi (R33)
+  const ok = xs.filter(xeHopLe), la = xs.filter(x => !xeHopLe(x));
   return `<div class="scr">${hdr('home', 'Các xe')}<div class="scroll"><div style="display:flex;flex-direction:column;gap:10px;margin:4px 14px">${ok.map(card).join('')}</div>
-  ${la.length ? `<p class="stitle">Không rõ xe</p><div style="display:flex;flex-direction:column;gap:10px;margin:0 14px">${la.map(xe => { const t = trenXe(xe); return `<button class="acard" data-a="xe" data-v="${esc(xe)}">${I('help', 28, '#B45309')}<span class="tt"><b style="font-size:15px">“${esc(tx(xe))}” · ${t.length} cây</b><span>${[...new Set(t.map(x => x.p.so))].join(', ')}</span></span></button>`; }).join('')}</div>` : ''}</div></div>`;
+  ${la.length ? `<p class="stitle">Không rõ xe</p><div style="display:flex;flex-direction:column;gap:10px;margin:0 14px">${la.map(xe => { const t = trenXe(xe); return `<button class="acard la" data-a="xe" data-v="${esc(xe)}">${I('help', 28, '#B45309')}<span class="tt"><b style="font-size:15px">${esc(txLa(xe))} · ${t.length} cây</b><span>${[...new Set(t.map(x => x.p.so))].join(', ')}</span></span></button>`; }).join('')}</div>` : ''}</div></div>`;
 }
 function scrXe() {
   const xe = S.params.xe, t = trenXe(xe), du = t.filter(x => u(x.c, x.r).k === 'ok').length;
-  return `<div class="scr">${hdr('cacxe', esc(tx(xe, 1)), `${t.length} cây · ${du} đủ`)}<div class="scroll" style="padding-top:4px">
+  return `<div class="scr">${hdr('cacxe', esc(xeHopLe(xe) ? tx(xe, 1) : txLa(xe)), `${t.length} cây · ${du} đủ`)}<div class="scroll" style="padding-top:4px">
   ${t.length ? `<button class="cta sec" style="margin:4px 14px 12px;width:calc(100% - 28px)" data-a="golayxe" data-v="${esc(xe)}">${I('outbox', 22, '#007AFF')}Lấy vải từ xe này</button>` : ''}${boxesByLo(t, '')}</div></div>`;
 }
 function scrTheoLo() {
@@ -634,9 +690,10 @@ function scrTheoLo() {
     const t = S.cay.filter(c => c.lo === lo).map(c => ({ c, l: lastRow(c.id) })).filter(x => x.l && !x.l.r.daLay);
     if (!t.length) return '';
     const du = t.filter(x => u(x.c, x.l.r).k === 'ok'), cho = t.filter(x => u(x.c, x.l.r).k !== 'ok');
-    const n = ngayU(t[0].c), sum = a => met(a.reduce((s, x) => s + x.c.met, 0));
+    // Cộng số mét còn lại (xuất − đã dùng theo Bàn cắt), không cộng số mét xuất (R32, R27)
+    const n = ngayU(t[0].c), sum = a => met(a.reduce((s, x) => s + conMet(x.c), 0));
     const xes = a => { const m = {}; a.forEach(x => m[x.l.p.xe] = (m[x.l.p.xe] || 0) + 1); return Object.entries(m).map(([xe, k]) => `<button class="xechip" data-a="xe" data-v="${esc(xe)}">${esc(tx(xe))} · ${k}</button>`).join(''); };
-    return `<div class="card2" style="margin:0 14px 12px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between"><b style="font-size:16px">${loTen(lo)}</b>${n != null ? `<span style="font-size:13px;color:#64748B">ủ ${n} ngày</span>` : '<span class="pill p-n">Chưa khai ủ</span>'}</div>
+    return `<div class="card2" style="margin:0 14px 12px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between"><b style="font-size:16px">${loTen(lo)}</b>${n != null ? `<span style="font-size:13px;color:#64748B">ủ ${n} ngày</span>` : '<span class="pill p-n">Chưa khai ngày ủ</span>'}</div>
     ${n != null ? `<div class="bar2"><i style="width:${Math.round(du.length / t.length * 100)}%"></i></div>` : ''}
     ${du.length ? `<span style="font-size:14px"><b style="color:#047857">Đủ ${du.length} cây</b> · ${sum(du)}</span><div class="row">${xes(du)}</div>` : ''}
     ${cho.length ? `<span style="font-size:14px"><b style="color:#B45309">${n != null ? 'Chưa đủ' : 'Trên xe'} ${cho.length} cây</b> · ${sum(cho)}</span><div class="row">${xes(cho)}</div>` : ''}</div>`;
@@ -648,13 +705,13 @@ function scrTim() {
   const recs = S.cay.filter(c => c.ma === code);
   const res = code ? (recs.length ? recs.map(c => { const l = lastRow(c.id); const hist = S.phieu.flatMap(p => p.rows.filter(r => r.cay === c.id).map(r => ({ r, p }))).sort((a, b) => a.r.seq - b.r.seq);
     return `<div class="card2" style="margin:0 14px 12px"><div style="display:flex;justify-content:space-between;gap:10px;padding-bottom:10px"><span style="display:flex;flex-direction:column;gap:4px"><b style="font-size:24px">${met(c.met)}</b><span style="font-size:13px;color:#475569">${c.ma} · ${VAI[c.vai]} · lot ${c.lot}</span></span>${l ? (l.r.daLay ? '<span class="pill p-n">Đã lấy</span>' : pillU(c, l.r)) : '<span class="pill p-n">Chưa xả</span>'}</div>
-    <div class="kv"><span>Đang ở</span><span>${l ? (l.r.daLay ? 'đã lấy ' + fmt(l.r.gioLay) : esc(l.p.xe)) : 'chưa lên xe'}</span></div>
+    <div class="kv"><span>Đang ở</span><span>${l ? (l.r.daLay ? 'đã lấy ' + fmt(l.r.gioLay) : esc(xeHopLe(l.p.xe) ? tx(l.p.xe) : txLa(l.p.xe))) : 'chưa lên xe'}</span></div>
     <div class="kv"><span>Lô</span><span>${loTen(c.lo)}</span></div>
     <div class="kv"><span>Xả lúc</span><span>${l && l.r.gioXa ? fmt(l.r.gioXa) : '—'}</span></div>
     <div class="kv"><span>Đủ ủ lúc</span><span>${ngayU(c) != null ? (l && l.r.gioXa ? fmt(l.r.gioXa + ngayU(c) * D) : '—') : 'chưa khai'}</span></div>
-    ${S.banCat[c.id] ? `<div class="kv"><span>Còn lại</span><span>${met(c.met - S.banCat[c.id])}</span></div>` : ''}
+    ${daDung(c) ? `<div class="kv"><span>Đã dùng</span><span>${met(daDung(c))}</span></div><div class="kv"><span>Còn lại</span><span>${met(conMet(c))}</span></div>` : ''}
     ${hist.length ? `<div style="margin-top:8px;font-size:13px;display:flex;flex-direction:column;gap:6px">${hist.map(({ r, p }) => `<span><b>${r.gioXa ? fmt(r.gioXa) : '—'}</b> · ${esc(tx(p.xe))}${r.daLay ? ' · lấy ' + fmt(r.gioLay) + ' · ' + esc(r.nguoiLay) : ''}</span>`).join('')}</div>` : ''}</div>`; }).join('') : `<p class="rong">${esc(code)} không có trong Sewman.</p>`) : '';
-  return `<div class="scr">${hdr('home', 'Tìm cây')}<form data-f="tim" style="display:flex;gap:8px;margin:6px 14px 14px"><label for="tcode" style="position:absolute;left:-9999px">Mã cây</label><input id="tcode" value="${esc(code)}" placeholder="Mã cây" autocomplete="off" style="flex:1;height:52px;border:1.5px solid #007AFF;border-radius:12px;padding:0 14px;font-size:16px;font-weight:700"><button class="cta" style="width:52px;padding:0" type="submit" aria-label="Tìm">${I('search', 24, '#fff')}</button></form>
+  return `<div class="scr">${hdr('home', 'Tìm cây')}${cam()}<form data-f="tim" style="display:flex;gap:8px;margin:10px 14px 10px"><label for="tcode" style="position:absolute;left:-9999px">Mã cây</label><input id="tcode" value="${esc(code)}" placeholder="Mã cây" autocomplete="off" style="flex:1;height:52px;border:1.5px solid #007AFF;border-radius:12px;padding:0 14px;font-size:16px;font-weight:700"><button class="cta" style="width:52px;padding:0" type="submit" aria-label="Tìm">${I('search', 24, '#fff')}</button></form>
   <div class="scroll">${res}</div></div>`;
 }
 
@@ -676,7 +733,7 @@ function sheetHtml() {
     h = `<h3>${c.ma} đang ở ${esc(tx(sh.tu))}</h3><p>${met(c.met)} · giữ giờ xả gốc</p>
     <div class="two"><button class="cta grey" data-a="close">Không</button><button class="cta" data-a="chuyen" data-v="${c.id}">Chuyển sang ${tx(S.sess.xe)}</button></div>`;
   } else if (sh.kind === 'duallai') {
-    h = `<h3>${c.ma} đã lấy ra</h3><p>${S.banCat[c.id] ? 'Còn ' + met(c.met - S.banCat[c.id]) : met(c.met)} · giữ giờ xả gốc</p>
+    h = `<h3>${c.ma} đã lấy ra</h3><p>${daDung(c) ? 'Đã dùng ' + met(daDung(c)) + ' · còn ' + met(conMet(c)) : met(c.met)} · giữ giờ xả gốc</p>
     <div class="two"><button class="cta grey" data-a="close">Không</button><button class="cta" data-a="dualai" data-v="${c.id}">Đưa lại lên ${tx(S.sess.xe)}</button></div>`;
   } else if (sh.kind === 'laysom') {
     const l = lastRow(c.id), st = u(c, l.r);
@@ -700,7 +757,8 @@ function overlays() {
   return o + sheetHtml();
 }
 function phoneHtml() {
-  if (S.appOff) return `<div class="scr" style="background:#0B1220;align-items:center;justify-content:center;color:#94A3B8;font-size:13px">App đã tắt</div>`;
+  if (S.appOff) return `<div class="scr" style="background:#0B1220;align-items:center;justify-content:center;color:#94A3B8;font-size:13px">App đã thoát</div>`;
+  if (S.manTat) return `<div class="scr" style="background:#000;align-items:center;justify-content:center;color:#475569;font-size:13px">Màn hình tắt</div>`;
   const map = { login: scrLogin, home: scrHome, 'xa-xe': scrXaXe, 'xa-lo': scrXaLo, xa: scrXa, lay: scrLay, 'lay-xe': scrLayXe, cacxe: scrCacXe, xe: scrXe, theolo: scrTheoLo, tim: scrTim };
   const off = S.offline ? `<div class="offl">${I('wifi_off', 22, '#fff', 'f')}<span>Mất mạng — chưa ghi</span></div>` : '';
   return off + (map[S.screen] || scrHome)() + overlays();
@@ -708,19 +766,21 @@ function phoneHtml() {
 
 // ===== Cột trái: cách thử =====
 const KICHBAN = [
-  { t: 'Xả một xe từ đầu', d: 'Quét xe 109, chọn Lô 03, quét 2 cây. Nhìn bảng phải: mỗi cây một dòng có giờ xả.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0801'], ['scan', 'C-0802']] },
+  { t: 'Xả một xe từ đầu', d: 'Quét xe 109, chọn Lô 03, quét 2 cây. Nhìn bảng SMB: cây vào phiếu nháp mới của lượt này, phiếu nháp GTV-0012 văn phòng lập không thêm dòng.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0801'], ['scan', 'C-0802']] },
   { t: 'Cây không có tem', d: 'Chạm ô 82 m thay cho quét.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['cham', 'k8']] },
   { t: 'Một mã, hai cây', d: 'C-0851 xuất 2 lần (40 m, 60 m). App hỏi chọn theo số mét.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0851']] },
   { t: 'Hai Lô chung một xe', d: 'Xe đang có Lô 03, quét cây Lô 04 → app hỏi trước khi ghi.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0801'], ['scan', 'C-0902']] },
-  { t: 'Chuyển cây sang xe khác', d: 'C-0840 đang ở xe 107, quét ở xe 109 → hỏi chuyển. Giờ xả giữ nguyên.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0840'], ['chuyen', 'k23']] },
+  { t: 'Chuyển cây sang xe khác', d: 'C-0840 đang ở xe 107, quét ở xe 109 → app hỏi chuyển. Bấm Chuyển: giờ xả giữ nguyên.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0840']] },
   { t: 'Đưa phần dư lại lên xe', d: 'C-0799 đã lấy ra trải, còn 35 m. Quét ở xe đang xả → hỏi đưa lại.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0799']] },
-  { t: 'Tem sai', d: 'Phiếu xuất chưa duyệt · mã không có · xe lạ. App báo đỏ, không ghi.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0999'], ['scan', 'C-7777'], ['scan', '650']] },
-  { t: 'Kết thúc xe', d: 'Đang xả xe 109 thì quét xe 110 → hỏi kết thúc xe 109. Bấm Có: phiếu thành Đã duyệt.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0801'], ['scan', 'C-0802'], ['scan', '110']] },
+  { t: 'Tem sai', d: 'Phiếu xuất chưa duyệt · mã không có · số 650 ngoài dải xe 101–500. App báo đỏ, không ghi.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0999'], ['scan', 'C-7777'], ['scan', '650']] },
+  { t: 'Kết thúc xe', d: 'Đang xả xe 109 thì quét xe 110 → hỏi kết thúc xe 109. Bấm Có: phiếu của lượt này thành Đã duyệt, phiếu nháp văn phòng GTV-0012 vẫn Nháp.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0801'], ['scan', 'C-0802'], ['scan', '110']] },
   { t: 'Lấy cây chưa đủ ngày ủ', d: 'C-0842 chưa đủ → cảnh báo đỏ, vẫn lấy được.', b: [['go', 'lay'], ['scan', 'C-0842']] },
   { t: 'Lấy hết cây đủ ở một xe', d: 'Ở màn Lấy vải quét tem xe 103.', b: [['go', 'lay'], ['scan', '103']] },
   { t: 'Mất mạng', d: 'Thanh đỏ trên cùng; quét gì cũng không ghi.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['net'], ['scan', 'C-0801']] },
-  { t: 'Tắt app giữa chừng', d: 'Mở lại → vào thẳng xe đang xả.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0801'], ['appoff'], ['appoff']] },
+  { t: 'Tắt màn hình giữa chừng', d: 'Bật lại → vẫn ở xe 109, Lô 03 đang xả.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0801'], ['mantat'], ['mantat']] },
   { t: 'Quét nhầm tem xe', d: 'Quét xe 109 rồi quét xe 110 → đổi luôn vì chưa xả cây nào. Hoặc bấm Đổi xe ở góc trên.', b: [['go', 'xa-xe'], ['scan', '109'], ['scan', '110']] },
+  { t: 'Thoát app giữa chừng', d: 'Đang xả xe 109 thì thoát app → phiếu của lượt tự Đã duyệt. Mở lại ở màn quét xe; xả tiếp xe 109 thì ra phiếu mới.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0801'], ['thoat'], ['thoat']] },
+  { t: 'Sáng hôm sau', d: 'Xả dở xe 109 hôm nay, sáng mai mở app → lượt hôm qua tự kết thúc, phiếu Đã duyệt.', b: [['go', 'xa-xe'], ['scan', '109'], ['lo', 'L03'], ['scan', 'C-0801'], ['mantat'], ['homsau']] },
 ];
 const TEM_IN = [['109', 'Tem xe'], ['110', 'Tem xe'], ['103', 'Tem xe'], ['C-0801', '85 m · Lô 03'], ['C-0802', '90 m · Lô 03'], ['C-0851', '2 cây 40/60 m'], ['C-0902', '72 m · Lô 04'], ['C-0840', 'đang ở xe 107'], ['C-0799', 'đã lấy, dư 35 m'], ['C-0842', 'chưa đủ ủ'], ['C-0812', 'đủ ủ'], ['C-7777', 'mã lạ']];
 let TEM_MO = false;
@@ -731,7 +791,7 @@ function khayHtml() {
   S.cay.forEach(c => { if (!c.tem || !c.pxDuyet || seen.has(c.ma)) return; seen.add(c.ma); const st = trangThai(c.id); (st === 'chua' ? chua : st === 'tren' ? tren : lay).push(c); });
   const hai = c => S.cay.filter(x => x.ma === c.ma).length > 1;
   const tenCua = c => { const l = lastRow(c.id); if (!l) return met(c.met) + (hai(c) ? ' · 2 cây' : ''); const st = u(c, l.r);
-    if (l.r.daLay) return 'đã lấy' + (S.banCat[c.id] ? ' · dư ' + met(c.met - S.banCat[c.id]) : ''); return tx(l.p.xe) + ' · ' + (st.k === 'ok' ? 'đủ ủ' : st.k === 'wait' ? 'chưa đủ' : st.k === 'nokhai' ? 'chưa khai' : '—'); };
+    if (l.r.daLay) return 'đã lấy' + (daDung(c) ? ' · dư ' + met(conMet(c)) : ''); return tx(l.p.xe) + ' · ' + (st.k === 'ok' ? 'đủ ủ' : st.k === 'wait' ? 'chưa đủ' : st.k === 'nokhai' ? 'chưa khai' : '—'); };
   return `<div class="hop"><h3>Cách thử</h3>
   <div class="buoc"><b><span class="so">1</span>Đăng nhập</b>${S.user ? `<span class="gt">Đã đăng nhập: ${esc(S.user.ten)}.</span>` : `<div class="row"><button class="btn" data-a="dangnhap">Đăng nhập nhanh</button><span class="gt" style="margin:0">hoặc gõ mật khẩu <b>123456</b> trên điện thoại</span></div>`}</div>
   <div class="buoc"><b><span class="so">2</span>Chọn một tình huống</b><p class="gt">Bấm là app tự chạy tới đúng chỗ đó từ dữ liệu ban đầu. Sau đó bấm tiếp trên điện thoại.</p><div class="kb">
@@ -741,10 +801,10 @@ function khayHtml() {
   ${nhom('Cây chưa lên xe', chua.map(c => nut(c.ma, tenCua(c))).join('') || '<span class="gt">Hết.</span>')}
   ${nhom('Cây đang trên xe', tren.map(c => nut(c.ma, tenCua(c))).join(''))}
   ${lay.length ? nhom('Cây đã lấy ra', lay.map(c => nut(c.ma, tenCua(c))).join('')) : ''}
-  ${nhom('Tem sai', nut('C-0999', 'PX chưa duyệt') + nut('C-7777', 'mã lạ') + nut('650', 'xe lạ', 1))}
+  ${nhom('Tem sai', nut('C-0999', 'PX chưa duyệt') + nut('C-7777', 'mã lạ') + nut('650', 'ngoài 101–500', 1))}
   <form class="tay" data-f="go"><label for="gotay" style="position:absolute;left:-9999px">Mã tem</label><input id="gotay" placeholder="Gõ mã rồi Enter" autocomplete="off" spellcheck="false"><button class="btn" type="submit">Quét</button></form></div></div>
   <div class="hop"><h3>Giả lập</h3><div class="row" style="margin-bottom:8px"><span class="clock">${fmt(now())}</span><button class="btn phu" data-a="clock" data-v="240">+4 giờ</button><button class="btn phu" data-a="clock" data-v="1440">+1 ngày</button></div>
-  <div class="row"><button class="btn ${S.offline ? 'on' : 'phu'}" data-a="net">${S.offline ? 'Có mạng lại' : 'Mất mạng'}</button><button class="btn phu" data-a="appoff">${S.appOff ? 'Mở lại app' : 'Tắt app'}</button><button class="btn phu" data-a="reset">Làm lại từ đầu</button></div></div>
+  <div class="row"><button class="btn ${S.offline ? 'on' : 'phu'}" data-a="net">${S.offline ? 'Có mạng lại' : 'Mất mạng'}</button><button class="btn phu" data-a="mantat"${S.appOff ? ' disabled' : ''}>${S.manTat ? 'Bật màn hình' : 'Tắt màn hình'}</button><button class="btn phu" data-a="thoat">${S.appOff ? 'Mở lại app' : 'Thoát app'}</button><button class="btn phu" data-a="homsau">Sáng hôm sau</button><button class="btn phu" data-a="reset">Làm lại từ đầu</button></div></div>
   <details class="hop" id="tem-hop"${TEM_MO ? ' open' : ''}><summary>${I('print', 20, 'currentColor')}Tem thử để quét bằng camera điện thoại</summary>
   <p class="gt">Mở trang này trên điện thoại, bấm <b>Bật camera sau</b>, rồi quét các tem dưới đây (hiện trên máy tính hoặc in ra giấy).</p>
   <div class="intem" id="tem-in">${TEM_IN.map(([m, g]) => `<figure><svg data-ma="${m}" role="img" aria-label="Mã vạch ${m}"></svg><figcaption>${g}</figcaption></figure>`).join('')}</div>
@@ -755,7 +815,7 @@ const TAG = { ok: 'GHI SMB', er: 'TỪ CHỐI', wr: 'HỎI', in: 'THAO TÁC' };
 function smbHtml() {
   const ps = S.phieu.slice().sort((a, b) => b.so.localeCompare(a.so));
   return `<div class="hop"><h3>Phiếu Xả vải trên SMB</h3><p class="gt">Văn phòng thấy gì sau mỗi lần công nhân bấm. Dòng vừa ghi tô xanh.</p>
-  ${ps.map(p => `<div class="ph"><div class="phh"><b class="so-phieu">${p.so}</b><span>Xe <b>${esc(p.xe)}</b></span><span>${loTen(p.lo)}</span><span class="pill ${p.tt === 'nhap' ? 'p-warn' : 'p-ok'}">${p.tt === 'nhap' ? 'Nháp' : 'Đã duyệt'}</span><span class="pill p-n">lập từ ${p.nguon === 'app' ? 'app' : 'SMB'}</span></div>
+  ${ps.map(p => `<div class="ph"><div class="phh"><b class="so-phieu">${p.so}</b><span>Xe <b>${esc(p.xe)}</b></span><span>${loTen(p.lo)}</span><span>Style <b>${LO[p.lo].style}</b></span><span>ĐVSX <b>${LO[p.lo].dvsx}</b></span><span>Hạch toán <b data-o="ht">${fmt(p.ht).slice(0, 5)}</b></span><span>Thời gian xả vải <b data-o="tgxa">${gio(p.ht)}</b></span><span class="pill ${p.tt === 'nhap' ? 'p-warn' : 'p-ok'}">${p.tt === 'nhap' ? 'Nháp' : 'Đã duyệt'}</span><span class="pill p-n">lập từ ${p.nguon === 'app' ? 'app' : 'SMB'}</span></div>
   <div class="tbl"><table class="t"><thead><tr><th>Mã cây</th><th>Số mét</th><th>Giờ xả</th><th>Đã lấy</th><th>Giờ lấy</th><th>Người lấy</th></tr></thead><tbody>
   ${p.rows.map(r => { const c = cayBy(r.cay); return `<tr class="${r.seq === S.lastSeq ? 'new' : ''}"><td class="m">${c.ma}</td><td>${met(c.met)}</td><td>${r.gioXa ? fmt(r.gioXa) : '<span class="pill p-n">trống</span>'}</td><td>${r.daLay ? '☑' : '☐'}</td><td>${r.gioLay ? fmt(r.gioLay) : ''}</td><td>${r.nguoiLay ? esc(r.nguoiLay) : ''}</td></tr>`; }).join('')}</tbody></table></div></div>`).join('')}</div>
   <div class="hop nk"><h3>App vừa làm gì</h3><ol>${S.log.map(x => `<li class="${x.k}"><span class="ev">${TAG[x.k]}</span><span class="mo">${esc(x.msg)}</span><time>${gio(x.t)}</time></li>`).join('') || '<li class="in"><span class="mo">Chưa có thao tác.</span></li>'}</ol></div>`;
@@ -778,9 +838,16 @@ function render() {
   veMaVach();
   const m = document.getElementById('mcode'); if (m) m.focus();
 }
+// Mở app sau khi thoát: chưa đăng nhập → đăng nhập; lượt còn mở (vì mất mạng lúc thoát) → vào lại, trừ khi đã sang ngày khác
+function moLai() {
+  if (!S.user) go('login');
+  else if (S.sess) { if (!sangNgayKhac()) go(S.sess.lo ? 'xa' : 'xa-lo'); }
+  else go(S.sauThoat || 'home');
+  S.sauThoat = null;
+}
 function dangNhap(tk) { S.user = { tk, ten: 'Trần Văn Bình' }; log('Đăng nhập ' + tk, 'in'); go('home'); }
 function doAct(a, v) {
-  if (S.appOff && !['appoff', 'reset', 'clock', 'net', 'kb', 'intem'].includes(a)) { toast('warn', 'App đang tắt — bấm “Mở lại app”.'); return; }
+  if ((S.appOff || S.manTat) && !['mantat', 'thoat', 'homsau', 'reset', 'clock', 'net', 'kb', 'intem'].includes(a)) { toast('warn', S.appOff ? 'App đã thoát — bấm “Mở lại app”.' : 'Màn hình đang tắt — bấm “Bật màn hình”.'); return; }
   if (a === 'scan' && !S.user) { toast('warn', 'Đăng nhập trước.'); return; }
   switch (a) {
     case 'scan': scan(v); break;
@@ -788,12 +855,13 @@ function doAct(a, v) {
     case 'go': if (v === 'home' && S.sess && !S.sess.ghi && (S.screen === 'xa' || S.screen === 'xa-lo')) boXe();
       if (v === 'xa' && !S.sess) go('xa-xe'); else go(v); break;
     case 'boxe': boXe(); go('xa-xe'); break;
-    case 'logout': S.user = null; go('login'); break;
+    case 'logout': if (S.sess && !tuKetThuc('đăng xuất')) break; S.user = null; go('login'); break;
     case 'lo': if (!S.sess) break; S.sess.lo = v; S.tab = 'moi'; go('xa'); break;
     case 'tab': S.tab = v; break;
     case 'cham': { const c = cayBy(v); S.sheet = null; if (S.screen !== 'xa') go('xa'); vaoXe(c); break; }
     case 'chuyen': { const c = cayBy(v); S.sheet = null; vaoXe(c, 'Chuyển xe', lastRow(c.id).r.gioXa); break; }
     case 'dualai': duaLai(cayBy(v)); break;
+    case 'chonlai': if (S.sess && cayBy(v) && trangThai(v) === 'lay') { S.sheet = { kind: 'duallai', cay: v }; log(`Hỏi: đưa ${cayBy(v).ma} (đã lấy) lại lên ${tx(S.sess.xe)}?`, 'wr'); } break;
     case 'tronok': { const sh = S.sheet; S.sess.warned[cayBy(sh.cay).lo] = true; vaoXe(cayBy(sh.cay), sh.kieu, sh.gioGoc); break; }
     case 'undo': hoanTac(+v); break;
     case 'undolai': hoanTacLai(+v); break;
@@ -807,11 +875,19 @@ function doAct(a, v) {
     case 'golayxe': go('lay-xe', { xe: v }); break;
     case 'manual': S.manual = !S.manual; break;
     case 'camon': batCam(); break;
+    case 'den': if (CAM.track && CAM.coDen) { const bat = !CAM.den; try { Promise.resolve(CAM.track.applyConstraints({ advanced: [{ torch: bat }] })).then(() => { CAM.den = bat; render(); }, () => {}); } catch (e) {} } break;
     case 'intem': TEM_MO = true; setTimeout(() => window.print(), 300); break;
     case 'close': S.sheet = null; break;
     case 'clock': S.offset += (+v) * MIN; log(`Tua giờ +${+v >= 1440 ? (+v / 1440) + ' ngày' : (+v / 60) + ' giờ'}`, 'in'); break;
     case 'net': S.offline = !S.offline; log(S.offline ? 'Mất mạng' : 'Có mạng lại', 'in'); break;
-    case 'appoff': if (S.appOff) { S.appOff = false; if (!S.user) go('login'); else if (S.sess) go(S.sess.lo ? 'xa' : 'xa-lo'); else go('home'); log('Mở lại app', 'in'); } else { S.appOff = true; S.sheet = null; S.snack = null; log('Tắt app', 'in'); } break;
+    // Tắt màn hình / chuyển app khác: giữ nguyên xe + Lô đang mở (R6)
+    case 'mantat': if (S.appOff) break; if (S.manTat) { S.manTat = false; log('Bật màn hình', 'in'); sangNgayKhac(); } else { S.manTat = true; S.sheet = null; S.snack = null; log('Tắt màn hình', 'in'); } break;
+    // Thoát app: lượt xả đang mở tự kết thúc (R6); mở lại → màn quét xe
+    case 'thoat': if (S.appOff) { S.appOff = false; log('Mở lại app', 'in'); moLai(); }
+      else { S.manTat = false; log('Thoát app', 'in'); const co = !!S.sess; if (co && !tuKetThuc('thoát app')) toast('err', 'Mất mạng, chưa ghi — lượt xả chưa kết thúc được.'); S.sauThoat = co && !S.sess ? 'xa-xe' : null; S.appOff = true; S.sheet = null; S.snack = null; } break;
+    // Sáng hôm sau: tua tới 07:00 ngày kế tiếp rồi mở app (R6: mở app sang ngày khác)
+    case 'homsau': { const d = new Date(now()); S.offset += new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1, 7, 0).getTime() - now(); log('Sang 07:00 ngày hôm sau', 'in');
+      S.manTat = false; if (S.appOff) { S.appOff = false; moLai(); } else sangNgayKhac(); break; }
     case 'reset': S = seed(); break;
     case 'kb': { const k = KICHBAN[+v]; S = seed(); S.user = { tk: 'binhtv.cat', ten: 'Trần Văn Bình' }; go('home'); log('Tình huống: ' + k.t, 'in'); k.b.forEach(([x, y]) => doAct(x, y)); break; }
   }
@@ -820,7 +896,7 @@ document.addEventListener('click', e => {
   const el = e.target.closest('[data-a]'); if (!el) return;
   if (el.tagName === 'BUTTON' && el.getAttribute('type') === 'submit') return;
   if (el.dataset.a === 'camon') moLoa();
-  if (el.dataset.a === 'scan' && S.user && !S.appOff) { moLoa(); pip(); }
+  if (el.dataset.a === 'scan' && S.user && !S.appOff && !S.manTat) { moLoa(); pip(); }
   doAct(el.dataset.a, el.dataset.v); render();
 });
 document.addEventListener('toggle', e => { if (e.target.id === 'tem-hop') { TEM_MO = e.target.open; veMaVach(); } }, true);
@@ -831,7 +907,7 @@ document.addEventListener('submit', e => {
     else dangNhap(document.getElementById('tk').value);
   } else if (f === 'manual') { const v = document.getElementById('mcode').value; S.manual = false; doAct('scan', v); }
   else if (f === 'go') { const v = document.getElementById('gotay').value; doAct('scan', v); render(); const g = document.getElementById('gotay'); g.value = ''; g.focus(); return; }
-  else if (f === 'tim') { const v = document.getElementById('tcode').value.trim().toUpperCase(); if (isXe(v)) go('xe', { xe: v }); else go('tim', { code: v }); }
+  else if (f === 'tim') { const v = document.getElementById('tcode').value.trim().toUpperCase(); if (xeHopLe(v)) go('xe', { xe: v }); else go('tim', { code: v }); }
   render();
 });
 setInterval(() => {
