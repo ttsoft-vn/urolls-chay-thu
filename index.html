@@ -104,14 +104,15 @@ tr.new td{animation:hl 2.4s ease-out}
 .ib{width:48px;height:48px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0F172A;border-radius:24px;flex:none}
 .tt{flex:1;display:flex;flex-direction:column;min-width:0}.tt b{font-size:18px}.tt span{font-size:13px;color:#475569}
 .cam{position:relative;height:210px;background:#0B1220;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
-.cam video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.frame{width:260px;height:96px;border-radius:12px;border:3px solid rgba(255,255,255,.9);position:relative;transition:border-color .2s;z-index:1;box-shadow:0 0 0 999px rgba(11,18,32,.35)}
+.cam.song{background:transparent}
+#camvid{position:absolute;z-index:1;object-fit:cover;display:none;pointer-events:none;background:#0B1220}
+.frame{width:260px;height:96px;border-radius:12px;border:3px solid rgba(255,255,255,.9);position:relative;transition:border-color .2s;z-index:3;box-shadow:0 0 0 999px rgba(11,18,32,.35)}
 .frame i{position:absolute;left:12px;right:12px;top:45px;height:2px;background:#EF4444;box-shadow:0 0 8px #EF4444}
 .cam.hit .frame{border-color:#34D399}.cam.hit .frame i{background:#34D399;box-shadow:0 0 10px #34D399}
 .cam-cho{display:flex;flex-direction:column;align-items:center;gap:8px;color:#E2E8F0;font-size:14px;font-weight:700;background:none;border:none;cursor:pointer;z-index:1}
 .cam-cho .vong{width:72px;height:72px;border-radius:36px;background:#007AFF;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,122,255,.45)}
 .cam-cho.chan{cursor:default;color:#94A3B8;font-weight:600;font-size:13px;text-align:center;padding:0 24px}
-.camb{position:absolute;bottom:10px;right:10px;width:48px;height:48px;border-radius:24px;border:none;background:rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2}
+.camb{position:absolute;bottom:10px;right:10px;width:48px;height:48px;border-radius:24px;border:none;background:rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3}
 .camb.trai{right:auto;left:10px}
 .manual{display:flex;gap:8px;padding:10px 12px;background:#0B1220}
 .manual input{flex:1;height:48px;border-radius:10px;border:none;padding:0 12px;font-size:16px}
@@ -420,24 +421,36 @@ function scanCayLay(code, recs) {
 // Giữ một <video> duy nhất ngoài vùng vẽ lại; mỗi lần vẽ thì gắn nó vào khung camera.
 // Trang trên claude.ai không được mở camera; bản giống hệt đặt ở GitHub Pages thì được
 const BAN_CAMERA = 'https://ttsoft-vn.github.io/urolls-chay-thu/';
-const CAM = { st: 'tat', stream: null, video: null, det: null, timer: null, ctl: null, cuoi: '', luc: 0 };
+// Trình duyệt gắn trong app khác (Zalo, Messenger…) trên iPhone không cho hình camera nằm trong trang:
+// nó bung ra toàn màn hình và trang không đọc được. Nhận ra để bảo người dùng mở bằng Safari.
+const UA = navigator.userAgent || '';
+const TRONG_APP = /FBAN|FBAV|Instagram|Line\/|Zalo|Messenger|MicroMessenger/i.test(UA) || (/iPhone|iPad|iPod/.test(UA) && !/Safari\//.test(UA));
+const CAM = { st: 'tat', lydo: '', stream: null, video: null, det: null, timer: null, ctl: null, cuoi: '', luc: 0 };
 function napScript(src) { return new Promise((ok, loi) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = loi; document.head.appendChild(s); }); }
 async function batCam() {
   if (CAM.st === 'dang' || CAM.st === 'bat') return;
   CAM.st = 'dang'; render();
   try {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('khong-ho-tro');
-    const st = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } }, audio: false });
+    const st = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
     CAM.stream = st;
-    CAM.video = document.createElement('video'); CAM.video.setAttribute('playsinline', ''); CAM.video.muted = true; CAM.video.srcObject = st;
-    await CAM.video.play();
+    // iPhone dừng phát hình khi <video> bị gỡ khỏi trang, nên gắn nó cố định vào khung điện thoại một lần
+    const v = CAM.video = document.createElement('video'); v.id = 'camvid';
+    v.setAttribute('playsinline', ''); v.setAttribute('autoplay', ''); v.setAttribute('muted', ''); v.muted = true;
+    v.addEventListener('webkitbeginfullscreen', () => {
+      try { v.webkitExitFullscreen(); } catch (e) {}
+      CAM.st = 'chan'; CAM.lydo = 'trongapp'; if (CAM.stream) CAM.stream.getTracks().forEach(t => t.stop()); render();
+    });
+    document.getElementById('phone').appendChild(v);
+    v.srcObject = st;
+    await v.play();
     CAM.st = 'bat';
     let fm = [];
     if ('BarcodeDetector' in window) { try { fm = await window.BarcodeDetector.getSupportedFormats(); } catch (e) {} }
     if (fm.includes('code_128')) {
       CAM.det = new window.BarcodeDetector({ formats: ['code_128'] });
       CAM.timer = setInterval(async () => {
-        if (!CAM.video.isConnected || CAM.video.readyState < 2) return;
+        if (CAM.st !== 'bat' || CAM.video.readyState < 2) return;
         try { const bs = await CAM.det.detect(CAM.video); if (bs && bs[0]) docMa(bs[0].rawValue); } catch (e) {}
       }, 200);
     } else {
@@ -468,12 +481,26 @@ function pip() {
     o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + 0.13);
   } catch (e) {}
 }
-// Camera đọc được một mã: chỉ nhận khi khung camera đang hiện; cùng mã trong 2,5 giây coi là một lần quét
+// Đặt hình camera đúng vào ô quét của màn đang hiện; màn không có ô quét thì ẩn
+function datCam() {
+  const v = CAM.video; if (!v) return;
+  const slot = document.getElementById('camslot');
+  if (CAM.st !== 'bat' || !slot) { v.style.display = 'none'; return; }
+  const r = slot.getBoundingClientRect(), p = document.getElementById('phone').getBoundingClientRect();
+  const vien = document.getElementById('phone').clientLeft || 0;
+  Object.assign(v.style, { display: 'block', left: (r.left - p.left - vien) + 'px', top: (r.top - p.top - vien) + 'px', width: r.width + 'px', height: r.height + 'px' });
+  if (v.paused) { const k = v.play(); if (k && k.catch) k.catch(() => {}); }
+}
+window.addEventListener('resize', datCam);
+// Camera đọc được một mã: chỉ nhận khi khung camera đang hiện. Tem còn nằm trong khung thì không quét lại
+// (như máy scan: một lần đưa tem = một píp); rời khung quá 1,5 giây hoặc gặp tem khác mới nhận tiếp.
 function docMa(raw) {
   const code = String(raw || '').trim().toUpperCase();
-  if (!code || !document.getElementById('camslot') || S.sheet || S.appOff) return;
-  if (code === CAM.cuoi && Date.now() - CAM.luc < 2500) return;
+  if (!code) return;
+  // ghi nhớ tem đang trong khung kể cả lúc bỏ qua, để sang màn khác không quét lại chính tem đó
+  const vanCon = code === CAM.cuoi && Date.now() - CAM.luc < 1500;
   CAM.cuoi = code; CAM.luc = Date.now();
+  if (vanCon || !document.getElementById('camslot') || S.sheet || S.appOff) return;
   pip(); doAct('scan', code); render();
 }
 
@@ -484,11 +511,12 @@ function cam() {
   const hit = Date.now() - S.hit < 700 ? ' hit' : '';
   const giua = CAM.st === 'bat' ? '<div class="frame"><i></i></div>'
     : CAM.st === 'dang' ? `<div class="cam-cho">${I('progress_activity', 36, '#fff')}Đang mở camera…</div>`
+    : (CAM.st === 'chan' && CAM.lydo === 'trongapp') || (CAM.st === 'tat' && TRONG_APP) ? `<div class="cam-cho chan">${I('open_in_browser', 36, '#94A3B8')}Trình duyệt trong app này không quét được.<br>Bấm ⋯ → <b style="color:#E2E8F0">Mở bằng Safari</b> (hoặc Chrome)${CAM.st === 'tat' ? `<button class="cta sec" style="height:40px;font-size:13px;margin-top:4px" data-a="camon">Vẫn thử bật camera</button>` : ''}</div>`
     : CAM.st === 'chan' ? (location.hostname.endsWith('github.io')
       ? `<div class="cam-cho chan">${I('no_photography', 36, '#94A3B8')}Không mở được camera — dùng tem thử bên cạnh hoặc gõ tay</div>`
       : `<div class="cam-cho chan">${I('no_photography', 36, '#94A3B8')}Trang này bị chặn camera<a class="cta" style="height:44px;font-size:14px;text-decoration:none;margin-top:4px" href="${BAN_CAMERA}" target="_blank" rel="noopener">Mở bản có camera</a></div>`)
     : `<button class="cam-cho" data-a="camon"><span class="vong">${I('photo_camera_back', 38, '#fff', 'f')}</span>Bật camera sau</button>`;
-  return `<div class="cam${hit}" id="camslot">${giua}
+  return `<div class="cam${hit}${CAM.st === 'bat' ? ' song' : ''}" id="camslot">${giua}
   ${CAM.st === 'bat' ? '' : ''}<button class="camb" aria-label="Gõ tay mã" data-a="manual">${I('keyboard', 24, '#fff')}</button></div>
   ${S.manual ? `<form class="manual" data-f="manual"><label for="mcode" style="position:absolute;left:-9999px">Mã tem</label><input id="mcode" placeholder="Mã tem" autocomplete="off" autocapitalize="characters"><button class="chip act" type="submit">Nhập</button></form>` : ''}`;
 }
@@ -730,10 +758,13 @@ function veMaVach() {
   if (window.JsBarcode) ve(); else napScript('https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js').then(ve, () => {});
 }
 function render() {
-  const ph = document.getElementById('phone'); ph.className = 'phone' + (S.offline ? ' off' : ''); ph.innerHTML = phoneHtml();
+  const ph = document.getElementById('phone'); ph.className = 'phone' + (S.offline ? ' off' : '');
+  let man = document.getElementById('man');
+  if (!man) { man = document.createElement('div'); man.id = 'man'; man.style.cssText = 'position:absolute;inset:0'; ph.appendChild(man); }
+  man.innerHTML = phoneHtml();
   document.getElementById('khay').innerHTML = khayHtml();
   document.getElementById('smb').innerHTML = smbHtml();
-  const slot = document.getElementById('camslot'); if (slot && CAM.st === 'bat' && CAM.video) slot.prepend(CAM.video);
+  datCam();
   veMaVach();
   const m = document.getElementById('mcode'); if (m) m.focus();
 }
