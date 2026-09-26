@@ -426,12 +426,16 @@ const BAN_CAMERA = 'https://ttsoft-vn.github.io/urolls-chay-thu/';
 const UA = navigator.userAgent || '';
 const TRONG_APP = /FBAN|FBAV|Instagram|Line\/|Zalo|Messenger|MicroMessenger/i.test(UA) || (/iPhone|iPad|iPod/.test(UA) && !/Safari\//.test(UA));
 const CAM = { st: 'tat', lydo: '', stream: null, video: null, det: null, timer: null, ctl: null, cuoi: '', luc: 0 };
+const napBoDoc = window.napBoDoc || (async () => (await import('https://cdn.jsdelivr.net/npm/barcode-detector@3.2.2/pure/+esm')).BarcodeDetector);
 function napScript(src) { return new Promise((ok, loi) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = loi; document.head.appendChild(s); }); }
 async function batCam() {
   if (CAM.st === 'dang' || CAM.st === 'bat') return;
-  CAM.st = 'dang'; render();
+  CAM.st = 'dang'; CAM.lydo = ''; render();
   try {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('khong-ho-tro');
+    // máy không có bộ đọc sẵn (iPhone): tải bộ đọc song song với lúc mở camera cho đỡ chờ
+    let huaBoDoc = null;
+    if (!('BarcodeDetector' in window)) { try { huaBoDoc = Promise.resolve(napBoDoc()).catch(() => null); } catch (e) { huaBoDoc = Promise.resolve(null); } }
     const st = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
     CAM.stream = st;
     // iPhone dừng phát hình khi <video> bị gỡ khỏi trang, nên gắn nó cố định vào khung điện thoại một lần
@@ -445,20 +449,20 @@ async function batCam() {
     v.srcObject = st;
     await v.play();
     CAM.st = 'bat';
+    // Bộ đọc mã vạch: Android có sẵn trong máy; iPhone không có thì dùng zxing-cpp (cùng cách gọi).
+    // Đo 26/09 trên 60 khung hình tem nghiêng/mờ/nền tối: zxing-cpp đọc 47/60, thư viện ZXing JS cũ 0/60.
     let fm = [];
     if ('BarcodeDetector' in window) { try { fm = await window.BarcodeDetector.getSupportedFormats(); } catch (e) {} }
-    if (fm.includes('code_128')) {
-      CAM.det = new window.BarcodeDetector({ formats: ['code_128'] });
-      CAM.timer = setInterval(async () => {
-        if (CAM.st !== 'bat' || CAM.video.readyState < 2) return;
-        try { const bs = await CAM.det.detect(CAM.video); if (bs && bs[0]) docMa(bs[0].rawValue); } catch (e) {}
-      }, 200);
-    } else {
-      // iPhone và máy không tự đọc mã vạch: dùng thư viện ZXing
-      if (!window.ZXingBrowser) await napScript('https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/umd/zxing-browser.min.js');
-      const rd = new window.ZXingBrowser.BrowserMultiFormatReader();
-      CAM.ctl = await rd.decodeFromVideoElement(CAM.video, res => { if (res) docMa(res.getText()); });
-    }
+    const BoDoc = fm.includes('code_128') ? window.BarcodeDetector : await (huaBoDoc || Promise.resolve(napBoDoc()).catch(() => null));
+    if (!BoDoc) { CAM.lydo = 'bodoc'; throw new Error('khong-tai-duoc-bo-doc'); }
+    CAM.det = new BoDoc({ formats: ['code_128'] });
+    // Thử liên tục như máy scan: đọc xong lần này nghỉ 60 ms rồi thử tiếp
+    const vong = async () => {
+      if (CAM.st !== 'bat') return;
+      if (CAM.video.readyState >= 2) { try { const bs = await CAM.det.detect(CAM.video); if (bs && bs[0]) docMa(bs[0].rawValue); } catch (e) {} }
+      CAM.timer = setTimeout(vong, 60);
+    };
+    vong();
   } catch (e) {
     CAM.st = 'chan';
     if (CAM.stream) CAM.stream.getTracks().forEach(t => t.stop());
@@ -512,6 +516,7 @@ function cam() {
   const giua = CAM.st === 'bat' ? '<div class="frame"><i></i></div>'
     : CAM.st === 'dang' ? `<div class="cam-cho">${I('progress_activity', 36, '#fff')}Đang mở camera…</div>`
     : (CAM.st === 'chan' && CAM.lydo === 'trongapp') || (CAM.st === 'tat' && TRONG_APP) ? `<div class="cam-cho chan">${I('open_in_browser', 36, '#94A3B8')}Trình duyệt trong app này không quét được.<br>Bấm ⋯ → <b style="color:#E2E8F0">Mở bằng Safari</b> (hoặc Chrome)${CAM.st === 'tat' ? `<button class="cta sec" style="height:40px;font-size:13px;margin-top:4px" data-a="camon">Vẫn thử bật camera</button>` : ''}</div>`
+    : CAM.st === 'chan' && CAM.lydo === 'bodoc' ? `<div class="cam-cho chan">${I('wifi_off', 36, '#94A3B8')}Không tải được bộ đọc mã vạch — xem lại mạng rồi bấm lại<button class="cta sec" style="height:40px;font-size:13px;margin-top:4px" data-a="camon">Thử lại</button></div>`
     : CAM.st === 'chan' ? (location.hostname.endsWith('github.io')
       ? `<div class="cam-cho chan">${I('no_photography', 36, '#94A3B8')}Không mở được camera — dùng tem thử bên cạnh hoặc gõ tay</div>`
       : `<div class="cam-cho chan">${I('no_photography', 36, '#94A3B8')}Trang này bị chặn camera<a class="cta" style="height:44px;font-size:14px;text-decoration:none;margin-top:4px" href="${BAN_CAMERA}" target="_blank" rel="noopener">Mở bản có camera</a></div>`)
