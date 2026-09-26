@@ -416,6 +416,8 @@ function scanCayLay(code, recs) {
 
 // ===== Camera sau: quét tem thật khi máy cho phép =====
 // Giữ một <video> duy nhất ngoài vùng vẽ lại; mỗi lần vẽ thì gắn nó vào khung camera.
+// Trang trên claude.ai không được mở camera; bản giống hệt đặt ở GitHub Pages thì được
+const BAN_CAMERA = 'https://ttsoft-vn.github.io/urolls-chay-thu/';
 const CAM = { st: 'tat', stream: null, video: null, det: null, timer: null, ctl: null, cuoi: '', luc: 0 };
 function napScript(src) { return new Promise((ok, loi) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = loi; document.head.appendChild(s); }); }
 async function batCam() {
@@ -480,7 +482,9 @@ function cam() {
   const hit = Date.now() - S.hit < 700 ? ' hit' : '';
   const giua = CAM.st === 'bat' ? '<div class="frame"><i></i></div>'
     : CAM.st === 'dang' ? `<div class="cam-cho">${I('progress_activity', 36, '#fff')}Đang mở camera…</div>`
-    : CAM.st === 'chan' ? `<div class="cam-cho chan">${I('no_photography', 36, '#94A3B8')}Không mở được camera — dùng tem thử bên cạnh hoặc gõ tay</div>`
+    : CAM.st === 'chan' ? (location.hostname.endsWith('github.io')
+      ? `<div class="cam-cho chan">${I('no_photography', 36, '#94A3B8')}Không mở được camera — dùng tem thử bên cạnh hoặc gõ tay</div>`
+      : `<div class="cam-cho chan">${I('no_photography', 36, '#94A3B8')}Trang này bị chặn camera<a class="cta" style="height:44px;font-size:14px;text-decoration:none;margin-top:4px" href="${BAN_CAMERA}" target="_blank" rel="noopener">Mở bản có camera</a></div>`)
     : `<button class="cam-cho" data-a="camon"><span class="vong">${I('photo_camera_back', 38, '#fff', 'f')}</span>Bật camera sau</button>`;
   return `<div class="cam${hit}" id="camslot">${giua}
   ${CAM.st === 'bat' ? '' : ''}<button class="camb" aria-label="Gõ tay mã" data-a="manual">${I('keyboard', 24, '#fff')}</button></div>
