@@ -109,24 +109,24 @@ tr.new td{animation:hl 2.4s ease-out}
 .hd{display:flex;align-items:center;gap:4px;padding:8px 10px 8px 4px;background:#E2E8F0;min-height:60px}
 .ib{width:48px;height:48px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0F172A;border-radius:24px;flex:none}
 .tt{flex:1;display:flex;flex-direction:column;min-width:0}.tt b{font-size:18px}.tt span{font-size:13px;color:#475569}
-.cam{position:relative;height:84px;margin:6px 16px 0;border-radius:16px;background:#0B1220;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.cam{position:relative;height:64px;margin:6px 8px 0;border-radius:16px;background:#0B1220;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
 .cam.song{background:transparent}
-.cam.cao{height:auto;min-height:84px;padding:8px 0}
+.cam.cao{height:auto;min-height:64px;padding:8px 0}
 #camvid{position:absolute;z-index:1;object-fit:cover;display:none;pointer-events:none;background:#0B1220;border-radius:16px}
 /* Khung ngắm tĩnh: 4 góc chữ L mảnh + 1 vạch ngang mảnh ở giữa (đỏ; nhận được tem thì xanh) */
-.frame{width:240px;height:48px;position:relative;z-index:3}
-.frame b{position:absolute;width:16px;height:12px;border:0 solid #fff}
+.frame{width:200px;height:36px;position:relative;z-index:3}
+.frame b{position:absolute;width:14px;height:10px;border:0 solid #fff}
 .frame .g1{left:0;top:0;border-top-width:2px;border-left-width:2px;border-top-left-radius:5px}.frame .g2{right:0;top:0;border-top-width:2px;border-right-width:2px;border-top-right-radius:5px}
 .frame .g3{left:0;bottom:0;border-bottom-width:2px;border-left-width:2px;border-bottom-left-radius:5px}.frame .g4{right:0;bottom:0;border-bottom-width:2px;border-right-width:2px;border-bottom-right-radius:5px}
-.frame i{position:absolute;left:12px;right:12px;top:23px;height:1.5px;background:#EF4444}
+.frame i{position:absolute;left:10px;right:10px;top:17px;height:1.5px;background:#EF4444}
 .cam.hit .frame i{background:#34D399}
 .cam-cho{display:flex;flex-direction:row;align-items:center;gap:8px;color:#E2E8F0;font-size:14px;font-weight:700;background:none;border:none;cursor:pointer;z-index:1}
-button.cam-cho{height:40px;padding:0 16px;border-radius:999px;background:#007AFF;color:#fff}
-.cam-cho.chan{flex-direction:column;gap:4px;cursor:default;color:#94A3B8;font-weight:600;font-size:12px;line-height:1.35;text-align:center;padding:0 52px 0 16px}
+button.cam-cho{height:44px;padding:0 16px;border-radius:999px;background:#007AFF;color:#fff}
+.cam-cho.chan{flex-direction:column;gap:4px;cursor:default;color:#94A3B8;font-weight:600;font-size:12px;line-height:1.35;text-align:center;padding:0 60px 0 16px}
 .cam-cho.chan .cta{height:32px;font-size:12.5px;margin-top:2px;padding:0 12px}
-.camb{position:absolute;bottom:50%;transform:translateY(50%);right:8px;width:36px;height:36px;border-radius:18px;border:none;background:rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3}
+.camb{position:absolute;bottom:50%;transform:translateY(50%);right:8px;width:44px;height:44px;border-radius:22px;border:none;background:rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3}
 .camb.trai{right:auto;left:8px}
-.manual{display:flex;gap:8px;padding:8px;margin:6px 16px 0;border-radius:14px;background:#0B1220}
+.manual{display:flex;gap:8px;padding:8px;margin:6px 8px 0;border-radius:14px;background:#0B1220}
 .manual input{flex:1;height:48px;border-radius:10px;border:none;padding:0 12px;font-size:16px}
 .cta{height:52px;border:none;border-radius:999px;background:#007AFF;color:#fff;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 12px rgba(0,122,255,.3);padding:0 16px}
 .cta.sec{background:#fff;color:#007AFF;box-shadow:none;border:1.5px solid #007AFF}
@@ -137,7 +137,9 @@ button.cam-cho{height:40px;padding:0 16px;border-radius:999px;background:#007AFF
 .chip.ket{background:#fff;color:#007AFF;border:1.5px solid #007AFF}
 .nguon{font-size:13px;font-weight:700;color:#64748B;white-space:nowrap}
 .sub{padding:7px 14px;font-size:12.5px;font-weight:700;color:#64748B;background:#F8FAFC;border-top:1px solid #F1F5F9}
-.rong{margin:14px;font-size:13px;color:#64748B;text-align:center}
+/* Dòng tiêu đề bảng lượt xả: tách với khối Chọn cây theo Lô ở trên */
+.luot-t{padding:12px 12px 6px;font-size:12.5px;font-weight:700;color:#64748B}#ds-xa>.bang+.ds-lo{margin-top:0}
+.rong{margin:14px 8px;font-size:13px;color:#64748B;text-align:center}
 .dim{position:absolute;inset:0;background:rgba(15,23,42,.45);z-index:20}
 .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;padding:12px 16px 22px;display:flex;flex-direction:column;gap:12px;z-index:21}
 .sheet .grab{width:40px;height:4px;border-radius:2px;background:#CBD5E1;align-self:center}
@@ -146,7 +148,7 @@ button.cam-cho{height:40px;padding:0 16px;border-radius:999px;background:#007AFF
 .opt{border:1.5px solid #E2E8F0;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:14px;background:#fff;cursor:pointer;text-align:left;color:#0F172A;min-height:60px}
 .opt .m{font-size:24px;font-weight:800;min-width:84px}
 .acard.to{min-height:104px;padding:20px 18px}.acard.to .ic{width:60px;height:60px;border-radius:16px}.acard.to .tt b{font-size:20px}.acard.to .tt span{font-size:14px;font-weight:700;color:#007AFF}
-.bang{margin:0 14px 12px;background:#fff;border-radius:14px;overflow:hidden}
+.bang{margin:0 8px 12px;background:#fff;border-radius:14px;overflow:hidden}
 .bh,.br{display:grid;align-items:center;column-gap:8px;padding:0 14px}
 .bh{min-height:38px;font-size:12px;font-weight:800;color:#64748B;background:#F1F5F9}.bh span{white-space:nowrap}
 .br{min-height:52px;font-size:15px;color:#0F172A;background:#fff;border:none;border-top:1px solid #F1F5F9;width:100%;text-align:left;font-family:inherit;cursor:pointer}
@@ -156,25 +158,30 @@ button.cam-cho{height:40px;padding:0 16px;border-radius:999px;background:#007AFF
 .cl .bh,.cl .br{grid-template-columns:56px minmax(0,1fr) 30px 56px 52px}
 .cl .br{cursor:default}.cl .br.dau{border-top:2px solid #CBD5E1}
 /* Dòng tiêu đề cột đứng yên ngay trên danh sách cuộn (màn Lấy vải, Ghép) */
-.dau-co{margin:8px 14px;flex-shrink:0}.dem{flex-shrink:0}
+.dau-co{margin:8px 8px;flex-shrink:0}.dem{flex-shrink:0}
 /* Màn Ghép: xe đích mờ, chỉ để xem */
-.nhat{opacity:.45}.oxe.nhat{cursor:default}#ds-ghep .sub{background:none;border:none;padding:12px 18px 6px}
+.nhat{opacity:.45}.oxe.nhat{cursor:default}#ds-ghep .sub{background:none;border:none;padding:12px 12px 6px}
 .oxe{align-self:stretch;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;font-weight:800;font-size:15px;line-height:1.2;color:#0F172A;border:none;background:none;padding:0;text-align:left;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation}.oxe.giu{color:#007AFF}
+/* Ô Xe bấm giữ được: nút nổi viền xanh, chữ phụ "giữ" (vẽ bằng CSS, không vào chữ của ô) */
+.oxe[data-giu]{align-self:center;align-items:center;justify-content:center;width:100%;min-height:44px;padding:4px 2px;border:1.5px solid #007AFF;border-radius:10px;background:#EBF6FF;color:#007AFF;font-size:16px;text-align:center;box-shadow:0 2px 8px rgba(15,23,42,.06)}
+.oxe[data-giu]::after{content:'giữ';display:block;font-size:10px;font-weight:700;line-height:1.1;opacity:.8}
+.oxe[data-giu] small{color:#007AFF;margin-top:1px}.oxe.la{font-size:11px;line-height:1.15}.oxe.la::after{display:none}
+.oxe.giu[data-giu]{background:#007AFF;color:#fff;box-shadow:0 4px 12px rgba(0,122,255,.3)}.oxe.giu[data-giu] small{color:#fff}
 .tich{border:none;background:none;align-self:stretch;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
 .br .tich{display:flex;justify-content:center}
 .sw{position:relative;overflow:hidden;border-top:1px solid #F1F5F9}.sw .br{border-top:none;position:relative;z-index:1;transition:transform .18s;touch-action:pan-y;cursor:grab;user-select:none}
 .sw.mo .sw-in{transform:translateX(-88px)}.sw-in.keo{transition:none}
 .sw-xoa{position:absolute;top:0;right:0;bottom:0;width:88px;border:none;background:#DC2626;color:#fff;font-size:15px;font-weight:800;cursor:pointer}
-.dem{margin:10px 14px 10px;padding:12px 14px;border-radius:14px;background:#fff;display:flex;flex-direction:column;gap:8px}
-.dem-k{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.dem-k>div{background:#F1F5F9;border-radius:10px;padding:6px 8px;min-width:0}.dem-k small{display:block;font-size:11.5px;font-weight:600;color:#64748B}.dem-k b{display:block;font-size:13px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dem{margin:10px 8px 10px;padding:12px 14px;border-radius:14px;background:#fff;display:flex;flex-direction:column;gap:8px}
+.dem-k{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.dem-k>div{background:#F1F5F9;border-radius:10px;padding:6px 8px;min-width:0}.dem-k small{display:block;font-size:11px;font-weight:600;color:#64748B}.dem-k b{display:block;font-size:13px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bar{height:10px;border-radius:5px;background:#E2E8F0;overflow:hidden}.bar i{display:block;height:100%;background:#007AFF}.bar i.ok{background:#10B981}.bar i.qua{background:#F59E0B}
-.dem-s{display:grid;grid-template-columns:1fr 1fr;column-gap:12px;font-variant-numeric:tabular-nums}.dem-o{display:flex;flex-direction:column;min-width:0}.dem-o small{font-size:13px;font-weight:600;color:#64748B}.dem-o b{font-size:24px;font-weight:800;line-height:1.2;white-space:nowrap}.dem-o .dem-c{font-size:12px;color:#64748B}.dem-s .thieu{color:#B91C1C}.dem-s .du-ok{color:#047857}.dem-s .thua{color:#B45309}
-.dem-l{font-size:14px;color:#475569}.dem-l b{color:#0F172A}
-/* Khối Đã lấy còn dư: nền mờ, viền đứt, tách hẳn khỏi bảng xe bên dưới (R22). Dòng dư bớt padding bằng phần khối thụt vào để cột thẳng hàng tiêu đề */
-.khoi-du{margin:4px 14px 22px;padding:10px 8px 2px;border-radius:14px;background:#E9EEF4;border:1.5px dashed #94A3B8}.khoi-du .bang{margin:0 0 8px;background:transparent}.khoi-du .br{background:rgba(255,255,255,.55);padding:0 5px}
-.khoi-du-t{font-size:14px;font-weight:800;color:#334155;padding:0 6px}.khoi-du-g{margin:2px 6px 8px;font-size:12.5px;color:#64748B}
-/* Màn xả: danh sách Lô còn cây chờ xả, gọn, cuộn chung với bảng lượt (R8) */
-.ds-lo{margin:10px 14px 12px;background:#fff;border-radius:14px;overflow:hidden}.ds-lo-t{padding:8px 14px;font-size:12px;font-weight:800;color:#64748B;background:#F1F5F9}
+.dem-s{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);column-gap:18px;font-variant-numeric:tabular-nums}.dem-o{display:flex;flex-direction:row;flex-wrap:wrap;align-items:baseline;align-content:flex-start;column-gap:6px;min-width:0}.dem-o small{font-size:12px;font-weight:600;color:#64748B}.dem-o b{font-size:24px;font-weight:800;line-height:1.2;white-space:nowrap}.dem-o .dem-c{flex-basis:100%;font-size:12px;color:#64748B}.dem-s .thieu{color:#B91C1C}.dem-s .du-ok{color:#047857}.dem-s .thua{color:#B45309}
+.dem-l{flex-basis:100%;font-size:14px;font-weight:600;color:#0F172A}.dem-o .dem-l b{font-size:inherit;line-height:inherit;color:#007AFF;font-weight:800}
+/* Khối Cây vải đã trải: nền mờ, viền đứt, tách hẳn khỏi bảng xe bên dưới (R22). Dòng dư bớt padding bằng phần khối thụt vào để cột thẳng hàng tiêu đề */
+.khoi-du{margin:4px 8px 22px;padding:10px 8px 2px;border-radius:14px;background:#E9EEF4;border:1.5px dashed #94A3B8}.khoi-du .bang{margin:0 0 8px;background:transparent}.khoi-du .br{background:rgba(255,255,255,.55);padding:0 5px}
+.khoi-du-t{font-size:14px;font-weight:800;color:#334155;padding:0 6px 8px}
+/* Màn xả: danh sách Lô còn cây chờ xả, gọn, cuộn chung với bảng lượt (R9) */
+.ds-lo{margin:10px 8px 12px;background:#fff;border-radius:14px;overflow:hidden}.ds-lo-t{padding:8px 14px;font-size:12px;font-weight:800;color:#64748B;background:#F1F5F9}
 .lo-dong{display:flex;align-items:center;gap:8px;width:100%;min-height:48px;padding:0 10px 0 14px;border:none;border-top:1px solid #F1F5F9;background:#fff;color:#0F172A;font:inherit;text-align:left;cursor:pointer}.lo-dong b{flex:1;font-size:15px}.lo-dong span{font-size:14px;font-weight:700;color:#007AFF}
 .br small.xam{color:#94A3B8}.oxe small{display:block;font-size:11px;font-weight:600;color:#64748B;margin-top:2px}
 .opt.khuc{justify-content:center;min-height:64px}.opt.khuc .m{min-width:0}
@@ -192,7 +199,7 @@ button.cam-cho{height:40px;padding:0 16px;border-radius:999px;background:#007AFF
 .acard .ic{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex:none}
 .acard .tt b{font-size:16px}
 /* Trang chính: cụm 3 nút việc nằm giữa màn theo chiều dọc (phần dưới thanh tên), các nút cách xa nhau */
-.home-giua{display:flex;flex-direction:column;padding:14px 0}.home-nut{margin:auto 14px;display:flex;flex-direction:column;gap:28px}
+.home-giua{display:flex;flex-direction:column;padding:14px 0}.home-nut{margin:auto 8px;display:flex;flex-direction:column;gap:28px}
 @media print{body *{visibility:hidden}#tem-in,#tem-in *{visibility:visible}#tem-in{position:absolute;left:0;top:0;width:100%}}
 </style>
 
@@ -220,7 +227,7 @@ button.cam-cho{height:40px;padding:0 16px;border-radius:999px;background:#007AFF
 const T0 = new Date(2026, 8, 26, 9, 12).getTime();
 const MIN = 60000, H = 60 * MIN, D = 24 * H;
 const VAI = { 'CT32-NV': 'Cotton 32S · Navy', 'CT32-WH': 'Cotton 32S · White', 'KT-WH': 'Knit CVC · White', 'PL-GR': 'Poly 150D · Grey' };
-// Bàn cắt trên SMB, tra theo mã tem YYMM + 4 số: số bàn, Lô, mã vải · màu, Màu SP · Loại BTP · Article, số lớp × chiều dài sơ đồ theo Lệnh cắt (R19, R21, D12).
+// Bàn cắt trên SMB, tra theo mã tem YYMM + 4 số: số bàn, Lô, mã vải · màu, Màu SP · Loại BTP · Article, số lớp × chiều dài sơ đồ theo Lệnh cắt (R19, R20, D12).
 // Mỗi Bàn cắt một màu (Lệnh cắt chia mỗi màu một Bàn cắt)
 const BAN = {
   '26091234': { so: 'BC-TSV-09-2026-1234', lo: 'L03', vai: 'CT32-NV', mau: 'Navy', btp: 'Chính', art: 'CT32S-NV', lop: 50, dai: 9 },
@@ -252,6 +259,7 @@ function seed() {
     c('k20', 'C-0790', 'CT32-NV', 'A', 82, 'L03', 'PX-0915'),
     c('k21', 'C-0791', 'CT32-NV', 'A', 80, 'L03', 'PX-0915'),
     c('k22', 'C-0799', 'CT32-NV', 'B', 100, 'L03', 'PX-0915'),
+    c('k27', 'C-0798', 'CT32-NV', 'A', 80, 'L03', 'PX-0915'),   // đã trải, còn 6 m < sơ đồ 9 m của bàn 26091234 → không hiện ở nhóm Cây vải đã trải (R22)
     c('k23', 'C-0840', 'CT32-NV', 'A', 90, 'L03', 'PX-0915'),
     c('k24', 'C-0842', 'CT32-NV', 'B', 72, 'L03', 'PX-0915'),
     c('k25', 'C-0812', 'CT32-NV', 'A', 85, 'L03', 'PX-0915'),
@@ -269,13 +277,21 @@ function seed() {
     c('k44', 'C-0953', 'PL-GR', 'D', 91, 'L05', 'PX-0927'),
     c('k45', 'C-0954', 'PL-GR', 'D', 87, 'L05', 'PX-0927'),
     c('k46', 'C-0955', 'PL-GR', 'D', 93, 'L05', 'PX-0927'),
+    // Cây mang mã thật (5 chữ số) để in tem quét thử: chưa xả, phiếu xuất đã duyệt
+    c('k60', '92095', 'CT32-NV', 'A', 80, 'L03', 'PX-0935'),
+    c('k61', '93130', 'CT32-NV', 'A', 86, 'L03', 'PX-0935'),
+    c('k62', '94718', 'CT32-NV', 'A', 92, 'L03', 'PX-0935'),
+    c('k63', '92562', 'CT32-NV', 'A', 75, 'L03', 'PX-0935'),
+    c('k64', '93737', 'PL-GR', 'D', 89, 'L05', 'PX-0936'),
+    c('k65', '94044', 'PL-GR', 'D', 94, 'L05', 'PX-0936'),
+    c('k66', '94419', 'PL-GR', 'D', 90, 'L05', 'PX-0936'),
   ];
   let seq = 0;
   const r = (cay, gioXa, o = {}) => ({ cay, gioXa, daLay: false, gioLay: null, nguoiLay: null, seq: ++seq, ...o });
   const tA = T0 - 2 * D - 3 * H, tB = T0 - 2 * D + 3 * H + 15 * MIN;
   const phieu = [
-    { so: 'GTV-0014', xe: 'xe 7', lo: 'L03', tt: 'duyet', nguon: 'SMB', ht: T0 - 3 * D, rows: [r('k50', T0 - 3 * D), r('k51', null)] },
-    { so: 'GTV-0011', xe: '103', lo: 'L03', tt: 'duyet', nguon: 'app', ht: tA, rows: [r('k20', tA), r('k21', tA + 4 * MIN), r('k22', tA + 9 * MIN, { daLay: true, gioLay: T0 - 70 * MIN, nguoiLay: 'Hoa' }), r('k23', tB), r('k26', tA + 15 * MIN, { daLay: true, gioLay: T0 - 2 * H, nguoiLay: 'Hoa' })] },
+    { so: 'GTV-0014', xe: 'xe 7', lo: 'L03', tt: 'duyet', nguon: 'SMB', ht: T0 - 3 * D, rows: [r('k50', T0 - 3 * D), r('k51', T0 - 3 * D + 20 * MIN)] },
+    { so: 'GTV-0011', xe: '103', lo: 'L03', tt: 'duyet', nguon: 'app', ht: tA, rows: [r('k20', tA), r('k21', tA + 4 * MIN), r('k22', tA + 9 * MIN, { daLay: true, gioLay: T0 - 70 * MIN, nguoiLay: 'Hoa' }), r('k27', tA + 10 * MIN, { daLay: true, gioLay: T0 - 70 * MIN, nguoiLay: 'Hoa' }), r('k23', tB), r('k26', tA + 15 * MIN, { daLay: true, gioLay: T0 - 2 * H, nguoiLay: 'Hoa' })] },
     { so: 'GTV-0015', xe: '107', lo: 'L03', tt: 'duyet', nguon: 'app', ht: T0 - 17 * H, rows: [r('k23', tB), r('k24', tB + 25 * MIN), r('k25', tA + 12 * MIN)] },
     { so: 'GTV-0016', xe: '107', lo: 'L04', tt: 'duyet', nguon: 'app', ht: T0 - 70 * MIN, rows: [r('k30', T0 - 70 * MIN)] },
     { so: 'GTV-0017', xe: '111', lo: 'L05', tt: 'duyet', nguon: 'app', ht: T0 - 5 * H, rows: [r('k40', T0 - 5 * H)] },
@@ -292,7 +308,7 @@ function seed() {
     sess: null,            // lượt đang mở {xe, man: 'xa' | 'ghep', start, warned:{}, ds: dòng đã vào xe trong lượt, phieu:[]}
     vuot: null,            // seq của dòng đang vuốt mở nút Xoá
     cay, phieu,
-    banCat: { k22: 65, k26: 20 },   // số mét đã dùng theo Bàn cắt (D8)
+    banCat: { k22: 65, k26: 20, k27: 74 },   // số mét đã dùng theo Bàn cắt (D8)
     log: [], sheet: null, toast: null, hit: 0, lastSeq: 0, manual: false,
   };
 }
@@ -318,15 +334,14 @@ const tx = (x, hoa) => xeHopLe(x) ? (hoa ? 'Xe ' : 'xe ') + x : x;
 // Số xe SMB ngoài dải (650, X112, trống, “xe 7”): cột Xe ở màn lấy ghi "Không rõ xe" kèm nguyên số đã ghi (R27)
 const txLa = x => x ? `“${x}”` : 'Số xe trống';
 function ngayU(c) { const xs = NGAY_U.filter(x => x.lo === c.lo && x.vai === c.vai).map(x => x.ngay); return xs.length ? Math.max(...xs) : null; }
-// Tình trạng xả: ok (đủ) · wait (còn left ms) · nokhai (chưa khai ngày xả) · nogio (dòng không có giờ xả)
+// Tình trạng xả: ok (đủ) · wait (còn left ms) · nokhai (chưa khai ngày xả)
 function u(c, r) {
-  if (!r || r.gioXa == null) return { k: 'nogio' };
   const n = ngayU(c); if (n == null) return { k: 'nokhai' };
   const left = r.gioXa + n * D - now();
   return left < 0 ? { k: 'ok' } : { k: 'wait', left };
 }
 function trenXe(xe) { const out = []; for (const c of S.cay) { const l = lastRow(c.id); if (l && !l.r.daLay && l.p.xe === xe) out.push({ c, r: l.r, p: l.p }); } return out; }
-// Cây chưa xả để chạm chọn: có phiếu xuất đã duyệt, chưa có dòng trên phiếu Xả vải nào (R8, Luật 1)
+// Cây chưa xả để chạm chọn: có phiếu xuất đã duyệt, chưa có dòng trên phiếu Xả vải nào (R9, Luật 1)
 function xaMoi() { return S.cay.filter(c => c.pxDuyet && trangThai(c.id) === 'chua'); }
 
 // ===== Tiện ích hiển thị =====
@@ -350,17 +365,16 @@ function phieuNhap(xe, lo) {
   if (!p) { p = { so: 'GTV-' + String(S.nextSo++).padStart(4, '0'), xe, lo, tt: 'nhap', nguon: 'app', ht: now(), rows: [] }; S.phieu.push(p); S.sess.phieu.push(p.so); log(`Tạo phiếu nháp ${p.so} · ${tx(xe)} · ${loTen(lo)}`); }
   return p;
 }
-// Giờ xả của dòng mới: xả mới = lúc đưa vào (R11). Chuyển xe / ghép xe = giờ xả gốc;
-// dòng gốc trống giờ xả → Hạch toán + Thời gian xả vải của phiếu đích (R17)
+// Giờ xả của dòng mới: xả mới = lúc đưa vào (R11). Chuyển xe / ghép xe = giờ xả gốc (R18)
 function themDong(c, kieu, gioGoc) {
   const p = phieuNhap(S.sess.xe, c.lo);
-  const gioXa = kieu === 'Xả mới' ? now() : gioGoc != null ? gioGoc : p.ht;
+  const gioXa = kieu === 'Xả mới' ? now() : gioGoc;
   const r = { cay: c.id, gioXa, daLay: false, gioLay: null, nguoiLay: null, seq: ++S.seq };
   p.rows.push(r); S.lastSeq = r.seq;
   log(`${kieu} ${c.ma} · ${met(c.met)} → ${tx(S.sess.xe)} (${p.so})`);
   return { p, r };
 }
-// Đưa cây vào xe đang mở. Không chọn Lô: cây vào phiếu nháp của Lô ghi trên phiếu xuất của cây (R5, R10).
+// Đưa cây vào xe đang mở. Không chọn Lô: cây vào phiếu nháp của Lô ghi trên phiếu xuất của cây (R7, R10).
 // Xe đang chứa Lô khác → hỏi trước khi ghi, mỗi Lô một lần trong lượt (R12).
 // tu: cây từ đâu tới — số xe cũ (chuyển/ghép), null (xả mới)
 function vaoXe(c, kieu = 'Xả mới', gioGoc = null, tu = null) {
@@ -372,7 +386,7 @@ function vaoXe(c, kieu = 'Xả mới', gioGoc = null, tu = null) {
   S.sess.ds.push({ seq: r.seq, cay: c.id, tu });
   bip(); S.sheet = null;
 }
-// Xoá một dòng của lượt (vuốt trái → Xoá, hoặc bỏ tích ở màn Ghép): bỏ dòng khỏi phiếu nháp, phiếu nháp rỗng thì bỏ luôn (R9); cây về chỗ cũ
+// Xoá một dòng của lượt (vuốt trái → Xoá, hoặc bỏ tích ở màn Ghép): bỏ dòng khỏi phiếu nháp, phiếu nháp rỗng thì bỏ luôn (R13); cây về chỗ cũ
 function xoaDong(seq) {
   if (!S.sess || !online()) return;
   const i = S.sess.ds.findIndex(x => x.seq === seq); if (i < 0) return;
@@ -408,7 +422,7 @@ const ngayCua = t => { const d = new Date(t); return d.getFullYear() * 10000 + d
 function sangNgayKhac() { const man = S.sess && S.sess.man; if (S.sess && ngayCua(S.sess.start) !== ngayCua(now()) && tuKetThuc('sang ngày khác')) { go(man + '-xe'); return true; } return false; }
 // Bỏ lượt chưa ghi dòng nào (quét nhầm tem xe): không có gì trên SMB để duyệt
 function boXe() { log(`Bỏ ${tx(S.sess.xe)} (chưa xả cây nào)`, 'in'); S.sess = null; S.sheet = null; S.vuot = null; }
-// Quét tem xe → vào thẳng màn của xe đó, không chọn Lô (R5). man: 'xa' Xả vải · 'ghep' Ghép xe vải (R16)
+// Quét tem xe → vào thẳng màn của xe đó, không chọn Lô (R7). man: 'xa' Xả vải · 'ghep' Ghép xe vải (R17)
 function moXe(xe, man = 'xa') { S.sess = { xe, man, start: now(), warned: {}, ds: [], phieu: [] }; log(`Mở lượt ${man === 'ghep' ? 'ghép' : 'xả'} ${tx(xe)}`, 'in'); bip(); go(man); }
 // Lấy cây: ghi Đã lấy, giờ lấy, người lấy ngay lúc chạm (R23)
 function layCay(c) {
@@ -419,14 +433,14 @@ function layCay(c) {
   log(`Lấy ${c.ma} · ${met(c.met)} khỏi ${tx(l.p.xe)}`);
   bip(); S.sheet = null;
 }
-// Bỏ tích ở bảng lấy: cây trở lại chưa lấy — bỏ Đã lấy, giờ lấy, người lấy (R20)
+// Bỏ tích ở bảng lấy: cây trở lại chưa lấy — bỏ Đã lấy, giờ lấy, người lấy (R21)
 function boLay(c) {
   if (!online()) return;
   const l = lastRow(c.id); l.r.daLay = false; l.r.gioLay = null; l.r.nguoiLay = null; S.lastSeq = l.r.seq;
   if (S.screen === 'lay-ban') S.params.tich = S.params.tich.filter(x => x !== c.id);
   log(`Bỏ lấy ${c.ma} (${l.p.so})`);
 }
-// Ghép xe vải: cây đang ở xe khác → sang xe đích ngay, không hỏi, giữ giờ xả gốc (R16, R17); cây đã lấy ra không vào lại xe nào
+// Ghép xe vải: cây đang ở xe khác → sang xe đích ngay, không hỏi, giữ giờ xả gốc (R17, R18); cây đã lấy ra không vào lại xe nào
 function ghepCay(c) {
   const l = lastRow(c.id);
   if (!l) { toast('err', `${c.ma} chưa xả, dùng Xả vải.`); return; }
@@ -452,7 +466,7 @@ function scan(raw) {
   if (sc === 'xa') return scanCayXa(code, recs);
   if (sc === 'ghep') return scanCayGhep(code, recs);
   if (sc === 'xa-xe' || sc === 'ghep-xe') { toast('warn', 'Quét tem xe trước.'); return; }
-  // Màn Lấy vải chỉ quét tem bàn cắt; lấy cây bằng ô tích (R19, R20)
+  // Màn Lấy vải chỉ quét tem bàn cắt; lấy cây bằng ô tích (R19, R21)
   if (sc === 'lay' || sc === 'lay-ban') { toast('warn', 'Chỉ quét tem bàn cắt.'); return; }
 }
 function scanXe(code, sc) {
@@ -481,12 +495,12 @@ function scanCayXa(code, recs) {
     return vaoXe(ok[0]);
   }
   const c = recs[recs.length - 1], l = lastRow(c.id);
-  // Cây đã lấy ra không vào lại xe nào (R13)
+  // Cây đã lấy ra không vào lại xe nào (R16)
   if (l.r.daLay) { toast('err', `${code} đã lấy ra cho Bàn cắt.`); return; }
   if (l.p.xe === S.sess.xe) { toast('err', `${code} đã ở trên ${tx(S.sess.xe)}.`); return; }
   S.sheet = { kind: 'chuyen', cay: c.id, tu: l.p.xe }; log(`Hỏi: ${code} đang ở ${tx(l.p.xe)}, chuyển sang ${tx(S.sess.xe)}?`, 'wr');
 }
-// Ghép xe vải: quét cây đang ở xe khác (chưa lấy) → sang xe đích ngay; cây chưa xả, cây đã lấy ra → báo đỏ (R16)
+// Ghép xe vải: quét cây đang ở xe khác (chưa lấy) → sang xe đích ngay; cây chưa xả, cây đã lấy ra → báo đỏ (R17)
 function scanCayGhep(code, recs) {
   const ls = recs.map(c => ({ c, l: lastRow(c.id) })), di = ls.filter(x => x.l && !x.l.r.daLay && x.l.p.xe !== S.sess.xe).map(x => x.c);
   if (!di.length) {
@@ -659,23 +673,24 @@ function scrGhepXe() {
 }
 const nutXe = s => s.ds.length ? `<button class="chip ket" data-a="ketthuc">Kết thúc xe</button>` : `<button class="chip ket" data-a="boxe">Đổi xe</button>`;
 const so = x => String(x).replace('.', ',');
-// Bảng Lô hàng · Cây · Lot · Số mét các cây đã vào xe trong lượt xả, mới nhất trên cùng; vuốt dòng sang trái → Xoá (R5, R9)
+// Bảng Lô hàng · Cây · Lot · Số mét các cây đã vào xe trong lượt xả, mới nhất trên cùng; vuốt dòng sang trái → Xoá (R7, R13)
 function bangLuot(s) {
   const ds = s.ds.slice().reverse();
-  if (!ds.length) return '<p class="rong">Chưa có cây.</p>';
-  return `<div class="bang c4" id="bang-luot"><div class="bh"><span>Lô hàng</span><span>Cây</span><span>Lot</span><span class="sm">Số mét</span></div>
+  const t = `<div class="luot-t" id="luot-t">Đã xả vào ${tx(s.xe)} · ${ds.length} cây</div>`;
+  if (!ds.length) return t + '<p class="rong">Chưa có cây.</p>';
+  return `${t}<div class="bang c4" id="bang-luot"><div class="bh"><span>Lô hàng</span><span>Cây</span><span>Lot</span><span class="sm">Số mét</span></div>
   ${ds.map(e => { const c = cayBy(e.cay); return `<div class="sw${S.vuot === e.seq ? ' mo' : ''}" data-sw="${e.seq}"><div class="br sw-in"><span>${LO[c.lo].lo}</span><b>${c.ma}</b><span>${c.lot}</span><span class="sm">${so(c.met)}</span></div><button class="sw-xoa" data-a="xoa" data-v="${e.seq}" aria-label="Xoá ${c.ma}">Xoá</button></div>`; }).join('')}</div>`;
 }
-// Lô còn cây chờ xả: phiếu xuất đã duyệt, chưa vào phiếu Xả vải nào (R8). Lô hết cây thì không có
+// Lô còn cây chờ xả: phiếu xuất đã duyệt, chưa vào phiếu Xả vải nào (R9). Lô hết cây thì không có
 function dsLo() { const n = {}; xaMoi().forEach(c => { n[c.lo] = (n[c.lo] || 0) + 1; }); return Object.keys(LO).filter(lo => n[lo]).map(lo => ({ lo, n: n[lo] })); }
-// Màn xả của một xe: khung camera + danh sách Lô còn cây chờ (chạm → chọn cây của Lô đó) + bảng của lượt (R5, R8)
+// Màn xả của một xe: khung camera + bảng của lượt + danh sách Lô còn cây chờ bên dưới (chạm → chọn cây của Lô đó) (R7, R9)
 function scrXa() {
   const s = S.sess, ls = dsLo();
   const lo = ls.length ? `<div class="ds-lo" id="ds-lo"><div class="ds-lo-t">Chọn cây theo Lô</div>${ls.map(x => `<button class="lo-dong" data-a="chonlo" data-v="${x.lo}"><b>${loTen(x.lo)}</b><span>${x.n} cây</span>${I('chevron_right', 22, '#64748B')}</button>`).join('')}</div>` : '';
   return `<div class="scr">${hdr('home', tx(s.xe, 1), 'Xả vải', nutXe(s))}${cam()}
-  <div class="scroll" id="ds-xa">${lo}${bangLuot(s)}</div></div>`;
+  <div class="scroll" id="ds-xa">${bangLuot(s)}${lo}</div></div>`;
 }
-// Chọn cây của một Lô: cây chưa xả có phiếu xuất đã duyệt (R8), nhóm theo PO · Lô · mã vải; chạm dòng là cây vào xe
+// Chọn cây của một Lô: cây chưa xả có phiếu xuất đã duyệt (R9), nhóm theo PO · Lô · mã vải; chạm dòng là cây vào xe
 function scrChon() {
   const s = S.sess, lo = S.params.lo;
   const xs = xaMoi().filter(c => !lo || c.lo === lo).sort((a, b) => a.vai.localeCompare(b.vai) || a.lot.localeCompare(b.lot));
@@ -691,18 +706,18 @@ function scrChon() {
 function scrLay() {
   return `<div class="scr">${hdr('home', 'Lấy vải', 'Quét tem bàn cắt')}${cam()}</div>`;
 }
-// Bảng lấy của Bàn cắt: chỉ cây đúng Lô + mã vải · màu của bàn (R21). Nhóm "Đã lấy còn dư" (lấy trước đó, còn > 0 m) trên cùng (R22);
-// sau đó cây trên xe đã đủ ngày xả (cây chưa khai ngày xả, chưa có giờ xả cũng hiện — R26, R27; cây chưa đủ không hiện) và cây vừa tích
-// ở màn này, nhóm theo xe: xe có cây xả lâu nhất trước, trong xe cây xả lâu nhất trước, dòng không có giờ xả xếp cuối (R20)
+// Bảng lấy của Bàn cắt: chỉ cây đúng Lô + mã vải · màu của bàn (R21). Nhóm "Cây vải đã trải" (lấy trước đó, còn ≥ chiều dài sơ đồ của bàn) trên cùng (R22);
+// sau đó cây trên xe đã đủ ngày xả (cây chưa khai ngày xả cũng hiện — R26; cây chưa đủ không hiện) và cây vừa tích
+// ở màn này, nhóm theo xe: xe có cây xả lâu nhất trước, trong xe cây xả lâu nhất trước (R21)
 function bangBan(b, tich) {
-  const g = {}, gx = r => r.gioXa == null ? Infinity : r.gioXa;
+  const g = {}, gx = r => r.gioXa;
   const xs = S.cay.filter(c => c.lo === b.lo && c.vai === b.vai).map(c => ({ c, l: lastRow(c.id) })).filter(x => x.l);
-  const du = xs.filter(x => x.l.r.daLay && !tich.includes(x.c.id) && conMet(x.c) > 0);
+  const du = xs.filter(x => x.l.r.daLay && !tich.includes(x.c.id) && conMet(x.c) >= b.dai);
   xs.filter(x => (!x.l.r.daLay && u(x.c, x.l.r).k !== 'wait') || tich.includes(x.c.id)).forEach(x => (g[x.l.p.xe] = g[x.l.p.xe] || []).push(x));
   const xe = Object.keys(g).map(xe => ({ xe, ds: g[xe].sort((a, b) => gx(a.l.r) - gx(b.l.r)) })).sort((a, b) => gx(a.ds[0].l.r) - gx(b.ds[0].l.r));
   return { du, xe };
 }
-// Thẻ đếm của Bàn cắt: cần = số lớp × chiều dài sơ đồ; có = số mét còn dư của cây dư được tích (chỉ để tính, R22) + cây vừa tích lấy; thiếu / Đủ / thừa (R21)
+// Thẻ đếm của Bàn cắt: cần = số lớp × chiều dài sơ đồ; có = số mét còn dư của cây dư được tích (chỉ để tính, R22) + cây vừa tích lấy; thiếu / Đủ / thừa (R20)
 function demBan(b, bb, duTich) {
   const can = b.lop * b.dai, vua = bb.xe.flatMap(n => n.ds).filter(x => x.l.r.daLay);
   const co = bb.du.filter(x => duTich.includes(x.c.id)).reduce((t, x) => t + conMet(x.c), 0) + vua.reduce((t, x) => t + conMet(x.c), 0);
@@ -714,37 +729,37 @@ const tenXe = xe => esc(xeHopLe(xe) ? tx(xe) : 'Không rõ xe ' + txLa(xe));
 // (có giu = bấm giữ được), Cây · Lot · Số mét · ô tích
 const oTich = (c, da, a = 'tich', ten = 'Đã lấy') => `<button class="tich" role="checkbox" aria-checked="${da}" aria-label="${ten} ${c.ma}" data-a="${a}" data-v="${c.id}">${I(da ? 'check_box' : 'check_box_outline_blank', 30, da ? '#047857' : '#94A3B8', da ? 'f' : '')}</button>`;
 function dongXeCay({ c, dau, xe, giu, lop = '', them = '', ghi = '', met, tich = '<span></span>' }) {
-  const o = !dau ? '<span></span>' : giu ? `<button class="oxe" data-giu="${esc(xe)}" aria-label="${giu}">${oXe(xe)}</button>` : `<span class="oxe nhat">${oXe(xe)}</span>`;
+  const o = !dau ? '<span></span>' : giu ? `<button class="oxe${xeHopLe(xe) ? '' : ' la'}" data-giu="${esc(xe)}" aria-label="${giu}">${oXe(xe)}</button>` : `<span class="oxe nhat">${oXe(xe)}</span>`;
   return `<div class="br${lop}${dau ? ' dau' : ''}" data-cay="${c.id}"${them}>${o}<span><b>${c.ma}</b>${ghi}</span><span>${c.lot}</span><span class="sm">${so(met)}</span>${tich}</div>`;
 }
 const dauBang = cuoi => `<div class="bh"><span>Xe</span><span>Cây</span><span>Lot</span><span class="sm">Số mét</span><span style="text-align:center">${cuoi}</span></div>`;
 // Lấy vải theo Bàn cắt: đầu màn, camera, thẻ đếm và dòng tiêu đề cột đứng yên, chỉ danh sách cây cuộn. Đầu màn PO · Lô, dưới là mã Bàn cắt (R19); thẻ vải Màu SP · Loại BTP · Article; thẻ đếm Cần | Thiếu
-// và số dòng + tổng mét vừa lấy (R21). Khối "Đã lấy còn dư" tách riêng: tích chỉ để tính vào Thiếu, không ghi phiếu (R22).
-// Bảng xe Xe · Cây · Lot · Số mét · Đã lấy — chạm ô Đã lấy = lấy / bỏ lấy một cây; bấm giữ ô Xe = lấy cả xe (R20)
+// và số dòng + tổng mét vừa lấy (R20). Khối "Cây vải đã trải" tách riêng: tích chỉ để tính vào Thiếu, không ghi phiếu (R22).
+// Bảng xe Xe · Cây · Lot · Số mét · Đã lấy — chạm ô Đã lấy = lấy / bỏ lấy một cây; bấm giữ ô Xe = lấy cả xe (R21)
 function scrLayBan() {
   const b = BAN[S.params.ban], duTich = S.params.duTich || [], bb = bangBan(b, S.params.tich), dm = demBan(b, bb, duTich);
   const thieu = dm.can - dm.co, pct = Math.min(100, Math.round(dm.co / dm.can * 100));
   const trang = thieu > 0 ? `<b class="thieu">${so(thieu)} m</b>` : thieu === 0 ? '<b class="du-ok">Đủ</b>' : `<b class="thua">thừa ${so(-thieu)} m</b>`;
-  const ghi = (c, du) => { const k = u(c, lastRow(c.id).r).k; return (daDung(c) && !du ? `<small>dùng ${so(daDung(c))} · còn ${so(conMet(c))}</small>` : '') + (k === 'nokhai' ? '<small class="xam">chưa khai ngày xả</small>' : k === 'nogio' ? '<small class="xam">chưa có giờ xả</small>' : ''); };
+  const ghi = (c, du) => { const k = u(c, lastRow(c.id).r).k; return (daDung(c) && !du ? `<small>dùng ${so(daDung(c))} · còn ${so(conMet(c))}</small>` : '') + (k === 'nokhai' ? '<small class="xam">chưa khai ngày xả</small>' : ''); };
   const dong = ({ c, l }, i, xe) => dongXeCay({ c, dau: !i, xe, giu: 'Bấm giữ để lấy cả ' + tenXe(xe), ghi: ghi(c), met: c.met, tich: oTich(c, l.r.daLay) });
   const dongDu = ({ c }) => dongXeCay({ c, them: ' data-du="1"', ghi: ghi(c, true), met: conMet(c), tich: oTich(c, duTich.includes(c.id), 'tichdu', 'Dùng phần dư') });
   const khung = [['Màu SP', b.mau], ['Loại BTP', b.btp], ['Article', b.art]].map(([k, v]) => `<div><small>${k}</small><b>${esc(v)}</b></div>`).join('');
   return `<div class="scr">${hdr('home', loTen(b.lo), b.so)}${cam()}
   <div class="dem" id="dem-ban"><div class="dem-k" id="the-vai">${khung}</div><div class="bar"><i class="${thieu > 0 ? '' : thieu === 0 ? 'ok' : 'qua'}" style="width:${pct}%"></i></div>
-  <div class="dem-s" id="dem-so"><div class="dem-o"><small>Cần</small><b>${so(dm.can)} m</b><small class="dem-c" id="lop-dai">${b.lop} lớp × ${so(b.dai)} m</small></div><div class="dem-o"><small>Thiếu</small>${trang}</div></div><div class="dem-l" id="tong-lay">Đã lấy <b>${dm.vua.length}</b> cây · <b>${so(dm.tongVua)}</b> m</div></div>
+  <div class="dem-s" id="dem-so"><div class="dem-o"><small>Cần</small><b>${so(dm.can)} m</b><small class="dem-c" id="lop-dai">${b.lop} lớp × ${so(b.dai)} m</small></div><div class="dem-o"><small>Thiếu</small>${trang}<div class="dem-l" id="tong-lay">Đã lấy <b>${dm.vua.length}</b> cây · <b>${so(dm.tongVua)}</b> m</div></div></div></div>
   ${bb.du.length || bb.xe.length ? `<div class="bang cl dau-co" id="dau-ban">${dauBang('Đã lấy')}</div>` : ''}<div class="scroll" id="ds-ban">
-  ${bb.du.length ? `<div class="khoi-du" id="khoi-du"><div class="khoi-du-t" id="nhom-du">Đã lấy còn dư</div><p class="khoi-du-g">Tích cây sẽ dùng cho bàn này: số mét còn dư trừ vào Thiếu.</p><div class="bang cl">${bb.du.map(dongDu).join('')}</div></div>` : ''}
+  ${bb.du.length ? `<div class="khoi-du" id="khoi-du"><div class="khoi-du-t" id="nhom-du">Cây vải đã trải</div><div class="bang cl">${bb.du.map(dongDu).join('')}</div></div>` : ''}
   ${bb.xe.length ? `<div class="bang cl" id="bang-xe">${bb.xe.map(n => n.ds.map((x, i) => dong(x, i, n.xe)).join('')).join('')}</div>` : bb.du.length ? '' : `<p class="rong">${LO[b.lo].lo} chưa có cây ${VAI[b.vai]} đã xả.</p>`}</div></div>`;
 }
 // Ghép xe vải: xe đích đứng đầu (mờ — chỉ để xem trên xe đang có gì); sau đó các xe đang lấy dở: có ≥ 1 cây Đã lấy
-// và còn ≥ 1 cây chưa lấy, trong xe chỉ cây chưa lấy. Cây Đã lấy (kể cả còn dư) không ghép (R16)
+// và còn ≥ 1 cây chưa lấy, trong xe chỉ cây chưa lấy. Cây Đã lấy (kể cả còn dư) không ghép (R17)
 function bangGhep(s) {
-  const g = {}, gx = r => r.gioXa == null ? Infinity : r.gioXa, xep = ds => ds.sort((a, b) => gx(a.l.r) - gx(b.l.r));
+  const g = {}, gx = r => r.gioXa, xep = ds => ds.sort((a, b) => gx(a.l.r) - gx(b.l.r));
   for (const c of S.cay) { const l = lastRow(c.id); if (!l) continue; const n = g[l.p.xe] = g[l.p.xe] || { lay: 0, ds: [] }; if (l.r.daLay) n.lay++; else n.ds.push({ c, l }); }
   const khac = Object.keys(g).filter(xe => xe !== s.xe && g[xe].lay && g[xe].ds.length).map(xe => ({ xe, ds: xep(g[xe].ds) })).sort((a, b) => gx(a.ds[0].l.r) - gx(b.ds[0].l.r));
   return { dich: xep(g[s.xe] ? g[s.xe].ds : []), khac };
 }
-// Màn ghép của xe đích (đầu màn, camera, tiêu đề cột đứng yên; danh sách cuộn): chạm ô tích một cây = sang xe đích ngay (giữ giờ xả gốc, R17); chạm lại cây vừa ghép = về xe cũ;
+// Màn ghép của xe đích (đầu màn, camera, tiêu đề cột đứng yên; danh sách cuộn): chạm ô tích một cây = sang xe đích ngay (giữ giờ xả gốc, R18); chạm lại cây vừa ghép = về xe cũ;
 // bấm giữ ô Xe = mọi cây chưa lấy của xe đó sang xe đích
 function scrGhep() {
   const s = S.sess, { dich, khac } = bangGhep(s), vao = new Set(s.ds.map(e => e.cay));
@@ -765,12 +780,12 @@ function ghepXe(xe) {
   const n = bangGhep(S.sess).khac.find(n => n.xe === xe); if (!n) return;
   log(`Ghép cả ${tx(xe)} sang ${tx(S.sess.xe)}: ${n.ds.length} cây`, 'in'); ghepNhieu(n.ds.map(x => x.c.id));
 }
-// Chạm ô tích ở màn Ghép: cây vừa ghép trong lượt → bỏ ghép (về xe cũ, R9); cây ở xe khác → ghép sang
+// Chạm ô tích ở màn Ghép: cây vừa ghép trong lượt → bỏ ghép (về xe cũ, R13); cây ở xe khác → ghép sang
 function ghepTich(id) {
   const e = S.sess.ds.find(x => x.cay === id);
   if (e) xoaDong(e.seq); else ghepCay(cayBy(id));
 }
-// Lấy cả xe (bấm giữ ô Xe): mọi cây chưa lấy của bàn cắt đang hiện trên xe đó, không hỏi (R20)
+// Lấy cả xe (bấm giữ ô Xe): mọi cây chưa lấy của bàn cắt đang hiện trên xe đó, không hỏi (R21)
 function layXe(xe) {
   const g = bangBan(BAN[S.params.ban], S.params.tich).xe.find(n => n.xe === xe); if (!g) return;
   const con = g.ds.filter(x => !x.l.r.daLay);
@@ -827,11 +842,11 @@ const KICHBAN = [
   { t: 'Hai Lô chung một xe', d: 'Xe 109 đang có Lô 03, quét C-0902 (Lô 04) → app hỏi trước khi ghi. Bấm Thêm vào xe: Lô 04 có phiếu riêng.', b: [['go', 'xa-xe'], ['scan', '109'], ['scan', 'C-0801'], ['scan', 'C-0902']] },
   { t: 'Xoá dòng', d: 'Vuốt dòng C-0802 sang trái → bấm Xoá: dòng mất khỏi bảng và khỏi phiếu nháp trên SMB, cây về lại danh sách cây của Lô. Xoá được tới lúc Kết thúc xe.', b: [['go', 'xa-xe'], ['scan', '109'], ['scan', 'C-0801'], ['scan', 'C-0802']] },
   { t: 'Chuyển cây sang xe khác', d: 'Ở màn xả xe 109, quét C-0840 (đang ở xe 107) → app hỏi chuyển. Bấm Chuyển: giờ xả giữ nguyên. Không muốn bị hỏi thì dùng Ghép xe vải.', b: [['go', 'xa-xe'], ['scan', '109'], ['scan', 'C-0840']] },
-  { t: 'Cây đã lấy ra không vào lại xe', d: 'C-0799 đã lấy ra trải, còn dư 35 m. Quét ở màn xả xe 109 → báo đỏ "đã lấy ra cho Bàn cắt", không ghi. Phần dư dùng cho Bàn cắt sau ở nhóm Đã lấy còn dư của màn Lấy vải.', b: [['go', 'xa-xe'], ['scan', '109'], ['scan', 'C-0799']] },
+  { t: 'Cây đã lấy ra không vào lại xe', d: 'C-0799 đã lấy ra trải, còn dư 35 m. Quét ở màn xả xe 109 → báo đỏ "đã lấy ra cho Bàn cắt", không ghi. Phần dư dùng cho Bàn cắt sau ở nhóm Cây vải đã trải của màn Lấy vải.', b: [['go', 'xa-xe'], ['scan', '109'], ['scan', 'C-0799']] },
   { t: 'Ghép xe vải', d: 'Gom cây về xe 109: màn Ghép hiện xe 109 (mờ, chỉ để xem) và các xe đang lấy dở (xe 103). Chạm ô tích C-0790 → sang xe 109 ngay, giờ xả giữ nguyên; chạm lại → về xe 103. Quét C-0840 (xe 107) → sang ngay. Quét C-0799 (đã lấy) → báo đỏ không ghép. Bấm giữ ô Xe 103 → cả xe sang.', b: [['go', 'ghep-xe'], ['scan', '109'], ['ghept', 'k20'], ['scan', 'C-0840'], ['scan', 'C-0799']] },
   { t: 'Tem sai', d: 'Phiếu xuất chưa duyệt · mã không có · số 650 ngoài dải xe 101–500. App báo đỏ, không ghi.', b: [['go', 'xa-xe'], ['scan', '109'], ['scan', 'C-0999'], ['scan', 'C-7777'], ['scan', '650']] },
   { t: 'Kết thúc xe', d: 'Đang xả xe 109 thì quét xe 110 → hỏi kết thúc xe 109. Bấm Có: phiếu của lượt này thành Đã duyệt, phiếu nháp văn phòng GTV-0012 vẫn Nháp.', b: [['go', 'xa-xe'], ['scan', '109'], ['scan', 'C-0801'], ['scan', 'C-0802'], ['scan', '110']] },
-  { t: 'Lấy theo bàn cắt', d: 'Quét tem bàn cắt 26091234 → đầu màn PO 2451 · Lô 03 (dưới là BC-TSV-09-2026-1234); ba khung Màu SP Navy · Loại BTP Chính · Article CT32S-NV; Cần 50 lớp × 9 m = 450 m, Thiếu 450 m. Khối Đã lấy còn dư tách riêng trên cùng (C-0799 dư 35 m): tích thì 35 m trừ vào Thiếu, không ghi phiếu. Dưới là các xe (xe xả lâu nhất trước), chỉ cây đã đủ ngày xả: C-0840, C-0842 trên xe 107 chưa đủ nên không hiện. Chạm ô Đã lấy = lấy / bỏ lấy một cây; bấm giữ ô Xe = lấy mọi cây đang hiện của xe đó.', b: [['go', 'lay'], ['scan', '26091234']] },
+  { t: 'Lấy theo bàn cắt', d: 'Quét tem bàn cắt 26091234 → đầu màn PO 2451 · Lô 03 (dưới là BC-TSV-09-2026-1234); ba khung Màu SP Navy · Loại BTP Chính · Article CT32S-NV; Cần 50 lớp × 9 m = 450 m, Thiếu 450 m. Khối Cây vải đã trải tách riêng trên cùng (C-0799 dư 35 m): tích thì 35 m trừ vào Thiếu, không ghi phiếu. Dưới là các xe (xe xả lâu nhất trước), chỉ cây đã đủ ngày xả: C-0840, C-0842 trên xe 107 chưa đủ nên không hiện. Chạm ô Đã lấy = lấy / bỏ lấy một cây; bấm giữ ô Xe = lấy mọi cây đang hiện của xe đó.', b: [['go', 'lay'], ['scan', '26091234']] },
   { t: 'Cây chưa khai ngày xả', d: 'Bàn 26091236 (Lô 04 chưa khai ngày xả): C-0901 vẫn hiện, nhãn xám "chưa khai ngày xả", tích được như cây đủ.', b: [['go', 'lay'], ['scan', '26091236'], ['tich', 'k30']] },
   { t: 'Tem sai ở Lấy vải', d: 'Màn Lấy vải chỉ nhận tem bàn cắt: quét tem cây → nhắc. Tem 26099999 không có bàn → báo đỏ.', b: [['go', 'lay'], ['scan', 'C-0812'], ['scan', '26099999']] },
   { t: 'Mất mạng', d: 'Thanh đỏ trên cùng; quét gì cũng không ghi.', b: [['go', 'xa-xe'], ['scan', '109'], ['net'], ['scan', 'C-0801']] },
@@ -840,7 +855,7 @@ const KICHBAN = [
   { t: 'Thoát app giữa chừng', d: 'Đang xả xe 109 thì thoát app → phiếu của lượt tự Đã duyệt. Mở lại ở màn quét xe; xả tiếp xe 109 thì ra phiếu mới.', b: [['go', 'xa-xe'], ['scan', '109'], ['scan', 'C-0801'], ['thoat'], ['thoat']] },
   { t: 'Sáng hôm sau', d: 'Xả dở xe 109 hôm nay, sáng mai mở app → lượt hôm qua tự kết thúc, phiếu Đã duyệt.', b: [['go', 'xa-xe'], ['scan', '109'], ['scan', 'C-0801'], ['mantat'], ['homsau']] },
 ];
-const TEM_IN = [['109', 'Tem xe'], ['110', 'Tem xe'], ['103', 'Tem xe'], ['C-0801', '85 m · Lô 03'], ['C-0802', '90 m · Lô 03'], ['C-0851', '2 cây 40/60 m'], ['C-0902', '72 m · Lô 04'], ['C-0840', 'đang ở xe 107'], ['C-0799', 'đã lấy, dư 35 m'], ['C-0842', 'chưa đủ xả'], ['C-0812', 'đủ xả'], ['C-7777', 'mã lạ'], ['26091234', 'Bàn cắt · Lô 03']];
+const TEM_IN = [['109', 'Tem xe'], ['110', 'Tem xe'], ['103', 'Tem xe'], ['C-0801', '85 m · Lô 03'], ['C-0802', '90 m · Lô 03'], ['C-0851', '2 cây 40/60 m'], ['C-0902', '72 m · Lô 04'], ['C-0840', 'đang ở xe 107'], ['C-0799', 'đã lấy, dư 35 m'], ['C-0842', 'chưa đủ xả'], ['C-0812', 'đủ xả'], ['C-7777', 'mã lạ'], ['26091234', 'Bàn cắt · Lô 03'], ['92095', '80 m · Lô 03'], ['93130', '86 m · Lô 03'], ['94718', '92 m · Lô 03'], ['92562', '75 m · Lô 03'], ['93737', '89 m · Lô 05'], ['94044', '94 m · Lô 05'], ['94419', '90 m · Lô 05']];
 let TEM_MO = false;
 function khayHtml() {
   const nut = (ma, gc, xe) => `<button class="tem${xe ? ' xe' : ''}" data-a="scan" data-v="${ma}">${ma}${gc ? `<small>${gc}</small>` : ''}</button>`;
@@ -876,7 +891,7 @@ function smbHtml() {
   return `<div class="hop"><h3>Phiếu Xả vải trên SMB</h3><p class="gt">Văn phòng thấy gì sau mỗi lần công nhân bấm. Dòng vừa ghi tô xanh.</p>
   ${ps.map(p => `<div class="ph"><div class="phh"><b class="so-phieu">${p.so}</b><span>Xe <b>${esc(p.xe)}</b></span><span>${loTen(p.lo)}</span><span>Style <b>${LO[p.lo].style}</b></span><span>ĐVSX <b>${LO[p.lo].dvsx}</b></span><span>Hạch toán <b data-o="ht">${fmt(p.ht).slice(0, 5)}</b></span><span>Thời gian xả vải <b data-o="tgxa">${gio(p.ht)}</b></span><span class="pill ${p.tt === 'nhap' ? 'p-warn' : 'p-ok'}">${p.tt === 'nhap' ? 'Nháp' : 'Đã duyệt'}</span><span class="pill p-n">lập từ ${p.nguon === 'app' ? 'app' : 'SMB'}</span></div>
   <div class="tbl"><table class="t"><thead><tr><th>Mã cây</th><th>Số mét</th><th>Giờ xả</th><th>Đã lấy</th><th>Giờ lấy</th><th>Người lấy</th></tr></thead><tbody>
-  ${p.rows.map(r => { const c = cayBy(r.cay); return `<tr class="${r.seq === S.lastSeq ? 'new' : ''}"><td class="m">${c.ma}</td><td>${met(c.met)}</td><td>${r.gioXa ? fmt(r.gioXa) : '<span class="pill p-n">trống</span>'}</td><td>${r.daLay ? '☑' : '☐'}</td><td>${r.gioLay ? fmt(r.gioLay) : ''}</td><td>${r.nguoiLay ? esc(r.nguoiLay) : ''}</td></tr>`; }).join('')}</tbody></table></div></div>`).join('')}</div>
+  ${p.rows.map(r => { const c = cayBy(r.cay); return `<tr class="${r.seq === S.lastSeq ? 'new' : ''}"><td class="m">${c.ma}</td><td>${met(c.met)}</td><td>${fmt(r.gioXa)}</td><td>${r.daLay ? '☑' : '☐'}</td><td>${r.gioLay ? fmt(r.gioLay) : ''}</td><td>${r.nguoiLay ? esc(r.nguoiLay) : ''}</td></tr>`; }).join('')}</tbody></table></div></div>`).join('')}</div>
   <div class="hop nk"><h3>App vừa làm gì</h3><ol>${S.log.map(x => `<li class="${x.k}"><span class="ev">${TAG[x.k]}</span><span class="mo">${esc(x.msg)}</span><time>${gio(x.t)}</time></li>`).join('') || '<li class="in"><span class="mo">Chưa có thao tác.</span></li>'}</ol></div>`;
 }
 
@@ -923,18 +938,18 @@ function doAct(a, v) {
     case 'cham': { const c = cayBy(v); S.sheet = null; if (S.sess && c && trangThai(v) === 'chua') vaoXe(c); break; }
     case 'chuyen': { const c = cayBy(v), l = lastRow(c.id); S.sheet = null; vaoXe(c, 'Chuyển xe', l.r.gioXa, l.p.xe); break; }
     case 'ghep': { S.sheet = null; if (S.sess && cayBy(v)) ghepCay(cayBy(v)); break; }
-    // Màn xả: chạm một Lô → chọn cây của Lô đó (R8)
+    // Màn xả: chạm một Lô → chọn cây của Lô đó (R9)
     case 'chonlo': if (S.sess && LO[v]) go('xa-chon', { lo: v }); break;
-    // Màn Ghép: chạm ô tích → ghép / bỏ ghép một cây (R16)
+    // Màn Ghép: chạm ô tích → ghép / bỏ ghép một cây (R17)
     case 'ghept': if (S.sess && S.screen === 'ghep' && cayBy(v)) ghepTich(v); break;
-    // Nhóm Đã lấy còn dư: tích chỉ để tính Thiếu, không ghi phiếu (R22)
+    // Nhóm Cây vải đã trải: tích chỉ để tính Thiếu, không ghi phiếu (R22)
     case 'tichdu': if (S.screen === 'lay-ban' && cayBy(v)) { const t = S.params.duTich = S.params.duTich || [], i = t.indexOf(v); if (i < 0) t.push(v); else t.splice(i, 1); } break;
     case 'tronok': { const sh = S.sheet; S.sess.warned[cayBy(sh.cay).lo] = true; vaoXe(cayBy(sh.cay), sh.kieu, sh.gioGoc, sh.tu); if (sh.tiep && sh.tiep.length && !S.sheet) ghepNhieu(sh.tiep); break; }
     case 'xoa': xoaDong(+v); break;
     case 'ketthuc': S.sheet = { kind: 'ketthuc' }; break;
     case 'ketthucok': ketThuc(); break;
     case 'doixe': ketThuc(v); break;
-    // Ô tích ở bảng lấy: tích = lấy (hỏi trước nếu chưa đủ ngày xả), bỏ tích = trả về chưa lấy (R20)
+    // Ô tích ở bảng lấy: tích = lấy (hỏi trước nếu chưa đủ ngày xả), bỏ tích = trả về chưa lấy (R21)
     case 'tich': { const c = cayBy(v); if (!c) break; const t = trangThai(v); if (t === 'lay') boLay(c); else if (t === 'tren') layCay(c); break; }
     case 'giuxe': if (S.screen === 'lay-ban') layXe(v); else if (S.screen === 'ghep' && S.sess) ghepXe(v); break;
     case 'manual': S.manual = !S.manual; break;
@@ -976,7 +991,7 @@ document.addEventListener('submit', e => {
   else if (f === 'go') { const v = document.getElementById('gotay').value; doAct('scan', v); render(); const g = document.getElementById('gotay'); g.value = ''; g.focus(); return; }
   render();
 });
-// Vuốt dòng bảng sang trái ≥ 60 px → mở nút Xoá; vuốt phải hoặc chạm lại dòng đang mở → đóng (R9).
+// Vuốt dòng bảng sang trái ≥ 60 px → mở nút Xoá; vuốt phải hoặc chạm lại dòng đang mở → đóng (R13).
 // Dùng pointer events nên chạy được cả ngón tay lẫn chuột; nút Xoá luôn nằm dưới dòng, dòng trượt ra thì lộ nút
 let KEO = null;
 document.addEventListener('pointerdown', e => { const r = e.target.closest && e.target.closest('.sw-in'); KEO = r ? { r, x0: e.clientX, dx: 0, seq: +r.parentNode.dataset.sw } : null; if (r) r.classList.add('keo'); });
@@ -988,7 +1003,7 @@ function thaKeo() {
 }
 document.addEventListener('pointerup', thaKeo);
 document.addEventListener('pointercancel', thaKeo);
-// Bấm giữ ô Xe ~600 ms → màn Lấy vải: lấy cả xe (R20) · màn Ghép: ghép cả xe (R16); nhả tay sớm hoặc kéo đi thì thôi. Ô Xe đích (mờ) không giữ được
+// Bấm giữ ô Xe ~600 ms → màn Lấy vải: lấy cả xe (R21) · màn Ghép: ghép cả xe (R17); nhả tay sớm hoặc kéo đi thì thôi. Ô Xe đích (mờ) không giữ được
 const GIU_MS = 600; let GIU = null;
 document.addEventListener('pointerdown', e => { const o = e.target.closest && e.target.closest('.oxe'); if (!o || o.dataset.giu == null) return; o.classList.add('giu');
   GIU = { o, x: e.clientX, t: setTimeout(() => { GIU = null; o.classList.remove('giu'); doAct('giuxe', o.dataset.giu); render(); }, GIU_MS) }; });
