@@ -551,7 +551,9 @@ function tuBatCam() {
 // Tiếng píp như máy scan khi nhận được tem. Trình duyệt chỉ cho phát tiếng sau một lần bấm,
 // nên mở loa lúc bấm Bật camera sau / bấm tem.
 let AC = null, PIP_DEM = 0;
-function moLoa() { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); } catch (e) {} }
+// Camera tự bật thì không còn lần bấm Bật camera sau → mở loa ở MỌI lần chạm trên trang (chạm Xả vải / Lấy vải / Ghép xe vải trước khi tới màn quét).
+// iPhone để loa ở trạng thái suspended / interrupted sau khi tắt màn hình, chuyển app → lần chạm sau mở lại
+function moLoa() { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state !== 'running') AC.resume(); } catch (e) {} }
 function pip() {
   PIP_DEM++;
   try { navigator.vibrate && navigator.vibrate(60); } catch (e) {}
@@ -917,13 +919,13 @@ function doAct(a, v) {
   }
 }
 document.addEventListener('click', e => {
+  moLoa();
   const el = e.target.closest('[data-a]');
   // chạm ra ngoài dòng đang mở nút Xoá → đóng lại
   if (S.vuot != null && !e.target.closest('.sw')) { S.vuot = null; if (!el) { render(); return; } }
   if (!el) return;
   if (el.tagName === 'BUTTON' && el.getAttribute('type') === 'submit') return;
-  if (el.dataset.a === 'camon') moLoa();
-  if (el.dataset.a === 'scan' && S.user && !S.appOff && !S.manTat) { moLoa(); pip(); }
+  if (el.dataset.a === 'scan' && S.user && !S.appOff && !S.manTat) pip();
   doAct(el.dataset.a, el.dataset.v); render();
 });
 document.addEventListener('toggle', e => { if (e.target.id === 'tem-hop') { TEM_MO = e.target.open; veMaVach(); } }, true);
