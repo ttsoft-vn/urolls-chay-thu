@@ -109,16 +109,16 @@ tr.new td{animation:hl 2.4s ease-out}
 .hd{display:flex;align-items:center;gap:4px;padding:8px 10px 8px 4px;background:#E2E8F0;min-height:60px}
 .ib{width:48px;height:48px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0F172A;border-radius:24px;flex:none}
 .tt{flex:1;display:flex;flex-direction:column;min-width:0}.tt b{font-size:18px}.tt span{font-size:13px;color:#475569}
-.cam{position:relative;height:64px;margin:6px 8px 0;border-radius:16px;background:#0B1220;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.cam{position:relative;height:192px;margin:6px 8px 0;border-radius:16px;background:#0B1220;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
 .cam.song{background:transparent}
-.cam.cao{height:auto;min-height:64px;padding:8px 0}
+.cam.cao{height:auto;min-height:192px;padding:8px 0}
 #camvid{position:absolute;z-index:1;object-fit:cover;display:none;pointer-events:none;background:#0B1220;border-radius:16px}
 /* Khung ngắm tĩnh: 4 góc chữ L mảnh + 1 vạch ngang mảnh ở giữa (đỏ; nhận được tem thì xanh) */
-.frame{width:200px;height:36px;position:relative;z-index:3}
-.frame b{position:absolute;width:14px;height:10px;border:0 solid #fff}
+.frame{width:260px;height:100px;position:relative;z-index:3}
+.frame b{position:absolute;width:22px;height:16px;border:0 solid #fff}
 .frame .g1{left:0;top:0;border-top-width:2px;border-left-width:2px;border-top-left-radius:5px}.frame .g2{right:0;top:0;border-top-width:2px;border-right-width:2px;border-top-right-radius:5px}
 .frame .g3{left:0;bottom:0;border-bottom-width:2px;border-left-width:2px;border-bottom-left-radius:5px}.frame .g4{right:0;bottom:0;border-bottom-width:2px;border-right-width:2px;border-bottom-right-radius:5px}
-.frame i{position:absolute;left:10px;right:10px;top:17px;height:1.5px;background:#EF4444}
+.frame i{position:absolute;left:14px;right:14px;top:49px;height:1.5px;background:#EF4444}
 .cam.hit .frame i{background:#34D399}
 .cam-cho{display:flex;flex-direction:row;align-items:center;gap:8px;color:#E2E8F0;font-size:14px;font-weight:700;background:none;border:none;cursor:pointer;z-index:1}
 button.cam-cho{height:44px;padding:0 16px;border-radius:999px;background:#007AFF;color:#fff}
@@ -192,23 +192,20 @@ button.cam-cho{height:44px;padding:0 16px;border-radius:999px;background:#007AFF
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
 .field label{font-size:13px;font-weight:600;color:#475569}
 .field input{height:52px;border:1.5px solid #E2E8F0;border-radius:10px;padding:0 14px;font-size:16px;background:#fff;color:#0F172A}
-/* Trang chính theo họ u@One: đầu trang Xin chào, thẻ hero gradient cho Xả vải, lưới 2 thẻ trắng phẳng cho Lấy vải · Ghép xe vải; chỉ tên việc, không chú thích (R5) */
+/* Trang chính theo họ u@One: đầu trang Xin chào; 3 nút việc là 3 dòng ngang nhau, cùng khổ (biểu tượng · tên việc · mũi tên). Xả vải nền gradient, 2 việc kia nền trắng; chỉ tên việc, không chú thích (R5) */
 .home-dau{display:flex;align-items:center;gap:12px;padding:14px 4px 10px 16px;background:#E2E8F0}
 .home-av{width:44px;height:44px;border-radius:22px;background:linear-gradient(135deg,#94A3B8,#475569);display:flex;align-items:center;justify-content:center;flex:none}
 .home-ten{flex:1;min-width:0;display:flex;flex-direction:column}.home-ten small{font-size:12px;color:#64748B;line-height:1.35}.home-ten b{font-size:15px;font-weight:700;color:#0F172A;line-height:1.35;margin:2px 0 1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .home-than{display:flex;flex-direction:column;padding:6px 8px 14px}
 .viec{border:none;cursor:pointer;text-align:left;font:inherit;-webkit-tap-highlight-color:transparent;transition:transform .12s}.viec:active{transform:scale(.98)}
-.hero{display:flex;flex-direction:column;gap:14px;width:100%;padding:18px 16px 16px;border-radius:16px;color:#fff;box-shadow:0 6px 18px rgba(29,78,216,.32);
+.home-ds{display:flex;flex-direction:column;gap:12px}
+.dong-viec{display:flex;align-items:center;gap:14px;width:100%;min-height:84px;padding:12px 12px 12px 14px;border-radius:16px;background:#fff;color:#0F172A}
+.dv-ic{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex:none}
+.dv-chu{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.dv-chu b{font-size:18px;font-weight:700;line-height:1.25}.dv-chu .viec-luot{font-size:14px;font-weight:700;color:#007AFF;font-variant-numeric:tabular-nums}
+.hero{color:#fff;box-shadow:0 6px 18px rgba(29,78,216,.32);
   background:radial-gradient(circle at 78% 18%,rgba(56,189,248,.55),transparent 50%),radial-gradient(circle at 95% 65%,rgba(0,122,255,.45),transparent 50%),radial-gradient(circle at 15% 28%,rgba(244,114,182,.22),transparent 55%),radial-gradient(circle at 5% 92%,rgba(0,255,177,.32),transparent 55%),linear-gradient(135deg,#1E40AF 0%,#1D4ED8 45%,#2B5BC4 100%)}
-.hero-dau{display:flex;align-items:center;gap:14px}
+.hero .dv-chu .viec-luot{color:#fff;opacity:.92}
 .kinh{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2)}
-.hero-ic{width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex:none}
-.hero-chu{display:flex;flex-direction:column;min-width:0}.hero-chu b{font-size:20px;font-weight:700;line-height:1.2}
-.hero-luot{display:flex;align-items:center;gap:12px;border-radius:12px;padding:10px 14px}.hero-luot span{display:flex;flex-direction:column;min-width:0}.hero-luot small{font-size:12px;opacity:.85;line-height:1.3}.hero-luot b{font-size:16px;font-weight:700;line-height:1.3;font-variant-numeric:tabular-nums}
-.home-luoi{margin-top:12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.the{background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:stretch;min-height:140px;color:#0F172A}
-.the-dau{display:flex;align-items:flex-start;justify-content:space-between}.the-ic{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center}
-.the b{margin-top:14px;font-size:15px;font-weight:700;line-height:1.3}.the .the-luot{margin-top:auto;padding-top:8px;font-size:13px;font-weight:700;color:#007AFF;font-variant-numeric:tabular-nums}
 .home-chan{margin-top:auto;padding-top:28px;text-align:center;font-size:12px;color:#94A3B8}
 @media print{body *{visibility:hidden}#tem-in,#tem-in *{visibility:visible}#tem-in{position:absolute;left:0;top:0;width:100%}}
 </style>
@@ -622,21 +619,17 @@ function scrLogin() {
   <button class="cta" type="submit" style="width:100%;margin-top:8px">Đăng nhập</button></form>
   <span style="margin-top:auto;text-align:center;font-size:12px;color:#64748B">Powered by TTSOFT</span></div>`;
 }
-// Trang chính: đúng 3 nút việc, chỉ ghi tên việc (R5). Xả vải là thẻ hero; Lấy vải · Ghép xe vải là 2 thẻ nhỏ. Lượt đang mở hiện số xe · số cây trên việc của lượt đó
+// Trang chính: đúng 3 nút việc, 3 dòng ngang nhau, chỉ ghi tên việc (R5). Lượt đang mở hiện số xe · số cây dưới tên việc của lượt đó
 function scrHome() {
   const s = S.sess, luot = v => s && s.man === v ? `${tx(s.xe, 1)} · ${s.ds.length} cây` : '';
-  const xa = luot('xa');
-  const the = [['lay', 'outbox', '#D1FAE5', '#047857', 'Lấy vải'], ['ghep', 'merge', '#EBF6FF', '#007AFF', 'Ghép xe vải']];
+  const viec = [['xa', 'move_to_inbox', '', '#fff', 'Xả vải'], ['lay', 'outbox', '#D1FAE5', '#047857', 'Lấy vải'], ['ghep', 'merge', '#EBF6FF', '#007AFF', 'Ghép xe vải']];
   return `<div class="scr">
   <div class="home-dau"><div class="home-av">${I('person', 28, '#fff', 'f')}</div>
   <div class="home-ten"><small>Xin chào,</small><b>${S.user.ten}</b><small>Nhà cắt · Xưởng 1</small></div>
   <button class="ib" data-a="logout" aria-label="Đăng xuất">${I('logout', 24, '#0F172A')}</button></div>
-  <div class="scroll home-than" id="home">
-  <button class="viec hero" data-a="go" data-v="xa">
-    <span class="hero-dau"><span class="hero-ic kinh">${I('move_to_inbox', 34, '#fff')}</span><span class="hero-chu"><b class="viec-t">Xả vải</b></span></span>
-    ${xa ? `<span class="hero-luot kinh">${I('pending_actions', 24, '#fff')}<span><small>Đang xả dở</small><b class="viec-luot">${xa}</b></span></span>` : ''}
-  </button>
-  <div class="home-luoi">${the.map(([v, ic, nen, mau, t]) => { const l = luot(v); return `<button class="viec the" data-a="go" data-v="${v}"><span class="the-dau"><span class="the-ic" style="background:${nen}">${I(ic, 28, mau)}</span>${I('chevron_right', 22, '#94A3B8')}</span><b class="viec-t">${t}</b>${l ? `<span class="the-luot viec-luot">${l}</span>` : ''}</button>`; }).join('')}</div>
+  <div class="scroll home-than" id="home"><div class="home-ds">
+  ${viec.map(([v, ic, nen, mau, t]) => { const l = luot(v), hero = v === 'xa';
+    return `<button class="viec dong-viec${hero ? ' hero' : ''}" data-a="go" data-v="${v}"><span class="dv-ic${hero ? ' kinh' : ''}"${hero ? '' : ` style="background:${nen}"`}>${I(ic, 30, mau)}</span><span class="dv-chu"><b class="viec-t">${t}</b>${l ? `<span class="viec-luot">${l}</span>` : ''}</span>${I('chevron_right', 24, hero ? '#fff' : '#94A3B8')}</button>`; }).join('')}</div>
   <div class="home-chan">Powered by TTSOFT</div></div></div>`;
 }
 function scrXaXe() {
