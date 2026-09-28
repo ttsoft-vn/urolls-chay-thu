@@ -192,7 +192,7 @@ button.cam-cho{height:44px;padding:0 16px;border-radius:999px;background:#007AFF
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
 .field label{font-size:13px;font-weight:600;color:#475569}
 .field input{height:52px;border:1.5px solid #E2E8F0;border-radius:10px;padding:0 14px;font-size:16px;background:#fff;color:#0F172A}
-/* Trang chính theo họ u@One: đầu trang Xin chào, thẻ hero gradient cho Xả vải, lưới 2 thẻ trắng phẳng cho việc khác (R5) */
+/* Trang chính theo họ u@One: đầu trang Xin chào, thẻ hero gradient cho Xả vải, lưới 2 thẻ trắng phẳng cho Lấy vải · Ghép xe vải; chỉ tên việc, không chú thích (R5) */
 .home-dau{display:flex;align-items:center;gap:12px;padding:14px 4px 10px 16px;background:#E2E8F0}
 .home-av{width:44px;height:44px;border-radius:22px;background:linear-gradient(135deg,#94A3B8,#475569);display:flex;align-items:center;justify-content:center;flex:none}
 .home-ten{flex:1;min-width:0;display:flex;flex-direction:column}.home-ten small{font-size:12px;color:#64748B;line-height:1.35}.home-ten b{font-size:15px;font-weight:700;color:#0F172A;line-height:1.35;margin:2px 0 1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -203,14 +203,12 @@ button.cam-cho{height:44px;padding:0 16px;border-radius:999px;background:#007AFF
 .hero-dau{display:flex;align-items:center;gap:14px}
 .kinh{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2)}
 .hero-ic{width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex:none}
-.hero-chu{display:flex;flex-direction:column;min-width:0;gap:3px}.hero-chu b{font-size:20px;font-weight:700;line-height:1.2}.hero-chu small{font-size:13px;line-height:1.35;opacity:.88}
+.hero-chu{display:flex;flex-direction:column;min-width:0}.hero-chu b{font-size:20px;font-weight:700;line-height:1.2}
 .hero-luot{display:flex;align-items:center;gap:12px;border-radius:12px;padding:10px 14px}.hero-luot span{display:flex;flex-direction:column;min-width:0}.hero-luot small{font-size:12px;opacity:.85;line-height:1.3}.hero-luot b{font-size:16px;font-weight:700;line-height:1.3;font-variant-numeric:tabular-nums}
-.hero-nut{height:44px;border-radius:999px;background:#fff;color:#007AFF;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px}
-.home-muc{margin:24px 4px 12px;font-size:13px;font-weight:700;color:#0F172A;text-transform:uppercase;letter-spacing:.4px}
-.home-luoi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.home-luoi{margin-top:12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .the{background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:stretch;min-height:140px;color:#0F172A}
 .the-dau{display:flex;align-items:flex-start;justify-content:space-between}.the-ic{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center}
-.the b{margin-top:14px;font-size:15px;font-weight:700;line-height:1.3}.the small{margin-top:3px;font-size:12px;line-height:1.35;color:#64748B}.the .the-luot{margin-top:auto;padding-top:8px;font-size:13px;font-weight:700;color:#007AFF;font-variant-numeric:tabular-nums}
+.the b{margin-top:14px;font-size:15px;font-weight:700;line-height:1.3}.the .the-luot{margin-top:auto;padding-top:8px;font-size:13px;font-weight:700;color:#007AFF;font-variant-numeric:tabular-nums}
 .home-chan{margin-top:auto;padding-top:28px;text-align:center;font-size:12px;color:#94A3B8}
 @media print{body *{visibility:hidden}#tem-in,#tem-in *{visibility:visible}#tem-in{position:absolute;left:0;top:0;width:100%}}
 </style>
@@ -624,23 +622,21 @@ function scrLogin() {
   <button class="cta" type="submit" style="width:100%;margin-top:8px">Đăng nhập</button></form>
   <span style="margin-top:auto;text-align:center;font-size:12px;color:#64748B">Powered by TTSOFT</span></div>`;
 }
-// Trang chính: đúng 3 việc (R5). Xả vải là thẻ hero; Lấy vải · Ghép xe vải là 2 thẻ nhỏ. Lượt đang mở hiện số xe · số cây trên việc của lượt đó
+// Trang chính: đúng 3 nút việc, chỉ ghi tên việc (R5). Xả vải là thẻ hero; Lấy vải · Ghép xe vải là 2 thẻ nhỏ. Lượt đang mở hiện số xe · số cây trên việc của lượt đó
 function scrHome() {
   const s = S.sess, luot = v => s && s.man === v ? `${tx(s.xe, 1)} · ${s.ds.length} cây` : '';
   const xa = luot('xa');
-  const the = [['lay', 'outbox', '#D1FAE5', '#047857', 'Lấy vải', 'Quét tem bàn cắt'], ['ghep', 'merge', '#EBF6FF', '#007AFF', 'Ghép xe vải', 'Gom cây về một xe']];
+  const the = [['lay', 'outbox', '#D1FAE5', '#047857', 'Lấy vải'], ['ghep', 'merge', '#EBF6FF', '#007AFF', 'Ghép xe vải']];
   return `<div class="scr">
   <div class="home-dau"><div class="home-av">${I('person', 28, '#fff', 'f')}</div>
   <div class="home-ten"><small>Xin chào,</small><b>${S.user.ten}</b><small>Nhà cắt · Xưởng 1</small></div>
   <button class="ib" data-a="logout" aria-label="Đăng xuất">${I('logout', 24, '#0F172A')}</button></div>
   <div class="scroll home-than" id="home">
   <button class="viec hero" data-a="go" data-v="xa">
-    <span class="hero-dau"><span class="hero-ic kinh">${I('move_to_inbox', 34, '#fff')}</span><span class="hero-chu"><b class="viec-t">Xả vải</b><small>Quét tem xe để đưa cây vào xe</small></span></span>
+    <span class="hero-dau"><span class="hero-ic kinh">${I('move_to_inbox', 34, '#fff')}</span><span class="hero-chu"><b class="viec-t">Xả vải</b></span></span>
     ${xa ? `<span class="hero-luot kinh">${I('pending_actions', 24, '#fff')}<span><small>Đang xả dở</small><b class="viec-luot">${xa}</b></span></span>` : ''}
-    <span class="hero-nut">${I(xa ? 'arrow_forward' : 'qr_code_scanner', 20, '#007AFF')}<span class="nut-t">${xa ? 'Tiếp tục ' + tx(s.xe) : 'Bắt đầu xả'}</span></span>
   </button>
-  <div class="home-muc">Việc khác</div>
-  <div class="home-luoi">${the.map(([v, ic, nen, mau, t, m]) => { const l = luot(v); return `<button class="viec the" data-a="go" data-v="${v}"><span class="the-dau"><span class="the-ic" style="background:${nen}">${I(ic, 28, mau)}</span>${I('chevron_right', 22, '#94A3B8')}</span><b class="viec-t">${t}</b><small>${m}</small>${l ? `<span class="the-luot viec-luot">${l}</span>` : ''}</button>`; }).join('')}</div>
+  <div class="home-luoi">${the.map(([v, ic, nen, mau, t]) => { const l = luot(v); return `<button class="viec the" data-a="go" data-v="${v}"><span class="the-dau"><span class="the-ic" style="background:${nen}">${I(ic, 28, mau)}</span>${I('chevron_right', 22, '#94A3B8')}</span><b class="viec-t">${t}</b>${l ? `<span class="the-luot viec-luot">${l}</span>` : ''}</button>`; }).join('')}</div>
   <div class="home-chan">Powered by TTSOFT</div></div></div>`;
 }
 function scrXaXe() {
