@@ -173,10 +173,10 @@ button.cam-cho{height:44px;padding:0 16px;border-radius:999px;background:#007AFF
 .dem{margin:10px 8px 10px;padding:12px 14px;border-radius:14px;background:#fff;display:flex;flex-direction:column;gap:8px}
 .dem-k{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.dem-k>div{background:#F1F5F9;border-radius:10px;padding:6px 8px;min-width:0}.dem-k small{display:block;font-size:11px;font-weight:600;color:#64748B}.dem-k b{display:block;font-size:13px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bar{height:10px;border-radius:5px;background:#E2E8F0;overflow:hidden}.bar i{display:block;height:100%;background:#007AFF}.bar i.ok{background:#10B981}.bar i.qua{background:#F59E0B}
-.dem-s{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);column-gap:18px;font-variant-numeric:tabular-nums}.dem-o{display:flex;flex-direction:row;flex-wrap:wrap;align-items:baseline;align-content:flex-start;column-gap:6px;min-width:0}.dem-o small{font-size:12px;font-weight:600;color:#64748B}.dem-o b{font-size:24px;font-weight:800;line-height:1.2;white-space:nowrap}.dem-o .dem-c{flex-basis:100%;font-size:12px;color:#64748B}.dem-s .thieu{color:#B91C1C}.dem-s .du-ok{color:#047857}.dem-s .thua{color:#B45309}
+.dem-s{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:6px;font-variant-numeric:tabular-nums}.dem-o{display:flex;flex-direction:row;flex-wrap:wrap;align-items:baseline;align-content:flex-start;column-gap:6px;min-width:0}.dem-o small{font-size:12px;font-weight:600;color:#64748B}.dem-o b{font-size:24px;font-weight:800;line-height:1.2;white-space:nowrap}.dem-o .dem-c{flex-basis:100%;font-size:12px;color:#64748B}.dem-s>.dem-o:first-child{padding-left:8px}.dem-s>.dem-o+.dem-o{grid-column:2 / 4;padding-left:8px}.dem-s .thieu{color:#B91C1C}.dem-s .du-ok{color:#047857}.dem-s .thua{color:#B45309}
 .dem-l{flex-basis:100%;font-size:12px;font-weight:600;color:#0F172A}.dem-o .dem-l b{font-size:inherit;line-height:inherit;color:#007AFF;font-weight:800}
-/* Khối Cây vải đã trải: nền mờ, viền đứt, tách hẳn khỏi bảng xe bên dưới (R20). Dòng dư bớt padding bằng phần khối thụt vào để cột thẳng hàng tiêu đề */
-.khoi-du{margin:4px 8px 22px;padding:10px 8px 2px;border-radius:14px;background:#E9EEF4;border:1.5px dashed #94A3B8}.khoi-du .bang{margin:0 0 8px;background:transparent}.khoi-du .br{background:rgba(255,255,255,.55)}.khoi-du .cl .br{grid-template-columns:43.5px minmax(0,1fr) 30px 56px 52px;padding:0}
+/* Khối Cây vải đã trải: nền mờ, viền đứt, tách hẳn khỏi bảng xe bên dưới (R20); cao tối đa 3 dòng, nhiều hơn thì cuộn trong khối để chừa chỗ cho các xe. Dòng dư bớt padding bằng phần khối thụt vào để cột thẳng hàng tiêu đề */
+.khoi-du{margin:4px 8px 22px;padding:10px 8px 2px;border-radius:14px;background:#E9EEF4;border:1.5px dashed #94A3B8}.khoi-du .bang{margin:0 0 8px;background:transparent;max-height:159px;overflow-y:auto;overscroll-behavior:contain}.khoi-du .br{background:rgba(255,255,255,.55)}.khoi-du .cl .br{grid-template-columns:43.5px minmax(0,1fr) 30px 56px 52px;padding:0}
 .khoi-du-t{font-size:14px;font-weight:800;color:#334155;padding:0 6px 8px}
 /* Màn xả: danh sách Lô còn cây chờ xả, gọn, cuộn chung với bảng lượt (R8) */
 .ds-lo{margin:10px 8px 12px;background:#fff;border-radius:14px;overflow:hidden}.ds-lo-t{padding:8px 14px;font-size:12px;font-weight:800;color:#64748B;background:#F1F5F9}
@@ -693,11 +693,11 @@ function bangBan(b, tich) {
 }
 // Số mét trải được của một cây trên Bàn cắt: trọn lớp theo chiều dài sơ đồ, phần lẻ cuối cây không tính (cây 50 m, sơ đồ 9 m → 5 lớp = 45 m) (R18)
 const lopDuoc = (c, b) => Math.floor(conMet(c) / b.dai + 1e-9), traiDuoc = (c, b) => lopDuoc(c, b) * b.dai;
-// Thẻ đếm của Bàn cắt: cần = số lớp × chiều dài sơ đồ; có = số mét trải được của cây dư được tích (chỉ để tính, R20) + cây vừa tích lấy; thiếu / Đủ / thừa (R18)
+// Thẻ đếm của Bàn cắt: cần = số lớp × chiều dài sơ đồ; có = số mét trải được của cây dư được tích (chỉ để tính Thiếu và dòng Đã lấy, R20) + cây vừa tích lấy; thiếu / Đủ / thừa (R18)
 function demBan(b, bb, duTich) {
   const can = b.lop * b.dai, vua = bb.xe.flatMap(n => n.ds).filter(x => x.l.r.daLay), tp = xs => xs.reduce((t, x) => t + traiDuoc(x.c, b), 0);
-  const co = tp(bb.du.filter(x => duTich.includes(x.c.id))) + tp(vua);
-  return { can, co, vua, lopVua: vua.reduce((t, x) => t + lopDuoc(x.c, b), 0) };
+  const du = bb.du.filter(x => duTich.includes(x.c.id)), co = tp(du) + tp(vua);
+  return { can, co, vua, du, lop: [...du, ...vua].reduce((t, x) => t + lopDuoc(x.c, b), 0) };
 }
 // Cây đã xả bao lâu, tính từ giờ xả tới hiện tại: "xả 3 ngày 2 giờ" (R19)
 function daXa(r) {
@@ -715,7 +715,7 @@ function dongXeCay({ c, dau, xe, giu, lop = '', them = '', ghi = '', met, tich =
 }
 const dauBang = cuoi => `<div class="bh"><span>Xe</span><span>Cây</span><span>Lot</span><span class="sm">Số mét</span><span style="text-align:center">${cuoi}</span></div>`;
 // Lấy vải theo Bàn cắt: đầu màn, thẻ đếm và dòng tiêu đề cột đứng yên, chỉ danh sách cây cuộn; không có khung camera, nút Đổi bàn về màn quét bàn. Đầu màn PO · Lô, dưới là mã Bàn cắt (R17); thẻ vải Màu SP · Loại BTP · Article; thẻ đếm Cần | Thiếu
-// và số cây vừa lấy + số lớp các cây đó trải được (R18). Khối "Cây vải đã trải" tách riêng: tích chỉ để tính vào Thiếu, không ghi phiếu (R20).
+// và số cây dang dở (cây vải đã trải được tích) · số cây mới lấy · số lớp các cây đó trải được (R18). Khối "Cây vải đã trải" tách riêng: tích chỉ để tính vào Thiếu, không ghi phiếu (R20).
 // Bảng xe Xe · Cây · Lot · Số mét · Đã lấy — chạm ô Đã lấy = lấy / bỏ lấy một cây; bấm giữ ô Xe = lấy cả xe (R19)
 function scrLayBan() {
   const b = BAN[S.params.ban], duTich = S.params.duTich || [], bb = bangBan(b, S.params.tich), dm = demBan(b, bb, duTich);
@@ -727,9 +727,9 @@ function scrLayBan() {
   const khung = [['Màu SP', b.mau], ['Loại BTP', b.btp], ['Article', b.art]].map(([k, v]) => `<div><small>${k}</small><b>${esc(v)}</b></div>`).join('');
   return `<div class="scr">${hdr('home', loTen(b.lo), b.so, '<button class="chip ket" data-a="doiban">Đổi bàn</button>')}
   <div class="dem" id="dem-ban"><div class="dem-k" id="the-vai">${khung}</div><div class="bar"><i class="${thieu > 0 ? '' : thieu === 0 ? 'ok' : 'qua'}" style="width:${pct}%"></i></div>
-  <div class="dem-s" id="dem-so"><div class="dem-o"><small>Cần</small><b>${so(dm.can)} m</b><small class="dem-c" id="lop-dai">${b.lop} lớp × ${so(b.dai)} m</small></div><div class="dem-o"><small>Thiếu</small>${trang}<div class="dem-l" id="tong-lay">Đã lấy <b>${dm.vua.length}</b> cây · <b>${dm.lopVua}</b> lớp</div></div></div></div>
+  <div class="dem-s" id="dem-so"><div class="dem-o"><small>Cần</small><b>${so(dm.can)} m</b><small class="dem-c" id="lop-dai">${b.lop} lớp × ${so(b.dai)} m</small></div><div class="dem-o"><small>Thiếu</small>${trang}<div class="dem-l" id="tong-lay">Đã lấy: <b>${dm.du.length}</b>c dang dở · <b>${dm.vua.length}</b>c mới · <b>${dm.lop}</b> lớp</div></div></div></div>
   ${bb.du.length || bb.xe.length ? `<div class="bang cl dau-co" id="dau-ban">${dauBang('Đã lấy')}</div>` : ''}<div class="scroll" id="ds-ban">
-  ${bb.du.length ? `<div class="khoi-du" id="khoi-du"><div class="khoi-du-t" id="nhom-du">Cây vải đã trải</div><div class="bang cl">${bb.du.map(dongDu).join('')}</div></div>` : ''}
+  ${bb.du.length ? `<div class="khoi-du" id="khoi-du"><div class="khoi-du-t" id="nhom-du">Cây vải đã trải · ${bb.du.length} cây</div><div class="bang cl">${bb.du.map(dongDu).join('')}</div></div>` : ''}
   ${bb.xe.length ? `<div class="bang cl" id="bang-xe">${bb.xe.map(n => `<div class="nhom-xe">${n.ds.map((x, i) => dong(x, i, n.xe)).join('')}</div>`).join('')}</div>` : bb.du.length ? '' : `<p class="rong">${LO[b.lo].lo} chưa có cây ${VAI[b.vai]} đã xả.</p>`}</div></div>`;
 }
 // Ghép xe vải: xe đích đứng đầu (mờ — chỉ để xem trên xe đang có gì); sau đó các xe đang lấy dở: có ≥ 1 cây Đã lấy
@@ -903,7 +903,7 @@ function doAct(a, v) {
     case 'chonlo': if (S.sess && LO[v]) go('xa-chon', { lo: v }); break;
     // Màn Ghép: chạm ô tích → ghép / bỏ ghép một cây (R15)
     case 'ghept': if (S.sess && S.screen === 'ghep' && cayBy(v)) ghepTich(v); break;
-    // Nhóm Cây vải đã trải: tích chỉ để tính Thiếu, không ghi phiếu (R20)
+    // Nhóm Cây vải đã trải: tích chỉ để tính Thiếu và dòng Đã lấy, không ghi phiếu (R20)
     case 'tichdu': if (S.screen === 'lay-ban' && cayBy(v)) { const t = S.params.duTich = S.params.duTich || [], i = t.indexOf(v); if (i < 0) t.push(v); else t.splice(i, 1); } break;
     case 'tronok': { const sh = S.sheet; S.sess.warned[cayBy(sh.cay).lo] = true; vaoXe(cayBy(sh.cay), sh.kieu, sh.gioGoc, sh.tu); if (sh.tiep && sh.tiep.length && !S.sheet) ghepNhieu(sh.tiep); break; }
     case 'xoa': xoaDong(+v); break;
