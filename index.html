@@ -248,9 +248,9 @@ const LO = {
 };
 // Ngày xả khai trên phiếu Tác nghiệp cắt, theo Lô + Loại BTP (R23: mã vải dùng cho nhiều BTP → lấy số lớn nhất)
 const NGAY_U = [
-  { lo: 'L03', btp: 'Thân', vai: 'CT32-NV', ngay: 2 },
+  { lo: 'L03', btp: 'Chính', vai: 'CT32-NV', ngay: 2 },
   { lo: 'L03', btp: 'Phối', vai: 'CT32-NV', ngay: 1 },
-  { lo: 'L05', btp: 'Thân', vai: 'PL-GR', ngay: 1 },
+  { lo: 'L05', btp: 'Lót', vai: 'PL-GR', ngay: 1 },
 ];
 function seed() {
   const c = (id, ma, vai, lot, met, lo, px, o = {}) => ({ id, ma, vai, lot, met, lo, px, pxDuyet: true, motPhan: false, ...o });
@@ -350,7 +350,7 @@ function u(c, r) {
   const left = r.gioXa + n * D - now();
   return left <= 0 ? { k: 'ok' } : { k: 'wait', left };
 }
-// Dòng cây nằm trên phiếu nháp văn phòng lập trên SMB: chưa hiện ở màn Lấy vải và ở danh sách xe của màn Ghép tới khi văn phòng duyệt (R25)
+// Dòng cây nằm trên phiếu nháp văn phòng lập trên SMB: chưa hiện ở màn Lấy vải và màn Ghép (kể cả dưới xe đích) tới khi văn phòng duyệt (R25)
 const nhapVP = l => l.p.tt === 'nhap' && l.p.nguon === 'SMB';
 function trenXe(xe) { const out = []; for (const c of S.cay) { const l = lastRow(c.id); if (l && !l.r.daLay && l.p.xe === xe) out.push({ c, r: l.r, p: l.p }); } return out; }
 // Cây chưa xả để chạm chọn: có phiếu xuất đã duyệt, chưa có dòng trên phiếu Xả vải nào (R8, Luật 1)
@@ -736,7 +736,7 @@ function scrLayBan() {
 // và còn ≥ 1 cây chưa lấy, trong xe chỉ cây chưa lấy. Cây Đã lấy (kể cả còn dư) không ghép (R15)
 function bangGhep(s) {
   const g = {}, gx = r => r.gioXa, xep = ds => ds.sort((a, b) => gx(a.l.r) - gx(b.l.r));
-  for (const c of S.cay) { const l = lastRow(c.id); if (!l || (nhapVP(l) && l.p.xe !== s.xe)) continue; const n = g[l.p.xe] = g[l.p.xe] || { lay: 0, ds: [] }; if (l.r.daLay) n.lay++; else n.ds.push({ c, l }); }
+  for (const c of S.cay) { const l = lastRow(c.id); if (!l || nhapVP(l)) continue; const n = g[l.p.xe] = g[l.p.xe] || { lay: 0, ds: [] }; if (l.r.daLay) n.lay++; else n.ds.push({ c, l }); }
   const khac = Object.keys(g).filter(xe => xe !== s.xe && g[xe].lay && g[xe].ds.length).map(xe => ({ xe, ds: xep(g[xe].ds) })).sort((a, b) => gx(a.ds[0].l.r) - gx(b.ds[0].l.r));
   return { dich: xep(g[s.xe] ? g[s.xe].ds : []), khac };
 }
