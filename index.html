@@ -816,6 +816,7 @@ const KICHBAN = [
   { t: 'Tem sai', d: 'Màn quét xe chỉ nhận tem xe 101–500: tem 650 và tem bàn cắt 26091234 → báo đỏ, không mở xe.', b: [['go', 'xa-xe'], ['scan', '650'], ['scan', '26091234']] },
   { t: 'Kết thúc xe', d: 'Xả xe 109 được 2 cây, bấm Kết thúc xe → hỏi. Bấm Kết thúc: phiếu của lượt Đã duyệt, phiếu nháp văn phòng GTV-0012 vẫn Nháp; app về màn quét xe, khung camera hiện lại.', b: [['go', 'xa-xe'], ['scan', '109'], ...CHAM2, ['ketthuc']] },
   { t: 'Lấy theo bàn cắt', d: 'Quét tem bàn cắt 26091234 → khung camera ẩn, đầu màn PO 2451 · Lô 03 (dưới là BC-TSV-09-2026-1234); ba khung Màu SP Navy · Loại BTP Chính · Article CT32S-NV; Cần 50 lớp × 9 m = 450 m, Thiếu 450 m; Thiếu chỉ trừ số mét trải trọn lớp của mỗi cây (cây 80 m → 8 lớp = 72 m). Mỗi cây ghi đã xả bao lâu (xả 3 ngày 2 giờ). Khối Cây vải đã trải tách riêng trên cùng (C-0799 dư 35 m = 3 lớp 27 m): tích thì 27 m trừ vào Thiếu, không ghi phiếu. Dưới là các xe (xe xả lâu nhất trước), chỉ cây đã đủ ngày xả: C-0840, C-0842 trên xe 107 chưa đủ nên không hiện. Chạm ô Đã lấy = lấy / bỏ lấy một cây; bấm giữ khối Xe = lấy mọi cây đang hiện của xe đó. Bấm Đổi bàn → quét bàn khác.', b: [['go', 'lay'], ['scan', '26091234']] },
+  { t: 'Nhiều cây vải đã trải', d: 'Bàn 26091234 có 5 cây vải đã trải, mỗi cây còn dư sau bàn trước (C-0790 37 m, C-0791 30 m, C-0799 35 m, C-0812 25 m, C-0760 30 m). Khung Cây vải đã trải hiện 3 dòng, tiêu đề "Cây vải đã trải · 5 cây"; vuốt trong khung thấy 2 cây còn lại. Xe 7 và xe 109 vẫn nằm ngay dưới khung.', b: [['go', 'lay'], ['scan', '26091234'], ['tich', 'k20'], ['tich', 'k21'], ['tich', 'k25'], ['tich', 'k50'], ['doiban'], ['dung', 'k20:45'], ['dung', 'k21:50'], ['dung', 'k25:60'], ['dung', 'k50:40'], ['scan', '26091234']] },
   { t: 'Cây chưa khai ngày xả', d: 'Bàn 26091236 (Lô 04 chưa khai ngày xả): C-0901 vẫn hiện, nhãn xám "chưa khai ngày xả", tích được như cây đủ.', b: [['go', 'lay'], ['scan', '26091236'], ['tich', 'k30']] },
   { t: 'Tem sai ở Lấy vải', d: 'Màn Lấy vải chỉ nhận tem bàn cắt: quét tem xe 107 → báo đỏ. Tem 26099999 không có bàn → báo đỏ.', b: [['go', 'lay'], ['scan', '107'], ['scan', '26099999']] },
   { t: 'Mất mạng', d: 'Thanh đỏ trên cùng; chạm cây cũng không ghi.', b: [['go', 'xa-xe'], ['scan', '109'], ['net'], ['chonlo', 'L03'], ['cham', 'k1']] },
@@ -904,6 +905,8 @@ function doAct(a, v) {
     // Màn Ghép: chạm ô tích → ghép / bỏ ghép một cây (R15)
     case 'ghept': if (S.sess && S.screen === 'ghep' && cayBy(v)) ghepTich(v); break;
     // Nhóm Cây vải đã trải: tích chỉ để tính Thiếu và dòng Đã lấy, không ghi phiếu (R20)
+    // Tình huống thử: cây đã được Bàn cắt trước dùng một phần (số mét đã dùng, D7)
+    case 'dung': { const [id, m] = String(v).split(':'); if (cayBy(id)) S.banCat[id] = +m; break; }
     case 'tichdu': if (S.screen === 'lay-ban' && cayBy(v)) { const t = S.params.duTich = S.params.duTich || [], i = t.indexOf(v); if (i < 0) t.push(v); else t.splice(i, 1); } break;
     case 'tronok': { const sh = S.sheet; S.sess.warned[cayBy(sh.cay).lo] = true; vaoXe(cayBy(sh.cay), sh.kieu, sh.gioGoc, sh.tu); if (sh.tiep && sh.tiep.length && !S.sheet) ghepNhieu(sh.tiep); break; }
     case 'xoa': xoaDong(+v); break;
