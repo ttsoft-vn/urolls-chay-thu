@@ -159,10 +159,10 @@ button.cam-cho{height:44px;padding:0 16px;border-radius:999px;background:#007AFF
 /* Màn Ghép: xe đích mờ, chỉ để xem */
 .nhat{opacity:.45}.oxe.nhat{cursor:default}#ds-ghep .sub{background:none;border:none;padding:12px 12px 6px}
 .oxe{align-self:stretch;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;font-weight:800;font-size:15px;line-height:1.2;color:#0F172A;border:none;background:none;padding:0;text-align:left;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation}.oxe.giu{color:#007AFF}
-/* Ô Xe bấm giữ được: một khối nền nhạt đặc phủ suốt các dòng cây của xe (nhóm .nhom-xe là mốc định vị), không viền, không bóng.
+/* Ô Xe bấm giữ được: một khối nền nhạt đặc phủ suốt các dòng cây của xe (nhóm .nhom-xe là mốc định vị), không viền, không bóng; hở 9px trên dưới để khối xe này tách hẳn khối xe kế bên.
    Ô giữ chỗ .oxe-o ở cột Xe của dòng đầu để lưới các dòng không lệch cột */
 .nhom-xe{position:relative}.oxe-o{align-self:stretch}.cl .oxe.nhat{align-items:center;text-align:center}
-.oxe[data-giu]{position:absolute;left:3px;top:4px;bottom:4px;width:50px;min-height:44px;align-items:center;justify-content:center;padding:4px 2px;border:none;border-radius:10px;background:#EBF6FF;color:#007AFF;font-size:16px;text-align:center}
+.oxe[data-giu]{position:absolute;left:3px;top:9px;bottom:9px;width:50px;min-height:36px;align-items:center;justify-content:center;padding:4px 2px;border:none;border-radius:10px;background:#EBF6FF;color:#007AFF;font-size:16px;text-align:center}
 .oxe[data-giu] small{color:#007AFF;margin-top:1px}.oxe.la{font-size:11px;line-height:1.15}
 .oxe.giu[data-giu]{background:#007AFF;color:#fff}.oxe.giu[data-giu] small{color:#fff}
 .tich{border:none;background:none;align-self:stretch;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
@@ -692,12 +692,12 @@ function bangBan(b, tich) {
   return { du, xe };
 }
 // Số mét trải được của một cây trên Bàn cắt: trọn lớp theo chiều dài sơ đồ, phần lẻ cuối cây không tính (cây 50 m, sơ đồ 9 m → 5 lớp = 45 m) (R18)
-const traiDuoc = (c, b) => Math.floor(conMet(c) / b.dai + 1e-9) * b.dai;
+const lopDuoc = (c, b) => Math.floor(conMet(c) / b.dai + 1e-9), traiDuoc = (c, b) => lopDuoc(c, b) * b.dai;
 // Thẻ đếm của Bàn cắt: cần = số lớp × chiều dài sơ đồ; có = số mét trải được của cây dư được tích (chỉ để tính, R20) + cây vừa tích lấy; thiếu / Đủ / thừa (R18)
 function demBan(b, bb, duTich) {
   const can = b.lop * b.dai, vua = bb.xe.flatMap(n => n.ds).filter(x => x.l.r.daLay), tp = xs => xs.reduce((t, x) => t + traiDuoc(x.c, b), 0);
   const co = tp(bb.du.filter(x => duTich.includes(x.c.id))) + tp(vua);
-  return { can, co, vua, tongVua: vua.reduce((t, x) => t + conMet(x.c), 0), traiVua: tp(vua) };
+  return { can, co, vua, lopVua: vua.reduce((t, x) => t + lopDuoc(x.c, b), 0) };
 }
 // Cây đã xả bao lâu, tính từ giờ xả tới hiện tại: "xả 3 ngày 2 giờ" (R19)
 function daXa(r) {
@@ -715,7 +715,7 @@ function dongXeCay({ c, dau, xe, giu, lop = '', them = '', ghi = '', met, tich =
 }
 const dauBang = cuoi => `<div class="bh"><span>Xe</span><span>Cây</span><span>Lot</span><span class="sm">Số mét</span><span style="text-align:center">${cuoi}</span></div>`;
 // Lấy vải theo Bàn cắt: đầu màn, thẻ đếm và dòng tiêu đề cột đứng yên, chỉ danh sách cây cuộn; không có khung camera, nút Đổi bàn về màn quét bàn. Đầu màn PO · Lô, dưới là mã Bàn cắt (R17); thẻ vải Màu SP · Loại BTP · Article; thẻ đếm Cần | Thiếu
-// và số dòng + tổng mét vừa lấy (R18). Khối "Cây vải đã trải" tách riêng: tích chỉ để tính vào Thiếu, không ghi phiếu (R20).
+// và số cây vừa lấy + số lớp các cây đó trải được (R18). Khối "Cây vải đã trải" tách riêng: tích chỉ để tính vào Thiếu, không ghi phiếu (R20).
 // Bảng xe Xe · Cây · Lot · Số mét · Đã lấy — chạm ô Đã lấy = lấy / bỏ lấy một cây; bấm giữ ô Xe = lấy cả xe (R19)
 function scrLayBan() {
   const b = BAN[S.params.ban], duTich = S.params.duTich || [], bb = bangBan(b, S.params.tich), dm = demBan(b, bb, duTich);
@@ -727,7 +727,7 @@ function scrLayBan() {
   const khung = [['Màu SP', b.mau], ['Loại BTP', b.btp], ['Article', b.art]].map(([k, v]) => `<div><small>${k}</small><b>${esc(v)}</b></div>`).join('');
   return `<div class="scr">${hdr('home', loTen(b.lo), b.so, '<button class="chip ket" data-a="doiban">Đổi bàn</button>')}
   <div class="dem" id="dem-ban"><div class="dem-k" id="the-vai">${khung}</div><div class="bar"><i class="${thieu > 0 ? '' : thieu === 0 ? 'ok' : 'qua'}" style="width:${pct}%"></i></div>
-  <div class="dem-s" id="dem-so"><div class="dem-o"><small>Cần</small><b>${so(dm.can)} m</b><small class="dem-c" id="lop-dai">${b.lop} lớp × ${so(b.dai)} m</small></div><div class="dem-o"><small>Thiếu</small>${trang}<div class="dem-l" id="tong-lay">Đã lấy <b>${dm.vua.length}</b> cây · <b>${so(dm.tongVua)}</b> m${dm.traiVua !== dm.tongVua ? ` · trải được <b>${so(dm.traiVua)}</b> m` : ''}</div></div></div></div>
+  <div class="dem-s" id="dem-so"><div class="dem-o"><small>Cần</small><b>${so(dm.can)} m</b><small class="dem-c" id="lop-dai">${b.lop} lớp × ${so(b.dai)} m</small></div><div class="dem-o"><small>Thiếu</small>${trang}<div class="dem-l" id="tong-lay">Đã lấy <b>${dm.vua.length}</b> cây · <b>${dm.lopVua}</b> lớp</div></div></div></div>
   ${bb.du.length || bb.xe.length ? `<div class="bang cl dau-co" id="dau-ban">${dauBang('Đã lấy')}</div>` : ''}<div class="scroll" id="ds-ban">
   ${bb.du.length ? `<div class="khoi-du" id="khoi-du"><div class="khoi-du-t" id="nhom-du">Cây vải đã trải</div><div class="bang cl">${bb.du.map(dongDu).join('')}</div></div>` : ''}
   ${bb.xe.length ? `<div class="bang cl" id="bang-xe">${bb.xe.map(n => `<div class="nhom-xe">${n.ds.map((x, i) => dong(x, i, n.xe)).join('')}</div>`).join('')}</div>` : bb.du.length ? '' : `<p class="rong">${LO[b.lo].lo} chưa có cây ${VAI[b.vai]} đã xả.</p>`}</div></div>`;
