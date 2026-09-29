@@ -350,8 +350,10 @@ function u(c, r) {
   const left = r.gioXa + n * D - now();
   return left <= 0 ? { k: 'ok' } : { k: 'wait', left };
 }
-// Dòng cây nằm trên phiếu nháp văn phòng lập trên SMB: chưa hiện ở màn Lấy vải và màn Ghép (kể cả dưới xe đích) tới khi văn phòng duyệt (R25)
-const nhapVP = l => l.p.tt === 'nhap' && l.p.nguon === 'SMB';
+// Dòng cây nằm trên phiếu còn Nháp (lập trên SMB, hoặc của lượt đang mở trên app): chưa hiện ở màn Lấy vải và ở các xe của màn Ghép
+// tới khi phiếu được duyệt (văn phòng duyệt, hoặc Kết thúc xe). Màn Ghép vẫn hiện dòng của chính lượt đang ghép dưới xe đích (R25)
+const nhap = l => l.p.tt === 'nhap';
+const nhapKhac = l => nhap(l) && !(S.sess && S.sess.phieu.includes(l.p.so));
 function trenXe(xe) { const out = []; for (const c of S.cay) { const l = lastRow(c.id); if (l && !l.r.daLay && l.p.xe === xe) out.push({ c, r: l.r, p: l.p }); } return out; }
 // Cây chưa xả để chạm chọn: có phiếu xuất đã duyệt, chưa có dòng trên phiếu Xả vải nào (R8, Luật 1)
 function xaMoi() { return S.cay.filter(c => c.pxDuyet && trangThai(c.id) === 'chua'); }
@@ -685,7 +687,7 @@ function scrLay() {
 // ở màn này, nhóm theo xe: xe có cây xả lâu nhất trước, trong xe cây xả lâu nhất trước (R19)
 function bangBan(b, tich) {
   const g = {}, gx = r => r.gioXa;
-  const xs = S.cay.filter(c => c.lo === b.lo && c.vai === b.vai).map(c => ({ c, l: lastRow(c.id) })).filter(x => x.l && !nhapVP(x.l));
+  const xs = S.cay.filter(c => c.lo === b.lo && c.vai === b.vai).map(c => ({ c, l: lastRow(c.id) })).filter(x => x.l && !nhap(x.l));
   const du = xs.filter(x => x.l.r.daLay && !tich.includes(x.c.id) && conMet(x.c) >= b.dai);
   xs.filter(x => (!x.l.r.daLay && u(x.c, x.l.r).k !== 'wait') || tich.includes(x.c.id)).forEach(x => (g[x.l.p.xe] = g[x.l.p.xe] || []).push(x));
   const xe = Object.keys(g).map(xe => ({ xe, ds: g[xe].sort((a, b) => gx(a.l.r) - gx(b.l.r)) })).sort((a, b) => gx(a.ds[0].l.r) - gx(b.ds[0].l.r));
@@ -736,7 +738,7 @@ function scrLayBan() {
 // và còn ≥ 1 cây chưa lấy, trong xe chỉ cây chưa lấy. Cây Đã lấy (kể cả còn dư) không ghép (R15)
 function bangGhep(s) {
   const g = {}, gx = r => r.gioXa, xep = ds => ds.sort((a, b) => gx(a.l.r) - gx(b.l.r));
-  for (const c of S.cay) { const l = lastRow(c.id); if (!l || nhapVP(l)) continue; const n = g[l.p.xe] = g[l.p.xe] || { lay: 0, ds: [] }; if (l.r.daLay) n.lay++; else n.ds.push({ c, l }); }
+  for (const c of S.cay) { const l = lastRow(c.id); if (!l || nhapKhac(l)) continue; const n = g[l.p.xe] = g[l.p.xe] || { lay: 0, ds: [] }; if (l.r.daLay) n.lay++; else n.ds.push({ c, l }); }
   const khac = Object.keys(g).filter(xe => xe !== s.xe && g[xe].lay && g[xe].ds.length).map(xe => ({ xe, ds: xep(g[xe].ds) })).sort((a, b) => gx(a.ds[0].l.r) - gx(b.ds[0].l.r));
   return { dich: xep(g[s.xe] ? g[s.xe].ds : []), khac };
 }
@@ -919,7 +921,8 @@ function doAct(a, v) {
     case 'camon': batCam(); break;
     case 'den': if (CAM.track && CAM.coDen) { const bat = !CAM.den; try { Promise.resolve(CAM.track.applyConstraints({ advanced: [{ torch: bat }] })).then(() => { CAM.den = bat; render(); }, () => {}); } catch (e) {} } break;
     case 'intem': TEM_MO = true; setTimeout(() => window.print(), 300); break;
-    case 'close': S.sheet = null; break;
+    // Huỷ ở hộp hỏi Lô khác khi đang ghép cả xe: chỉ cây của Lô đó ở lại xe cũ, các cây còn lại vẫn ghép tiếp (R15, R11)
+    case 'close': { const sh = S.sheet; S.sheet = null; if (sh && sh.kind === 'tronlo' && sh.tiep && sh.tiep.length) { const lo = cayBy(sh.cay).lo; ghepNhieu(sh.tiep.filter(id => cayBy(id).lo !== lo)); } break; }
     case 'clock': S.offset += (+v) * MIN; log(`Tua giờ +${+v >= 1440 ? (+v / 1440) + ' ngày' : (+v / 60) + ' giờ'}`, 'in'); break;
     case 'net': S.offline = !S.offline; log(S.offline ? 'Mất mạng' : 'Có mạng lại', 'in'); break;
     // Tắt màn hình / chuyển app khác: giữ nguyên xe đang mở (R6)
@@ -949,6 +952,8 @@ document.addEventListener('submit', e => {
   const f = e.target.dataset.f; if (!f) return; e.preventDefault();
   if (f === 'login') {
     if (document.getElementById('mk').value !== '123456') toast('err', 'Sai mật khẩu. Mật khẩu thử là 123456.');
+    // Tài khoản chưa được cấp quyền lập và duyệt phiếu Xả vải trên SMB → không vào app (mục 2, R1). Thử: tài khoản khongquyen
+    else if (document.getElementById('tk').value.trim() === 'khongquyen') toast('err', 'Tài khoản chưa có quyền phiếu Xả vải trên SMB. Nhờ văn phòng cấp quyền.');
     else dangNhap(document.getElementById('tk').value);
   } else if (f === 'manual') { const v = document.getElementById('mcode').value; S.manual = false; doAct('scan', v); }
   else if (f === 'go') { const v = document.getElementById('gotay').value; doAct('scan', v); render(); const g = document.getElementById('gotay'); g.value = ''; g.focus(); return; }
