@@ -1,8 +1,6 @@
-<!doctype html>
-<html lang="vi"><head><meta charset="utf-8">
 <title>u@Rolls chạy thử</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@500;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@500;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..700,0..1,0&display=block">
 <style>
 :root{
   --brand:#007AFF;--ground:#F8FAFC;--surface:#FFFFFF;--surface-2:#F1F5F9;
@@ -17,7 +15,7 @@
 html,body{margin:0;background:var(--ground);color:var(--ink);font-family:'Inter',system-ui,sans-serif}
 /* Safari iPhone: vuốt xuống ở đầu trang là tải lại trang → chặn vuốt kéo cả trang; vùng cuộn trong app cuộn riêng, không kéo theo trang */
 html,body{overscroll-behavior:none}
-.scroll,.nk ol,.cot-trai,.cot-phai,.cot-dt,.tbl{overscroll-behavior:contain}
+.phone .body,.nk ol,.cot-trai,.cot-phai,.cot-dt,.tbl{overscroll-behavior:contain}
 body{font-size:14px;line-height:1.5}
 button,input,textarea{font-family:inherit}
 .mi{font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;line-height:1;display:inline-flex;align-items:center;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;user-select:none}
@@ -59,10 +57,10 @@ button,input,textarea{font-family:inherit}
 .tay{display:flex;gap:6px;flex-wrap:wrap}
 .tay input{font:700 13px var(--mono);padding:7px 10px;border-radius:7px;border:2px solid var(--rule);background:var(--ground);color:var(--ink);flex:1;min-width:110px}
 .tay input:focus{outline:none;border-color:var(--brand)}
-.btn{font:800 11px 'Inter',sans-serif;letter-spacing:.6px;text-transform:uppercase;padding:8px 12px;border:none;border-radius:7px;background:var(--brand);color:#fff;cursor:pointer}
-.btn.phu{background:var(--surface);color:var(--ink-2);border:1px solid var(--rule)}
-.btn.on{background:#DC2626;color:#fff}
-.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tbtn{font:800 11px 'Inter',sans-serif;letter-spacing:.6px;text-transform:uppercase;padding:8px 12px;border:none;border-radius:7px;background:var(--brand);color:#fff;cursor:pointer}
+.tbtn.phu{background:var(--surface);color:var(--ink-2);border:1px solid var(--rule)}
+.tbtn.on{background:#DC2626;color:#fff}
+.hang{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .clock{font:700 18px var(--mono);font-variant-numeric:tabular-nums}
 details.hop summary{cursor:pointer;font-size:13.5px;font-weight:800;list-style:none;display:flex;align-items:center;gap:8px}
 details.hop summary::-webkit-details-marker{display:none}
@@ -84,7 +82,7 @@ table.t td.m{font-family:var(--mono);font-weight:700}
 .ph{border:1px solid var(--rule);border-radius:10px;margin-bottom:10px;overflow:hidden}
 .phh{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;padding:9px 12px;font-size:12.5px}
 .phh b.so-phieu{font:700 13.5px var(--mono)}
-.pill{display:inline-flex;align-items:center;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.nhan{display:inline-flex;align-items:center;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
 .p-ok{background:#D1FAE5;color:#047857}.p-warn{background:#FEF3C7;color:#B45309}.p-err{background:#FEE2E2;color:#B91C1C}.p-n{background:#E2E8F0;color:#475569}
 tr.new td{animation:hl 2.4s ease-out}
 @keyframes hl{from{background:rgba(0,122,255,.22)}to{background:transparent}}
@@ -93,7 +91,8 @@ tr.new td{animation:hl 2.4s ease-out}
 .ghichu{font-size:11.5px;color:var(--ink-3);line-height:1.5;padding:8px 4px 0;text-align:center}
 
 /* ===== Điện thoại ===== */
-.phone{width:360px;max-width:100%;height:740px;border-radius:36px;border:8px solid #0F172A;background:#E2E8F0;overflow:hidden;position:relative;margin:0 auto;color:#0F172A;color-scheme:light;box-shadow:var(--shadow)}
+.phone{width:360px;max-width:100%;height:740px;border-radius:36px;border:8px solid #0F172A;background:var(--bg);color:var(--ink);overflow:hidden;position:relative;margin:0 auto;box-shadow:var(--shadow)}
+.phone.dk{border-color:#1E293B}
 /* Máy tính: điện thoại luôn hiện trọn, thấp theo màn hình, không bị cắt khúc dưới */
 @media (min-width:1180px){.phone{height:min(740px,calc(100vh - 56px - 28px - 34px))}}
 /* Mở trang trên điện thoại: app chiếm trọn màn hình, phần thử nằm bên dưới */
@@ -104,109 +103,275 @@ tr.new td{animation:hl 2.4s ease-out}
   .phone{width:100%;height:100vh;height:100dvh;border:0;border-radius:0;box-shadow:none}
   .ghichu{padding:8px 12px 0}
 }
-.scr{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden}
-.scroll{flex:1;overflow-y:auto;padding-bottom:96px}
-.hd{display:flex;align-items:center;gap:4px;padding:8px 10px 8px 4px;background:#E2E8F0;min-height:60px}
-.ib{width:48px;height:48px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0F172A;border-radius:24px;flex:none}
-.tt{flex:1;display:flex;flex-direction:column;min-width:0}.tt b{font-size:18px}.tt span{font-size:13px;color:#475569}
-.cam{position:relative;height:192px;margin:6px 8px 0;border-radius:16px;background:#0B1220;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
-.cam.song{background:transparent}
-.cam.cao{height:auto;min-height:192px;padding:8px 0}
-#camvid{position:absolute;z-index:1;object-fit:cover;display:none;pointer-events:none;background:#0B1220;border-radius:16px}
-/* Khung ngắm tĩnh: 4 góc chữ L mảnh + 1 vạch ngang mảnh ở giữa (đỏ; nhận được tem thì xanh) */
-.frame{width:260px;height:100px;position:relative;z-index:3}
-.frame b{position:absolute;width:22px;height:16px;border:0 solid #fff}
-.frame .g1{left:0;top:0;border-top-width:2px;border-left-width:2px;border-top-left-radius:5px}.frame .g2{right:0;top:0;border-top-width:2px;border-right-width:2px;border-top-right-radius:5px}
-.frame .g3{left:0;bottom:0;border-bottom-width:2px;border-left-width:2px;border-bottom-left-radius:5px}.frame .g4{right:0;bottom:0;border-bottom-width:2px;border-right-width:2px;border-bottom-right-radius:5px}
-.frame i{position:absolute;left:14px;right:14px;top:49px;height:1.5px;background:#EF4444}
-.cam.hit .frame i{background:#34D399}
-.cam-cho{display:flex;flex-direction:row;align-items:center;gap:8px;color:#E2E8F0;font-size:14px;font-weight:700;background:none;border:none;cursor:pointer;z-index:1}
-button.cam-cho{height:44px;padding:0 16px;border-radius:999px;background:#007AFF;color:#fff}
-.cam-cho.chan{flex-direction:column;gap:4px;cursor:default;color:#94A3B8;font-weight:600;font-size:12px;line-height:1.35;text-align:center;padding:0 60px 0 16px}
-.cam-cho.chan .cta{height:32px;font-size:12.5px;margin-top:2px;padding:0 12px}
-.camb{position:absolute;bottom:50%;transform:translateY(50%);right:8px;width:44px;height:44px;border-radius:22px;border:none;background:rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3}
-.camb.trai{right:auto;left:8px}
-.manual{display:flex;gap:8px;padding:8px;margin:6px 8px 0;border-radius:14px;background:#0B1220}
-.manual input{flex:1;height:48px;border-radius:10px;border:none;padding:0 12px;font-size:16px}
-.cta{height:52px;border:none;border-radius:999px;background:#007AFF;color:#fff;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 12px rgba(0,122,255,.3);padding:0 16px}
-.cta.sec{background:#fff;color:#007AFF;box-shadow:none;border:1.5px solid #007AFF}
-.cta.danger{background:#fff;color:#B91C1C;border:2px solid #DC2626;box-shadow:none}
-.cta.grey{background:#F1F5F9;color:#334155;box-shadow:none}
-.chip{height:40px;padding:0 14px;border-radius:999px;border:none;background:#fff;color:#475569;font-size:14px;font-weight:700;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:2px}
-.chip.act{background:#0F172A;color:#fff}
-.chip.ket{background:#fff;color:#007AFF;border:1.5px solid #007AFF}
-.sub{padding:7px 14px;font-size:12.5px;font-weight:700;color:#64748B;background:#F8FAFC;border-top:1px solid #F1F5F9}
-/* Dòng tiêu đề bảng lượt xả: tách với khối Chọn cây theo Lô ở trên */
-.luot-t{padding:12px 12px 6px;font-size:12.5px;font-weight:700;color:#64748B}.luot-t b{color:#007AFF;font-weight:800}#ds-xa>.bang+.ds-lo{margin-top:0}
-.rong{margin:14px 8px;font-size:13px;color:#64748B;text-align:center}
-.dim{position:absolute;inset:0;background:rgba(15,23,42,.45);z-index:20}
-.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;padding:12px 16px 22px;display:flex;flex-direction:column;gap:12px;z-index:21}
-.sheet .grab{width:40px;height:4px;border-radius:2px;background:#CBD5E1;align-self:center}
-.sheet h3{margin:0;font-size:19px;line-height:1.3}
-.sheet p{margin:0;font-size:14px;color:#475569}
-.bang{margin:0 8px 12px;background:#fff;border-radius:14px;overflow:hidden}
-.bh,.br{display:grid;align-items:center;column-gap:8px;padding:0 14px}
-.bh{min-height:38px;font-size:12px;font-weight:800;color:#64748B;background:#F1F5F9}.bh span{white-space:nowrap}
-.br{min-height:52px;font-size:15px;color:#0F172A;background:#fff;border:none;border-top:1px solid #F1F5F9;width:100%;text-align:left;font-family:inherit;cursor:pointer}
-.br b{font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.br small{display:block;font-size:12px;font-weight:600;color:#64748B}
-.bh .sm,.br .sm{text-align:right}.br .sm{font-weight:800;font-size:17px;font-variant-numeric:tabular-nums}
-.c4 .bh,.c4 .br{grid-template-columns:58px minmax(0,1fr) 34px 62px}
-/* Bảng Xe – Cây: cột Xe hẹp sát mép trái thẻ (khối xe cách mép 3px), nhường chỗ cho Cây · Lot · Số mét */
-.cl .bh,.cl .br{grid-template-columns:50px minmax(0,1fr) 30px 56px 52px;padding:0 10px 0 3px}.cl .bh span:first-child{text-align:center}
-.cl .br{cursor:default}.cl .br.dau{border-top:2px solid #CBD5E1}
-/* Dòng tiêu đề cột đứng yên ngay trên danh sách cuộn (màn Lấy vải, Ghép) */
-.dau-co{margin:8px 8px;flex-shrink:0}.dem{flex-shrink:0}
-/* Màn Ghép: xe đích mờ, chỉ để xem */
-.nhat{opacity:.45}.oxe.nhat{cursor:default}#ds-ghep .sub{background:none;border:none;padding:12px 12px 6px}
-.oxe{align-self:stretch;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;font-weight:800;font-size:15px;line-height:1.2;color:#0F172A;border:none;background:none;padding:0;text-align:left;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation}.oxe.giu{color:#007AFF}
-/* Ô Xe bấm giữ được: một khối nền nhạt đặc phủ suốt các dòng cây của xe (nhóm .nhom-xe là mốc định vị), không viền, không bóng; hở 9px trên dưới để khối xe này tách hẳn khối xe kế bên.
-   Ô giữ chỗ .oxe-o ở cột Xe của dòng đầu để lưới các dòng không lệch cột */
-.nhom-xe{position:relative}.oxe-o{align-self:stretch}.cl .oxe.nhat{align-items:center;text-align:center}
-.oxe[data-giu]{position:absolute;left:3px;top:9px;bottom:9px;width:50px;min-height:36px;align-items:center;justify-content:center;padding:4px 2px;border:none;border-radius:10px;background:#EBF6FF;color:#007AFF;font-size:16px;text-align:center}
-.oxe[data-giu] small{color:#007AFF;margin-top:1px}.oxe.la{font-size:11px;line-height:1.15}
-.oxe.giu[data-giu]{background:#007AFF;color:#fff}.oxe.giu[data-giu] small{color:#fff}
-.tich{border:none;background:none;align-self:stretch;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
-.br .tich{display:flex;justify-content:center}
-.sw{position:relative;overflow:hidden;border-top:1px solid #F1F5F9}.sw .br{border-top:none;position:relative;z-index:1;transition:transform .18s;touch-action:pan-y;cursor:grab;user-select:none}
-.sw.mo .sw-in{transform:translateX(-88px)}.sw-in.keo{transition:none}
-.sw-xoa{position:absolute;top:0;right:0;bottom:0;width:88px;border:none;background:#DC2626;color:#fff;font-size:15px;font-weight:800;cursor:pointer}
-.dem{margin:10px 8px 10px;padding:12px 14px;border-radius:14px;background:#fff;display:flex;flex-direction:column;gap:8px}
-.dem-k{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.dem-k>div{background:#F1F5F9;border-radius:10px;padding:6px 8px;min-width:0}.dem-k small{display:block;font-size:11px;font-weight:600;color:#64748B}.dem-k b{display:block;font-size:13px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.bar{height:10px;border-radius:5px;background:#E2E8F0;overflow:hidden}.bar i{display:block;height:100%;background:#007AFF}.bar i.ok{background:#10B981}.bar i.qua{background:#F59E0B}
-.dem-s{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:6px;font-variant-numeric:tabular-nums}.dem-o{display:flex;flex-direction:row;flex-wrap:wrap;align-items:baseline;align-content:flex-start;column-gap:6px;min-width:0}.dem-o small{font-size:12px;font-weight:600;color:#64748B}.dem-o b{font-size:24px;font-weight:800;line-height:1.2;white-space:nowrap}.dem-o .dem-c{flex-basis:100%;font-size:12px;color:#64748B}.dem-s>.dem-o:first-child{padding-left:8px}.dem-s>.dem-o+.dem-o{grid-column:2 / 4;padding-left:8px}.dem-s .thieu{color:#B91C1C}.dem-s .du-ok{color:#047857}.dem-s .thua{color:#B45309}
-.dem-l{flex-basis:100%;font-size:12px;font-weight:600;color:#0F172A}.dem-o .dem-l b{font-size:inherit;line-height:inherit;color:#007AFF;font-weight:800}
-/* Khối Cây vải đã trải: nền mờ, viền đứt, tách hẳn khỏi bảng xe bên dưới (R20); cao tối đa 3 dòng, nhiều hơn thì cuộn trong khối để chừa chỗ cho các xe. Dòng dư bớt padding bằng phần khối thụt vào để cột thẳng hàng tiêu đề */
-.khoi-du{margin:4px 8px 22px;padding:10px 8px 2px;border-radius:14px;background:#E9EEF4;border:1.5px dashed #94A3B8}.khoi-du .bang{margin:0 0 8px;background:transparent;max-height:159px;overflow-y:auto;overscroll-behavior:contain}.khoi-du .br{background:rgba(255,255,255,.55)}.khoi-du .cl .br{grid-template-columns:43.5px minmax(0,1fr) 30px 56px 52px;padding:0}
-.khoi-du-t{font-size:14px;font-weight:800;color:#334155;padding:0 6px 8px}
-/* Màn xả: danh sách Lô còn cây chờ xả, gọn, cuộn chung với bảng lượt (R8) */
-.ds-lo{margin:10px 8px 12px;background:#fff;border-radius:14px;overflow:hidden}.ds-lo-t{padding:8px 14px;font-size:12px;font-weight:800;color:#64748B;background:#F1F5F9}
-.lo-dong{display:flex;align-items:center;gap:8px;width:100%;min-height:48px;padding:0 10px 0 14px;border:none;border-top:1px solid #F1F5F9;background:#fff;color:#0F172A;font:inherit;text-align:left;cursor:pointer}.lo-dong b{flex:1;font-size:15px}.lo-dong span{font-size:14px;font-weight:700;color:#007AFF}
-.br small.xam{color:#94A3B8}.oxe small{display:block;font-size:11px;font-weight:600;color:#64748B;margin-top:2px}
-.two{display:flex;gap:10px}.two>*{flex:1}
-.bao{display:flex;gap:12px;border-radius:14px;padding:14px;align-items:center}
-.bao b{font-size:17px}
-.toast{position:absolute;left:10px;right:10px;top:68px;border-radius:12px;padding:12px 14px;font-size:14px;font-weight:700;z-index:30;display:flex;gap:8px;align-items:flex-start;box-shadow:0 6px 18px rgba(15,23,42,.18)}
-.t-err{background:#FEE2E2;color:#7F1D1D}.t-warn{background:#FEF3C7;color:#78350F}.t-ok{background:#D1FAE5;color:#064E3B}
-.phone.off .scr{top:44px}
-.offl{position:absolute;top:0;left:0;right:0;height:44px;z-index:40;background:#DC2626;color:#fff;padding:10px 14px;display:flex;gap:10px;align-items:center;font-size:14px;font-weight:800}
-.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
-.field label{font-size:13px;font-weight:600;color:#475569}
-.field input{height:52px;border:1.5px solid #E2E8F0;border-radius:10px;padding:0 14px;font-size:16px;background:#fff;color:#0F172A}
-/* Trang chính theo họ u@One: đầu trang Xin chào; 3 nút việc là 3 dòng ngang nhau, cùng khổ (biểu tượng · tên việc · mũi tên). Xả vải nền gradient, 2 việc kia nền trắng; chỉ tên việc, không chú thích (R5) */
-.home-dau{display:flex;align-items:center;gap:12px;padding:14px 4px 10px 16px;background:#E2E8F0}
-.home-av{width:44px;height:44px;border-radius:22px;background:linear-gradient(135deg,#94A3B8,#475569);display:flex;align-items:center;justify-content:center;flex:none}
-.home-ten{flex:1;min-width:0;display:flex;flex-direction:column}.home-ten small{font-size:12px;color:#64748B;line-height:1.35}.home-ten b{font-size:15px;font-weight:700;color:#0F172A;line-height:1.35;margin:2px 0 1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.home-than{display:flex;flex-direction:column;padding:6px 8px 14px}
-.viec{border:none;cursor:pointer;text-align:left;font:inherit;-webkit-tap-highlight-color:transparent;transition:transform .12s}.viec:active{transform:scale(.98)}
-.home-ds{display:flex;flex-direction:column;gap:12px}
-.dong-viec{display:flex;align-items:center;gap:14px;width:100%;min-height:84px;padding:12px 12px 12px 14px;border-radius:16px;background:#fff;color:#0F172A}
-.dv-ic{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex:none}
-.dv-chu{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.dv-chu b{font-size:18px;font-weight:700;line-height:1.25}.dv-chu .viec-luot{font-size:14px;font-weight:700;color:#007AFF;font-variant-numeric:tabular-nums}
-.hero{color:#fff;box-shadow:0 6px 18px rgba(29,78,216,.32);
-  background:radial-gradient(circle at 78% 18%,rgba(56,189,248,.55),transparent 50%),radial-gradient(circle at 95% 65%,rgba(0,122,255,.45),transparent 50%),radial-gradient(circle at 15% 28%,rgba(244,114,182,.22),transparent 55%),radial-gradient(circle at 5% 92%,rgba(0,255,177,.32),transparent 55%),linear-gradient(135deg,#1E40AF 0%,#1D4ED8 45%,#2B5BC4 100%)}
-.hero .dv-chu .viec-luot{color:#fff;opacity:.92}
-.kinh{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2)}
-.home-chan{margin-top:auto;padding-top:28px;text-align:center;font-size:12px;color:#94A3B8}
+/* ----- App: token + component. SINH TỪ canvas (urolls-canvas/build.py → ap_css.py), sửa ở canvas rồi dán lại, không sửa tay khối này ----- */
+.phone{--bg:#EDF1F6;--card:#FFFFFF;--card-bd:transparent;--sunk:#F4F6FA;--sunk-bd:#AEB9C8;--line:#E6EBF2;--ring:#8C99AD;--ink:#0F172A;--ink-2:#475569;--ink-3:#5B6B80;--brand:#0066DD;--brand-fill:#0066DD;--on-brand:#FFFFFF;--sel:#DBE8FD;--sel-line:#B9D2F8;--danger:#D61F45;--danger-fill:#DC2626;--time:#C2410C;--ok:#047857;--warn:#C2410C;--warn-soft:#FFEDD5;--ok-fill:#047857;--warn-fill:#C2410C;--mark:#FEF08A;--ghost:#E8EDF3;--raise:#FFFFFF;--raise-line:#E6EBF2;--chip:#E8EDF3;--scrim:rgba(15,23,42,.45);--hero:linear-gradient(135deg,#1E40AF 0%,#1D4ED8 50%,#2563EB 100%);--hero-ink-2:rgba(255,255,255,.82);--sh-card:0 1px 2px rgba(15,23,42,.05);--sh-hero:0 10px 24px rgba(15,23,42,.16),0 2px 6px rgba(29,78,216,.16);--sh-pop:0 20px 50px rgba(15,23,42,.35);--sh-float:0 10px 24px rgba(15,23,42,.22);--t-ovl:11px;--t-cap:13px;--t-body:15px;--t-row:17px;--t-num:20px;--t-name:26px;--t-big:32px;--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:20px;--s6:24px;--s8:32px;--gutter:12px;--pad:16px;--row-h:56px;--r-s:10px;--r-m:14px;--r-l:20px;--r-xl:24px;--r-pill:999px;}
+.phone.dk{--bg:#0B1220;--card:#172133;--card-bd:rgba(255,255,255,.05);--sunk:#111A2B;--sunk-bd:#3B4A61;--line:#243044;--ring:#6B7C95;--ink:#F1F5F9;--ink-2:#CBD5E1;--ink-3:#94A3B8;--brand:#5AABFF;--brand-fill:#1668D6;--on-brand:#FFFFFF;--sel:#132B4D;--sel-line:#1E3F6E;--danger:#FB7185;--danger-fill:#DC2626;--time:#FB923C;--ok:#34D399;--warn:#FB923C;--warn-soft:#3B2314;--mark:#5C4A00;--ghost:#243044;--raise:#243350;--raise-line:#3A4A66;--chip:rgba(255,255,255,.09);--scrim:rgba(0,0,0,.6);--hero:linear-gradient(135deg,#1E3A8A 0%,#1D4ED8 55%,#2563EB 100%);--sh-card:none;--sh-hero:0 10px 24px rgba(0,0,0,.45);--sh-pop:0 20px 50px rgba(0,0,0,.6);--sh-float:0 10px 24px rgba(0,0,0,.5);color-scheme:dark;}
+.phone.dk .hero-body{--card:#E9EEF4;--raise:#E9EEF4;--raise-line:#D3DBE6;--line:#D3DBE6;--chip:#D9E0EA;--ring:#8C99AD;--ink:#0F172A;--ink-2:#475569;--ink-3:#4F5E73;--brand:#0066DD;--brand-fill:#0066DD;--sel:#DCE8FA;--sel-line:#C5D8F5;--danger:#C81C40;--time:#B23A0A;--mark:#FEF08A;--ok:#036B4E;--warn:#B23A0A;color-scheme:light;}
+.phone button,.phone input{font:inherit;color:inherit}
+.phone .mi{font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;line-height:1;display:inline-flex;align-items:center;font-size:24px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;user-select:none;flex:none}
+.phone .mi.f{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+.phone .i-s{font-size:18px}
+.phone .i-m{font-size:22px}
+.phone .i-l{font-size:28px}
+.phone .i-xl{font-size:30px}
+.phone .c-2{color:var(--ink-2)}
+.phone .c-3{color:var(--ink-3)}
+.phone .c-ring{color:var(--ring)}
+.phone .c-brand{color:var(--brand)}
+.phone .c-ok{color:var(--ok)}
+.phone .c-warn{color:var(--warn)}
+.phone .c-on{color:#fff}
+.phone .scr{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden}
+.phone .body{flex:1;overflow-y:auto;padding:0 var(--gutter) 96px;scrollbar-width:none}
+.phone .body::-webkit-scrollbar{display:none}
+.phone .bar{display:flex;align-items:center;gap:var(--s1);min-height:64px;padding:var(--s2) var(--gutter) var(--s2) var(--s1)}
+.phone .bar-t{flex:1;min-width:0;display:flex;flex-direction:column}
+.phone .bar-t b{font-size:var(--t-num);font-weight:800;letter-spacing:-.3px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone .bar-t span{font-size:var(--t-cap);font-weight:500;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone .ib{width:48px;height:48px;flex:none;display:flex;align-items:center;justify-content:center;border:none;border-radius:24px;background:none;color:var(--ink);cursor:pointer}
+.phone .ib.sm{width:40px;height:40px;margin:-8px -8px -8px 0}
+.phone .btn{height:52px;padding:0 var(--s5);display:flex;align-items:center;justify-content:center;gap:var(--s2);border:none;border-radius:var(--r-pill);background:var(--brand-fill);color:var(--on-brand);font-size:var(--t-row);font-weight:700;cursor:pointer;white-space:nowrap}
+.phone .btn.ghost{background:var(--ghost);color:var(--ink)}
+.phone .btn.sm{height:40px;padding:0 var(--s4);font-size:var(--t-body)}
+.phone .btn.full{width:100%}
+.phone .link{display:inline-flex;align-items:center;border:none;background:none;padding:0;color:var(--brand);font-size:var(--t-cap);font-weight:700;cursor:pointer}
+.phone .sect{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);min-height:32px;margin:var(--s5) var(--s1) var(--s2);font-size:var(--t-row);font-weight:800;white-space:nowrap}
+.phone .sect-n{font-size:var(--t-cap);font-weight:600;color:var(--ink-2)}
+.phone .sect .mau{color:var(--brand)}
+.phone .note{margin:0 var(--s1) var(--s2);font-size:var(--t-cap);font-weight:600;color:var(--ink-2)}
+.phone .card{background:var(--card);border:1px solid var(--card-bd);border-radius:var(--r-l);overflow:hidden;box-shadow:var(--sh-card)}
+.phone .card+.card{margin-top:var(--s3)}
+.phone .card.sunk{background:var(--sunk);border:1.5px dashed var(--sunk-bd);box-shadow:none}
+.phone .card-h{display:flex;align-items:center;justify-content:space-between;gap:var(--s2);min-height:40px;padding:var(--s2) var(--pad) var(--s1);font-size:var(--t-cap);font-weight:700;color:var(--ink-2)}
+.phone .card-h span{font-weight:600}
+.phone .card-h.nut{width:100%;min-height:48px;padding:0 var(--pad);border:none;background:none;font-size:var(--t-body);text-align:left;cursor:pointer}
+.phone .card-h.nut b{flex:1;font-weight:700}
+.phone .card-h.nut[aria-expanded="true"]{box-shadow:inset 0 -1px 0 var(--line)}
+.phone .card-h.nut[aria-expanded="true"]+.row{box-shadow:none}
+.phone .card-h.nut .n{font-weight:600;color:var(--ink-3)}
+.phone .row{display:flex;align-items:center;gap:6px;width:100%;min-height:var(--row-h);padding:var(--s1) var(--pad);border:none;background:none;color:var(--ink);text-align:left;position:relative}
+.phone .row+.row,.phone .grp-h+.row{box-shadow:inset 0 1px 0 var(--line)}
+.phone .row .ma{flex:1;min-width:0;font-size:var(--t-row);font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone .row .lo{width:48px;flex:none;text-align:center;font-size:var(--t-cap);font-weight:600;color:var(--ink-2);white-space:nowrap}
+.phone .row .lot{flex:0 1 88px;min-width:0;overflow:hidden;text-overflow:ellipsis;text-align:left;font-size:var(--t-cap);font-weight:600;color:var(--ink-3);white-space:nowrap}
+.phone .row .xa{width:58px;flex:none;display:inline-flex;align-items:center;justify-content:center;gap:2px;font-size:var(--t-cap);font-weight:700;color:var(--time);white-space:nowrap}
+.phone .row .xa .mi{font-size:14px}
+.phone .act{width:26px;flex:none;display:flex;align-items:center;justify-content:center;border:none;background:none;padding:0;cursor:pointer}
+.phone .row.on{background:var(--sel)}
+.phone .row.on+.row.on{box-shadow:inset 0 1px 0 var(--sel-line)}
+.phone .row.cu .ma,.phone .row.cu .m b{color:var(--ink-3)}
+.phone .m{width:56px;flex:none;text-align:right;font-size:var(--t-cap);font-weight:600;color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums}
+.phone .m b{font-size:var(--t-num);font-weight:800;color:var(--ink)}
+.phone .row.nut{cursor:pointer}
+.phone .ma-w{flex:1;min-width:0;display:flex;flex-direction:column}
+.phone .ma-w small{font-size:var(--t-cap);font-weight:600;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone .off .act{opacity:.35}
+.phone .row.hai{gap:var(--s2);padding-top:var(--s3);padding-bottom:var(--s3)}
+.phone .row.hai .ma{flex:none;max-width:100%}
+.phone .row:not(.hai)>.ma{flex:1 0 auto}
+.phone .row.hai .ma-p{display:flex;align-items:baseline;column-gap:4px;min-width:0;margin-top:2px;font-size:var(--t-cap);font-weight:600;color:var(--ink-3)}
+.phone .row.hai .lot{width:auto;flex:0 1 auto;min-width:0;text-align:left;font-size:var(--t-cap);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone .row.hai .cham{font-style:normal}
+.phone .row.hai .lo{width:auto;margin-top:2px;text-align:right;color:var(--ink-3)}
+.phone .m-w{flex:none;display:flex;flex-direction:column;align-items:flex-end}
+.phone .row.hai .m{width:auto}
+.phone .row.hai .xa{width:auto;margin-top:2px;color:var(--ink-3);font-size:var(--t-ovl);font-weight:500}
+.phone .row.hai .xa .mi{font-size:var(--t-cap)}
+.phone .grp-h{display:flex;align-items:center;gap:var(--s2);min-height:48px;padding:var(--s1) var(--pad)}
+.phone .grp-h .ten{flex:1;min-width:0;font-size:var(--t-body);font-weight:600;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone .grp-h .ten b{font-size:var(--t-num);font-weight:800;color:var(--brand);margin-left:2px}
+.phone .grp-h.on{background:var(--sel)}
+.phone .grp-h.on+.row.on{box-shadow:inset 0 1px 0 var(--sel-line)}
+.phone .card.xe{overflow:clip}
+.phone .card.xe+.card.xe{margin-top:var(--s4)}
+.phone .xe-nhan{position:sticky;top:var(--dinh,0px);z-index:3;display:flex;align-items:flex-start;width:100%;height:34px;padding:0;border:none;background:var(--card);font:inherit;cursor:pointer;text-align:left}
+.phone .card.xe:has(>.xe-nhan+.row.on) .xe-nhan,.phone .xe-nhan.on{background:var(--sel)}
+.phone .card.xe:has(>.xe-nhan+.row.on) .xe-nhan:not(.on) .tag{background:var(--card)}
+.phone .card:has(.row.on){border-color:var(--sel-line)}
+.phone .xe-nhan .tag{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 var(--s3);border-radius:0 0 var(--r-m) 0;background:var(--chip);color:var(--ink);font-size:var(--t-cap);font-weight:800;white-space:nowrap}
+.phone .xe-nhan .tag .n{font-weight:600;color:var(--ink-2)}
+.phone .xe-nhan .tag .mi{font-size:18px}
+.phone .xe-nhan.on .tag{background:var(--brand-fill);color:var(--on-brand)}
+.phone .xe-nhan.on .tag .n{color:inherit;opacity:.85}
+.phone .xe-nhan.la .tag small{font-size:var(--t-cap);font-weight:700}
+.phone .xe-nhan+.row{box-shadow:none}
+.phone .row .act .ck:not(.on){background:color-mix(in srgb,var(--brand) 10%,transparent)}
+.phone .nav{display:flex;align-items:center;gap:var(--s2);width:100%;min-height:var(--row-h);padding:0 var(--s3) 0 var(--pad);border:none;background:none;color:var(--ink);cursor:pointer;text-align:left}
+.phone .nav+.nav{box-shadow:inset 0 1px 0 var(--line)}
+.phone .nav b{flex:1;font-size:var(--t-row);font-weight:700}
+.phone .nav span{font-size:var(--t-body);font-weight:700;color:var(--brand)}
+.phone .ck{width:26px;height:26px;flex:none;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--brand)}
+.phone .ck .mi{font-size:24px}
+.phone .ck.on{border:none;background:var(--brand-fill)}
+.phone .ck.on .mi{font-size:18px;color:#fff;font-variation-settings:'FILL' 0,'wght' 700,'GRAD' 0,'opsz' 20}
+.phone .pill{display:inline-flex;align-items:baseline;gap:3px;padding:2px var(--s2);border-radius:var(--r-pill);background:var(--chip);font-size:var(--t-cap);font-weight:600;color:var(--ink-2);white-space:nowrap}
+.phone .pill b{font-weight:800;color:var(--ink)}
+.phone .pill.glass{padding:var(--s1) var(--s3);background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);color:#fff;font-size:var(--t-body);font-weight:700}
+.phone .pill.glass b{color:#fff;font-size:var(--t-row)}
+.phone .dem{flex:none;display:flex;align-items:center;gap:var(--s2);height:32px;padding:0 var(--s3);border-radius:var(--r-pill);background:var(--sel);border:1.5px solid var(--sel-line);color:var(--brand);font-size:var(--t-cap);white-space:nowrap}
+.phone .dem .ovl{font-size:var(--t-cap);font-weight:800;letter-spacing:.02em}
+.phone .dem i{width:4px;height:4px;border-radius:2px;background:currentColor;opacity:.45}
+.phone .dem p{margin:0;font-weight:600}
+.phone .dem p b{display:inline-block;font-weight:700}
+.phone .dem p b.nay{animation:dem-nay .35s ease-out}
+.phone .hero{border-radius:var(--r-xl);background:var(--hero);color:#fff;overflow:hidden;box-shadow:var(--sh-hero)}
+.phone .hero-h{display:grid;grid-template-columns:1fr auto;align-items:end;column-gap:var(--s3);padding:var(--s4) var(--pad)}
+.phone .ovl{font-size:var(--t-ovl);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.phone .hero .ovl{color:var(--hero-ink-2)}
+.phone .hero-h .ovl{grid-column:1/-1}
+.phone .hero.gon{border-radius:var(--r-l)}
+.phone .hero.gon .hero-h{grid-template-columns:auto 1fr auto;align-items:center;min-height:56px;padding:var(--s2) var(--s3) var(--s2) var(--pad)}
+.phone .hero.gon .hero-h .ovl{grid-column:auto;color:var(--hero-ink-2)}
+.phone .hero.gon .hero-big{font-size:var(--t-num)}
+.phone .hero.gon .pill.glass{padding:2px var(--s2);font-size:var(--t-cap)}
+.phone .hero.gon .pill.glass b{font-size:var(--t-body)}
+.phone .hero-big{font-size:var(--t-big);font-weight:800;letter-spacing:-.5px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone .hero-body{position:relative;background:var(--raise);color:var(--ink);border-radius:var(--r-l) var(--r-l) 0 0;overflow:hidden}
+.phone .hero-body>.prog{position:absolute;top:0;left:0;right:0;height:5px;border-radius:0}
+.phone .hero-body .row+.row,.phone .hero-body .sw+.sw{box-shadow:inset 0 1px 0 var(--raise-line)}
+.phone .hero-body.pad{padding:var(--s5) var(--pad) var(--s5)}
+.phone .hero-empty{margin:0;padding:var(--s4);text-align:center;font-size:var(--t-cap);font-weight:600;color:var(--hero-ink-2)}
+.phone .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:var(--s2) 0 var(--s3)}
+.phone .facts>div{display:flex;flex-direction:column;min-width:0;padding:0 var(--s2) 0 var(--pad)}
+.phone .facts>div+div{box-shadow:inset 1px 0 0 rgba(255,255,255,.28)}
+.phone .facts b{font-size:var(--t-body);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone .nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0 calc(-1 * var(--pad))}
+.phone .nums>div{display:flex;flex-direction:column;gap:var(--s1);min-width:0;padding:0 var(--s2) 0 var(--pad)}
+.phone .nums>.thieu{grid-column:2/4;padding-right:var(--pad);box-shadow:inset 1px 0 0 var(--raise-line)}
+.phone .nums .ovl{color:var(--ink-2)}
+.phone .nums .thieu .ovl{color:var(--danger)}
+.phone .nums p{margin:0;font-size:var(--t-row);font-weight:600;color:var(--ink);white-space:nowrap}
+.phone .nums p b{font-size:var(--t-big);font-weight:800;letter-spacing:-.8px;line-height:1.1;color:var(--ink)}
+.phone .nums .thieu p,.phone .nums .thieu p b{color:var(--danger)}
+.phone .nums .phu{margin-top:var(--s1);display:flex;justify-content:space-between;align-items:center;font-size:var(--t-cap);font-weight:500;color:var(--ink-3)}
+.phone .nums .nh{display:flex;align-items:center;gap:var(--s2)}
+.phone .nums .phu.da{justify-content:flex-start;gap:6px}
+.phone .nums .phu.da b{font-weight:800;color:var(--brand)}
+.phone .nums .phu.da i{font-style:normal;color:var(--ink-3)}
+.phone .prog{flex:1;min-width:0;height:6px;border-radius:3px;background:var(--raise-line);overflow:hidden}
+.phone .prog i{display:block;height:100%;background:var(--brand-fill)}
+.phone .nums .du .ovl,.phone .nums .du p,.phone .nums .du p b{color:var(--ok)}
+.phone .nums .thua .ovl,.phone .nums .thua p,.phone .nums .thua p b{color:var(--warn)}
+.phone .prog i.ok{background:var(--ok)}
+.phone .prog i.qua{background:var(--warn)}
+.phone .stick{position:sticky;top:0;z-index:5;margin:0 calc(-1 * var(--gutter));padding:var(--s1) var(--gutter) var(--s2);background:var(--bg)}
+.phone .body>.hero:first-child{margin-top:var(--s1)}
+.phone .tabs{display:flex;margin:var(--s2) calc(-1 * var(--gutter)) 0;box-shadow:inset 0 -1px 0 var(--line)}
+.phone .tabs button{flex:1;min-width:0;height:48px;display:flex;justify-content:center;padding:0 var(--s4);border:none;background:none;color:var(--ink-2);font-size:14px;font-weight:600;cursor:pointer}
+.phone .tabs .lb{position:relative;display:flex;align-items:center;gap:6px;height:100%;white-space:nowrap}
+.phone .tabs [aria-selected="true"]{color:var(--brand)}
+.phone .tabs [aria-selected="true"] .lb::after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--brand-fill)}
+.phone .bdg{font-weight:700;color:inherit}
+.phone .tab-body{margin-top:var(--s3)}
+.phone .search{flex:1 1 0;min-width:0;display:flex;align-items:center;gap:6px;min-height:36px;padding:0 var(--s1) 0 var(--s3);border-radius:var(--r-pill);background:var(--card);border:1.5px solid var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 16%,transparent)}
+.phone .search input{flex:1;width:0;border:none;outline:none;background:none;font-size:var(--t-body);font-weight:600;color:var(--ink)}
+.phone .search .ib{width:32px;height:32px}
+.phone mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
+.phone .sw{position:relative;overflow:hidden}
+.phone .sw+.sw{box-shadow:inset 0 1px 0 var(--line)}
+.phone .sw-xoa{position:absolute;z-index:2;top:0;right:0;bottom:0;width:76px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:var(--danger-fill);color:#fff;font-size:var(--t-cap);font-weight:800;transform:translateX(100%);transition:transform .18s}
+.phone .sw.mo .sw-xoa{transform:none}
+.phone .scrim{position:absolute;inset:0;z-index:20;background:var(--scrim)}
+.phone .pop{position:absolute;z-index:21;left:var(--s4);right:var(--s4);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:var(--s2);padding:var(--s6) var(--s5) var(--s5);border-radius:var(--r-xl);background:var(--card);border:1px solid var(--card-bd);text-align:center;box-shadow:var(--sh-pop)}
+.phone .pop h3{margin:var(--s1) 0 0;font-size:var(--t-num);font-weight:800;line-height:1.3}
+.phone .pop p{margin:0;font-size:var(--t-body);color:var(--ink-2)}
+.phone .pop-ic{width:56px;height:56px;border-radius:28px;background:var(--sel);display:flex;align-items:center;justify-content:center}
+.phone .pop-ic.warn{background:var(--warn-soft)}
+.phone .btns{display:flex;gap:var(--s3);width:100%;margin-top:var(--s3)}
+.phone .btns>*{flex:1}
+.phone .snack{position:absolute;left:var(--gutter);right:var(--gutter);bottom:var(--s5);z-index:9;display:flex;align-items:center;gap:var(--s3);padding:var(--s3) var(--s4);border-radius:var(--r-m);background:var(--danger-fill);color:#fff;box-shadow:var(--sh-float)}
+.phone .snack b{flex:1;font-size:var(--t-body);font-weight:800}
+.phone .snack .cho{display:flex;gap:4px}
+.phone .snack .cho i{width:5px;height:5px;border-radius:50%;background:#fff;opacity:.6}
+.phone .snack.warn{background:var(--warn-fill)}
+.phone .snack.ok{background:var(--ok-fill)}
+.phone .snack.tren{bottom:calc(var(--s5) + 64px)}
+.phone .drawer-bg{position:absolute;inset:0;z-index:19;background:var(--scrim)}
+.phone .drawer{position:absolute;top:0;bottom:0;left:0;z-index:20;width:min(300px,84%);display:flex;flex-direction:column;padding:var(--s4) var(--s3) var(--s5);border-radius:0 var(--r-l) var(--r-l) 0;background:var(--card);box-shadow:var(--sh-pop)}
+.phone .drawer.vao{animation:ngan-vao .2s ease-out}
+.phone .drawer-h{display:flex;flex-direction:column;gap:var(--s1);padding:var(--s2) var(--s4) var(--s5);margin-bottom:var(--s2);box-shadow:inset 0 -1px 0 var(--line)}
+.phone .drawer-h .logo{margin-bottom:var(--s3)}
+.phone .drawer-h b{font-size:var(--t-row);font-weight:800}
+.phone .drawer-h .ovl{color:var(--ink-2)}
+.phone .nav-i{display:flex;align-items:center;gap:var(--s4);width:100%;min-height:var(--row-h);padding:0 var(--s4);border:none;border-radius:var(--r-pill);background:none;color:var(--ink);font-size:var(--t-body);font-weight:700;text-align:left;cursor:pointer}
+.phone .nav-i>span:not(.mi){flex:1}
+.phone .drawer-f{margin-top:auto;padding:0 var(--s4);font-size:var(--t-cap);color:var(--ink-3)}
+.phone .tg{position:relative;width:44px;height:26px;flex:none;border-radius:13px;background:var(--ring);transition:background .15s}
+.phone .tg::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .15s}
+.phone .tg.on{background:var(--brand-fill)}
+.phone .tg.on::after{transform:translateX(18px)}
+.phone .field{display:flex;flex-direction:column;gap:6px;margin-bottom:var(--s4)}
+.phone .field label{font-size:var(--t-cap);font-weight:600;color:var(--ink-2)}
+.phone .field input{height:52px;padding:0 var(--s4);border:1.5px solid var(--ring);border-radius:var(--r-s);background:var(--card);font-size:var(--t-row);color:var(--ink)}
+.phone .login{padding:56px var(--s6) var(--s5);background:var(--bg)}
+.phone .brand{display:flex;flex-direction:column;align-items:center;gap:var(--s3);margin-bottom:var(--s8)}
+.phone .brand-mk{width:72px;height:72px;border-radius:var(--r-l);background:var(--brand-fill);display:flex;align-items:center;justify-content:center;color:#fff;font-size:36px;font-weight:800;box-shadow:0 8px 24px color-mix(in srgb,var(--brand-fill) 30%,transparent)}
+.phone .brand b{font-size:var(--t-name);font-weight:800;letter-spacing:-.5px}
+.phone .login .btn{margin-top:var(--s2)}
+.phone .foot{margin-top:auto;text-align:center;font-size:var(--t-cap);color:var(--ink-3)}
+.phone .home-bar{display:flex;align-items:center;gap:var(--s1);padding:var(--s2) var(--gutter) 0 var(--s1)}
+.phone .logo{font-size:var(--t-row);font-weight:800;letter-spacing:-.3px}
+.phone .logo i{display:inline-block;width:6px;height:6px;border-radius:3px;background:var(--brand);margin-left:4px;vertical-align:4px}
+.phone .who{display:flex;flex-direction:column;margin-block:auto;padding:var(--s6) var(--s2)}
+.phone .who .chao{font-size:var(--t-body);font-weight:500;color:var(--ink-3);margin-bottom:28px}
+.phone .who b{font-size:var(--t-name);font-weight:800;letter-spacing:-.5px;line-height:1.2}
+.phone .who .ovl{margin-top:var(--s2);color:var(--ink-2)}
+.phone .viecs{margin:0 var(--s2);padding:0}
+.phone .home-b{display:flex;flex-direction:column;padding-bottom:var(--s6)}
+.phone .viec{position:relative;display:flex;align-items:center;gap:var(--s4);width:100%;min-height:104px;padding:var(--s4) var(--s4) var(--s4) var(--s5);border:none;background:none;color:var(--ink);text-align:left;cursor:pointer}
+.phone .viec+.viec{box-shadow:inset 0 1px 0 var(--line)}
+.phone .viec.dang::before{content:'';position:absolute;left:0;top:var(--s3);bottom:var(--s3);width:5px;border-radius:0 3px 3px 0;background:var(--brand-fill)}
+.phone .viec-ic{width:52px;height:52px;flex:none;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.phone .viec-ic .mi{font-size:48px;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 48}
+.phone .viec-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.phone .viec-t b{font-size:var(--t-row);font-weight:800;line-height:1.25}
+.phone .viec-t small{font-size:var(--t-cap);font-weight:600;color:var(--ink-2)}
+.phone .viec.dang .viec-t small{color:var(--brand)}
+.phone .viec-go{width:36px;height:36px;flex:none;border-radius:18px;display:flex;align-items:center;justify-content:center;background:var(--ghost);color:var(--ink-3)}
+.phone .quet{background:#0B1220;color:#fff}
+.phone .quet .bar{min-height:64px}
+.phone .quet .ib{background:rgba(255,255,255,.1);color:#fff;margin-right:var(--s2)}
+.phone .cam{flex:1;min-height:0;display:flex;flex-direction:column}
+.phone .ngam{position:relative;flex:1;min-height:0;margin:var(--s3) var(--s6);display:flex;align-items:center;justify-content:center}
+.phone .frame{position:absolute;inset:0}
+.phone .frame b{position:absolute;width:40px;height:40px;border:0 solid rgba(255,255,255,.85)}
+.phone .frame .g1{left:0;top:0;border-top-width:2px;border-left-width:2px;border-top-left-radius:10px}
+.phone .frame .g2{right:0;top:0;border-top-width:2px;border-right-width:2px;border-top-right-radius:10px}
+.phone .frame .g3{left:0;bottom:0;border-bottom-width:2px;border-left-width:2px;border-bottom-left-radius:10px}
+.phone .frame .g4{right:0;bottom:0;border-bottom-width:2px;border-right-width:2px;border-bottom-right-radius:10px}
+.phone .cam-ic{width:56px;height:56px;border-radius:var(--r-m);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#CBD5E1}
+.phone .cam-duoi{display:flex;flex-direction:column;align-items:center;gap:var(--s4);padding:0 var(--s4) var(--s6)}
+.phone .cam-goi{display:flex;align-items:center;gap:6px;padding:var(--s2) var(--s4);border-radius:var(--r-pill);background:rgba(15,23,42,.8);border:1px solid rgba(255,255,255,.1);font-size:var(--t-body);font-weight:700;color:#E2E8F0}
+.phone .cam-goi.loi{background:rgba(220,38,38,.2);border-color:rgba(248,113,113,.55);color:#FECACA}
+.phone .cam-goi.warn{background:rgba(194,65,12,.25);border-color:rgba(251,146,60,.5);color:#FED7AA}
+.phone .cam-goi.ok{background:rgba(4,120,87,.25);border-color:rgba(52,211,153,.5);color:#A7F3D0}
+.phone .cam-nut{display:flex;align-items:center;justify-content:center;gap:var(--s3);width:100%}
+.phone .cam-nut .btn{flex:1;max-width:260px;height:56px;background:#1668D6}
+.phone .btn-kinh{width:56px;height:56px;flex:none;border-radius:28px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.1);color:#fff;display:flex;align-items:center;justify-content:center}
+@keyframes dem-nay{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes ngan-vao{from{transform:translateX(-100%)}to{transform:none}}
+/* ----- hết khối sinh từ canvas ----- */
+/* Chỉ bản chạy thử: camera thật, vạch quét, ô gõ tay, chờ camera, vuốt dòng, màn tắt */
+.phone .hero-gap{height:var(--s1)}
+#camvid{position:absolute;z-index:1;object-fit:cover;display:none;pointer-events:none;background:#0B1220}
+.phone .cam{position:relative;background:#0B1220;overflow:hidden}.phone .cam.song{background:transparent}
+.phone .ngam,.phone .cam-duoi{position:relative;z-index:2}.phone .frame{pointer-events:none}
+.phone .vach{position:absolute;left:16px;right:16px;top:50%;height:1.5px;background:#EF4444}.phone .cam.hit .vach{background:#34D399}
+.phone .cam-cho{display:flex;align-items:center;gap:var(--s2);color:#E2E8F0;font-size:var(--t-body);font-weight:700}
+.phone .cam-cho.chan{flex-direction:column;gap:6px;padding:0 var(--s5);color:#94A3B8;font-size:var(--t-cap);font-weight:600;line-height:1.4;text-align:center}
+.phone .cam-cho .btn{margin-top:var(--s1);text-decoration:none}
+.phone .manual{display:flex;gap:var(--s2);width:100%;padding:var(--s2);border-radius:var(--r-m);background:rgba(255,255,255,.08)}
+.phone .manual input{flex:1;min-width:0;height:48px;padding:0 var(--s3);border:none;border-radius:var(--r-s);background:#fff;color:#0F172A;font-size:var(--t-row)}
+.phone .manual .btn{height:48px}
+.phone .sr{position:absolute;left:-9999px}
+/* vuốt dòng sang trái: dòng đứng yên, nút Xoá trượt vào từ mép phải, che cột số mét; mã cây · Lot · Lô vẫn đọc được (R12) */
+.phone .sw .sw-in{background:var(--raise);touch-action:pan-y;cursor:grab;user-select:none}
+.phone .sw+.sw .sw-in{box-shadow:inset 0 1px 0 var(--raise-line)}
+.phone .sw-xoa.keo{transition:none}
+.phone .gon-o{position:absolute;left:0;right:0;z-index:6}.phone .gon-o .stick{position:static;margin:0}
+.phone .xe-nhan{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.phone .xe-nhan.giu .tag{background:var(--sel-line)}
+.phone .tat{align-items:center;justify-content:center;background:#0B1220;color:#94A3B8;font-size:var(--t-cap)}
 @media print{body *{visibility:hidden}#tem-in,#tem-in *{visibility:visible}#tem-in{position:absolute;left:0;top:0;width:100%}}
 </style>
 
@@ -222,7 +387,7 @@ button.cam-cho{height:44px;padding:0 16px;border-radius:999px;background:#007AFF
     <div class="hop gy"><h3>Góp ý <span id="gy-dem"></span></h3><p class="gt">Góp ý tự gắn tên màn đang xem: <b id="gy-man">—</b>. Lưu trên máy này; xong bấm <b>Chép hết góp ý</b> rồi dán vào Zalo.</p>
       <label for="gy-ten" class="gyl">Tên người góp ý (không bắt buộc)</label><input id="gy-ten" class="gyi" autocomplete="name">
       <label for="gy-nd" class="gyl">Góp ý cho màn này</label><textarea id="gy-nd" class="gyi" rows="3" placeholder="VD: nút Kết thúc xe nhỏ quá, đeo găng khó bấm"></textarea>
-      <div class="row" style="margin-top:8px"><button class="btn" id="gy-luu" type="button">Lưu góp ý</button><button class="btn phu" id="gy-chep" type="button">Chép hết góp ý</button></div>
+      <div class="hang" style="margin-top:8px"><button class="tbtn" id="gy-luu" type="button">Lưu góp ý</button><button class="tbtn phu" id="gy-chep" type="button">Chép hết góp ý</button></div>
       <p class="gt" id="gy-chan" role="alert" hidden style="margin:8px 0 0;color:var(--err)"><b style="color:var(--err)">Máy này không cho lưu góp ý.</b> Góp ý chỉ giữ tới khi tải lại hoặc đóng trang — bấm Chép hết góp ý trước khi đóng.</p>
       <p class="gt" id="gy-bao" role="status" style="margin:8px 0 0"></p><textarea id="gy-duphong" class="gyi" rows="5" hidden aria-label="Nội dung góp ý để chép"></textarea>
       <div class="nk" style="margin-top:8px"><ol id="gy-ds"></ol></div></div>
@@ -279,7 +444,7 @@ function seed() {
     c('k42', 'C-0952', 'PL-GR', 'D', 90, 'L05', 'PX-0927'),
     c('k43', 'C-0999', 'PL-GR', 'D', 92, 'L05', 'PX-0931', { pxDuyet: false }),
     c('k50', 'C-0760', 'CT32-NV', 'A', 70, 'L03', 'PX-0901'),
-    c('k51', 'C-0761', 'CT32-NV', 'A', 65, 'L03', 'PX-0901'),
+    c('k51', 'C-0761', 'CT32-NV', 'NV2409-A0123', 65, 'L03', 'PX-0901'),
     c('k9', 'C-0807', 'CT32-NV', 'B', 76, 'L03', 'PX-0921'),
     c('k10', 'C-0808', 'CT32-NV', 'B', 76, 'L03', 'PX-0921'),
     c('k44', 'C-0953', 'PL-GR', 'D', 91, 'L05', 'PX-0927'),
@@ -303,7 +468,7 @@ function seed() {
     { so: 'GTV-0015', xe: '107', lo: 'L03', tt: 'duyet', nguon: 'app', ht: T0 - 17 * H, rows: [r('k23', tB), r('k24', tB + 25 * MIN), r('k25', tA + 12 * MIN)] },
     { so: 'GTV-0016', xe: '107', lo: 'L04', tt: 'duyet', nguon: 'app', ht: T0 - 70 * MIN, rows: [r('k30', T0 - 70 * MIN)] },
     { so: 'GTV-0017', xe: '111', lo: 'L05', tt: 'duyet', nguon: 'app', ht: T0 - 5 * H, rows: [r('k40', T0 - 5 * H)] },
-    // Văn phòng gõ tay trên SMB: Số xe ngoài 101–500 hoặc để trống → cột Xe màn lấy ghi "Không rõ xe" (R25)
+    // Văn phòng gõ tay trên SMB: Số xe ngoài 101–500 hoặc để trống → nhãn xe màn lấy / ghép ghi NaN kèm số đã ghi (R25, CR-002)
     { so: 'GTV-0008', xe: '650', lo: 'L05', tt: 'duyet', nguon: 'SMB', ht: T0 - 3 * D, rows: [r('k44', T0 - 3 * D)] },
     { so: 'GTV-0009', xe: 'X112', lo: 'L05', tt: 'duyet', nguon: 'SMB', ht: T0 - 3 * D, rows: [r('k45', T0 - 3 * D)] },
     { so: 'GTV-0010', xe: '', lo: 'L05', tt: 'duyet', nguon: 'SMB', ht: T0 - 3 * D, rows: [r('k46', T0 - 3 * D)] },
@@ -341,8 +506,8 @@ const xeHopLe = code => /^\d{3}$/.test(code) && +code >= 101 && +code <= 500;
 const banHopLe = code => /^\d{2}(0[1-9]|1[0-2])\d{4}$/.test(code);
 // Tên xe để đọc: mã tem là số trần (109), trên màn hình ghi "xe 109" cho khỏi lẫn với số mét.
 const tx = (x, hoa) => xeHopLe(x) ? (hoa ? 'Xe ' : 'xe ') + x : x;
-// Số xe SMB ngoài dải (650, X112, trống, “xe 7”): cột Xe ở màn lấy ghi "Không rõ xe" kèm nguyên số đã ghi (R25)
-const txLa = x => x ? `“${x}”` : 'Số xe trống';
+// Số xe SMB ngoài dải (650, X112, trống, “xe 7”): nhãn xe ở màn lấy / ghép ghi NaN kèm nguyên số đã ghi (R25, CR-002)
+const txLa = x => x ? `“${x}”` : 'trống';
 function ngayU(c) { const xs = NGAY_U.filter(x => x.lo === c.lo && x.vai === c.vai).map(x => x.ngay); return xs.length ? Math.max(...xs) : null; }
 // Tình trạng xả: ok (đủ) · wait (còn left ms) · nokhai (chưa khai ngày xả)
 function u(c, r) {
@@ -370,8 +535,10 @@ const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;'
 function log(msg, k = 'ok') { S.log.unshift({ t: now(), msg, k }); S.log = S.log.slice(0, 80); }
 function toast(kind, msg) { if (kind !== 'ok') log(msg, kind === 'err' ? 'er' : 'wr'); const id = Math.random(); S.toast = { kind, msg, id }; setTimeout(() => { if (S.toast && S.toast.id === id) { S.toast = null; render(); } }, 4500); }
 function bip() { S.hit = Date.now(); try { navigator.vibrate && navigator.vibrate(60); } catch (e) {} }
-function online() { if (S.offline) { toast('err', 'Mất mạng, chưa ghi.'); return false; } return true; }
-function go(screen, params = {}) { S.screen = screen; S.params = params; S.sheet = null; S.manual = false; }
+// Mất mạng: báo nổi "Mất mạng, chưa ghi" đã nằm sẵn trên màn, thao tác không ghi (R26)
+function online() { if (S.offline) { log('Mất mạng, chưa ghi.', 'er'); return false; } return true; }
+// Sang màn khác: báo của màn trước tắt theo (báo thuộc về màn đang làm)
+function go(screen, params = {}) { S.screen = screen; S.params = params; S.sheet = null; S.manual = false; menuMo = false; S.toast = null; }
 
 // Phiếu nháp của lượt này cho Lô đó; chưa có thì tạo. Phiếu nháp lập trên SMB hoặc của lượt khác: không ghi vào (R9)
 function phieuNhap(xe, lo) {
@@ -420,8 +587,8 @@ function duyetLuot(chu) {
 function ketThuc() {
   if (!online()) return;
   const xe = S.sess.xe, man = S.sess.man; duyetLuot('Kết thúc');
-  toast('ok', `Đã kết thúc ${tx(xe)}.`);
   go(man + '-xe');
+  toast('ok', `Đã kết thúc ${tx(xe)}.`);
 }
 // Thoát app, đăng xuất, mở app sang ngày khác → lượt đang mở tự Kết thúc như R13, không hỏi;
 // chưa xả cây nào thì bỏ lượt (R6). Mất mạng thì chưa ghi được → lượt vẫn mở (R26). Trả về true khi đã đóng lượt.
@@ -488,7 +655,7 @@ function scan(raw) {
 // ===== Camera sau: quét tem thật khi máy cho phép =====
 // Giữ một <video> duy nhất ngoài vùng vẽ lại; mỗi lần vẽ thì gắn nó vào khung camera.
 // Trang trên claude.ai không được mở camera; bản giống hệt đặt ở GitHub Pages thì được
-const BAN_CAMERA = 'https://ttsoft-vn.github.io/urolls-chay-thu/';
+const BAN_CAMERA = 'https://mydth-ttsoft.github.io/urolls-chay-thu/';
 // Trình duyệt gắn trong app khác (Zalo, Messenger…) trên iPhone không cho hình camera nằm trong trang:
 // nó bung ra toàn màn hình và trang không đọc được. Nhận ra để bảo người dùng mở bằng Safari.
 const UA = navigator.userAgent || '';
@@ -596,93 +763,141 @@ function docMa(raw) {
 }
 
 // ===== Màn hình điện thoại =====
-const I = (n, s = 24, col = '#0F172A', f = '') => `<span class="mi ${f}" style="font-size:${s}px;color:${col}" aria-hidden="true">${n}</span>`;
-const hdr = (to, title, sub = '', right = '') => `<div class="hd"><button class="ib" data-a="go" data-v="${to}" aria-label="Quay lại">${I('arrow_back')}</button><div class="tt"><b>${title}</b>${sub ? `<span>${sub}</span>` : ''}</div>${right}</div>`;
-function cam() {
-  const hit = Date.now() - S.hit < 700 ? ' hit' : '';
-  const giua = CAM.st === 'bat' ? '<div class="frame"><b class="g1"></b><b class="g2"></b><b class="g3"></b><b class="g4"></b><i></i></div>'
-    : CAM.st === 'dang' ? `<div class="cam-cho">${I('progress_activity', 24, '#fff')}Đang mở camera…</div>`
-    : (CAM.st === 'chan' && CAM.lydo === 'trongapp') || (CAM.st === 'tat' && TRONG_APP) ? `<div class="cam-cho chan">${I('open_in_browser', 22, '#94A3B8')}Trình duyệt trong app này không quét được.<br>Bấm ⋯ → <b style="color:#E2E8F0">Mở bằng Safari</b> (hoặc Chrome)${CAM.st === 'tat' ? `<button class="cta sec" data-a="camon">Vẫn thử bật camera</button>` : ''}</div>`
-    : CAM.st === 'chan' && CAM.lydo === 'bodoc' ? `<div class="cam-cho chan">${I('wifi_off', 22, '#94A3B8')}Không tải được bộ đọc mã vạch — xem lại mạng rồi bấm lại<button class="cta sec" data-a="camon">Thử lại</button></div>`
+// Component theo canvas (urolls-canvas/build.py): bar · btn · row · card · grp · hero · pop · snack. CSS của chúng sinh từ canvas, ở đây chỉ ráp HTML.
+const I = (n, s = 24, col = '#0F172A', f = '') => `<span class="mi ${f}" style="font-size:${s}px;color:${col}" aria-hidden="true">${n}</span>`;   // icon của trang thử (cột trái)
+const ic = (n, c = '', f = false) => `<span class="mi${f ? ' f' : ''}${c ? ' ' + c : ''}" aria-hidden="true">${n}</span>`;
+const bar = (to, title, sub = '', act = '') => `<header class="bar"><button class="ib" data-a="go" data-v="${to}" aria-label="Quay lại">${ic('arrow_back')}</button><div class="bar-t"><b>${title}</b>${sub ? `<span>${sub}</span>` : ''}</div>${act}</header>`;
+const nutBar = (a, t) => `<button class="btn sm" data-a="${a}">${t}</button>`;
+// Vòng tích: chưa chọn = dấu +, chọn = tròn xanh có tích (chỉ báo trạng thái; chạm cả dòng mới là thao tác)
+const ck = on => on ? `<span class="ck on">${ic('check')}</span>` : `<span class="ck">${ic('add')}</span>`;
+// Lot quá 12 ký tự cắt còn 11 + … cho dòng không xuống hàng; đủ chữ nằm trong title
+const lotNgan = lot => { const t = String(lot); return t.length > 12 ? t.slice(0, 11) + '…' : t; };
+const xaHtml = xa => `<span class="xa" title="Đã xả ${xa}">${ic('schedule', '', true)}${xa}</span>`;
+// Dòng cây hai tầng, một khung cho mọi màn: trái mã cây / dưới là Lot (+ ghi chú) · phải số mét / dưới là giờ xả (màn lấy, ghép) hoặc Lô (màn xả).
+// a: thao tác khi chạm dòng — cả dòng là nút (vùng chạm lớn, đeo găng vẫn trúng); dấu + / ✓ cuối dòng chỉ báo trạng thái.
+// cu: cây sẵn có trên xe đích (màn ghép), chỉ để xem
+function dongCay({ c, lo, xa, met, on, cu, ghi, a, ten, lop = '', them = '' }) {
+  const phu = [`<span class="lot" title="Lot ${esc(c.lot)}">Lot ${esc(lotNgan(c.lot))}</span>`, ghi ? `<small>${ghi}</small>` : ''].filter(Boolean).join('<i class="cham" aria-hidden="true">·</i>');
+  const h = `<span class="ma-w"><b class="ma">${esc(c.ma)}</b><span class="ma-p">${phu}</span></span><span class="m-w"><span class="m"><b>${so(met)}</b> m</span>${xa ? xaHtml(xa) : ''}${lo ? `<span class="lo">${lo}</span>` : ''}</span>`;
+  const cls = `row hai${on ? ' on' : ''}${cu ? ' cu' : ''}${lop}`;
+  if (a) return `<button class="${cls} nut" role="checkbox" aria-checked="${!!on}" aria-label="${ten} ${esc(c.ma)}" data-a="${a}" data-v="${c.id}" data-cay="${c.id}"${them}>${h}<span class="act">${ck(on)}</span></button>`;
+  return `<div class="${cls}" data-cay="${c.id}"${them}>${h}${cu ? '<span class="act"></span>' : ''}</div>`;
+}
+// Xe SMB ngoài dải 101–500 hoặc để trống: nhãn ghi NaN kèm số đã ghi chữ nhỏ (R25, CR-002)
+const nhanXe = xe => xeHopLe(xe) ? `Xe ${esc(xe)}` : `NaN <small>${esc(txLa(xe))}</small>`;
+// Thẻ một xe: nhãn xe góc trên trái (dính dưới khối đầu màn khi cuộn) + các dòng cây. CHỈ bấm giữ nhãn mới lấy / ghép cả xe (R15, R19, CR-003);
+// chạm nhanh nhãn chỉ nhắc, bấm giữ dòng cây không lấy cả xe. Nhãn xám · nền trắng khi thẻ có dòng chọn · xanh đặc khi cả xe đã lấy
+const theXe = (xe, on, viec, rows, n) => `<div class="card xe" data-xe="${esc(xe)}"><button class="xe-nhan${xeHopLe(xe) ? '' : ' la'}${on ? ' on' : ''}" aria-pressed="${on}" aria-label="Giữ để ${viec}" data-giu="tichxe" data-v="${esc(xe)}"><span class="tag">${on ? ic('check_circle', '', true) : ''}${nhanXe(xe)}<span class="n">· ${n} cây</span></span></button>${rows}</div>`;
+const heroXe = (ovl, xe, n, than) => `<div class="hero" id="xe-hero"><div class="hero-h"><span class="ovl">${ovl}</span><b class="hero-big">${tx(xe, 1)}</b><span class="pill glass"><b>${n}</b> cây</span></div>${than}</div>`;
+// Cuộn tới khi dòng Xe 109 · N cây của thẻ xe trôi khuất → dải gọn "nhãn · Xe 109 · N cây" hiện đè đầu vùng cuộn (thẻ không co lại lúc cuộn nên màn không giật); cuộn về đỉnh là thẻ đầy đủ.
+// tieuDe: tiêu đề nhóm dính theo ngay dưới dải khi nhóm đó đã trôi lên (màn ghép: Xe còn cây)
+const gonXe = (ovl, xe, n, tieuDe = '') => `<div class="gon-o" id="gon" hidden><div class="stick"><div class="hero gon"><div class="hero-h"><span class="ovl">${ovl}</span><b class="hero-big">${tx(xe, 1)}</b><span class="pill glass"><b>${n}</b> cây</span></div></div>${tieuDe ? `<div class="sect" hidden>${tieuDe}</div>` : ''}</div></div>`;
+const pop = (icon, icls, warn, h, p, huy, ok) => `<div class="scrim" data-a="close"></div><div class="pop" role="dialog" aria-modal="true"><span class="pop-ic${warn ? ' warn' : ''}">${ic(icon, 'i-xl ' + icls, true)}</span><h3>${h}</h3>${p ? `<p>${p}</p>` : ''}<div class="btns"><button class="btn ghost" data-a="${huy[0]}">${huy[1]}</button><button class="btn" data-a="${ok[0]}">${ok[1]}</button></div></div>`;
+const TOAST_IC = { ok: 'check_circle', warn: 'warning', err: 'error' };
+// Màn quét toàn màn hình tối: đầu trang ← tên việc; khung ngắm 4 góc chiếm gần hết màn; dưới là nhãn "Quét mã vạch trên tem …" và hàng nút Bật camera sau · gõ tay.
+// Nhãn cũng là chỗ báo: tem sai (đỏ), nhắc (vàng), xong (xanh), mất mạng — màn quét không có báo nổi đè lên nút
+const quet = (title, tem) => `<div class="scr quet">${bar('home', title)}${cam(tem)}</div>`;
+function cam(tem) {
+  const hit = Date.now() - S.hit < 700 ? ' hit' : '', bat = CAM.st === 'bat';
+  const giua = bat ? '<i class="vach"></i>'
+    : CAM.st === 'dang' ? `<div class="cam-cho">${ic('progress_activity')}Đang mở camera…</div>`
+    : (CAM.st === 'chan' && CAM.lydo === 'trongapp') || (CAM.st === 'tat' && TRONG_APP) ? `<div class="cam-cho chan">${ic('open_in_browser', 'i-m')}Trình duyệt trong app này không quét được.<br>Bấm ⋯ → <b style="color:#E2E8F0">Mở bằng Safari</b> (hoặc Chrome)${CAM.st === 'tat' ? `<button class="btn sm" data-a="camon">Vẫn thử bật camera</button>` : ''}</div>`
+    : CAM.st === 'chan' && CAM.lydo === 'bodoc' ? `<div class="cam-cho chan">${ic('wifi_off', 'i-m', true)}Không tải được bộ đọc mã vạch — xem lại mạng rồi bấm lại<button class="btn sm" data-a="camon">Thử lại</button></div>`
     : CAM.st === 'chan' ? (location.hostname.endsWith('github.io')
-      ? `<div class="cam-cho chan">${I('no_photography', 22, '#94A3B8')}Không mở được camera — dùng tem thử bên cạnh hoặc gõ tay</div>`
-      : `<div class="cam-cho chan">${I('no_photography', 22, '#94A3B8')}Trang này bị chặn camera<a class="cta" style="text-decoration:none" href="${BAN_CAMERA}" target="_blank" rel="noopener">Mở bản có camera</a></div>`)
-    : `<button class="cam-cho" data-a="camon">${I('photo_camera_back', 20, '#fff', 'f')}Bật camera sau</button>`;
-  const den = CAM.st === 'bat' && CAM.coDen ? `<button class="camb trai" aria-label="${CAM.den ? 'Tắt' : 'Bật'} đèn flash" aria-pressed="${CAM.den}" data-a="den">${I(CAM.den ? 'flashlight_off' : 'flashlight_on', 20, '#fff', 'f')}</button>` : '';
-  return `<div class="cam${hit}${CAM.st === 'bat' ? ' song' : ''}${giua.includes('cam-cho chan') ? ' cao' : ''}" id="camslot">${giua}
-  ${den}<button class="camb" aria-label="Gõ tay mã" data-a="manual">${I('keyboard', 20, '#fff')}</button></div>
-  ${S.manual ? `<form class="manual" data-f="manual"><label for="mcode" style="position:absolute;left:-9999px">Mã tem</label><input id="mcode" placeholder="Mã tem" autocomplete="off" autocapitalize="characters"><button class="chip act" type="submit">Nhập</button></form>` : ''}`;
+      ? `<div class="cam-cho chan">${ic('no_photography', 'i-m')}Không mở được camera — dùng tem thử bên cạnh hoặc gõ tay</div>`
+      : `<div class="cam-cho chan">${ic('no_photography', 'i-m')}Trang này bị chặn camera<a class="btn sm" href="${BAN_CAMERA}" target="_blank" rel="noopener">Mở bản có camera</a></div>`)
+    : `<span class="cam-ic">${ic('grid_view')}</span>`;
+  const t = S.toast;
+  const goi = t ? `<span class="cam-goi ${t.kind === 'err' ? 'loi' : t.kind}" role="alert" data-toast>${ic(TOAST_IC[t.kind], 'i-s', true)}<span class="tmsg">${t.msg}</span></span>`
+    : S.offline ? `<span class="cam-goi loi" role="status">${ic('wifi_off', 'i-s', true)}Mất mạng, chưa ghi</span>`
+    : `<span class="cam-goi">Quét mã vạch trên ${tem}</span>`;
+  const bam = CAM.st === 'tat' && !TRONG_APP ? `<button class="btn" data-a="camon">${ic('photo_camera', 'i-m')}Bật camera sau</button>` : '';
+  const den = bat && CAM.coDen ? `<button class="btn-kinh" aria-label="${CAM.den ? 'Tắt' : 'Bật'} đèn flash" aria-pressed="${CAM.den}" data-a="den">${ic(CAM.den ? 'flashlight_off' : 'flashlight_on')}</button>` : '';
+  return `<div class="cam${hit}${bat ? ' song' : ''}" id="camslot">
+  <div class="ngam"><div class="frame"><b class="g1"></b><b class="g2"></b><b class="g3"></b><b class="g4"></b></div>${giua}</div>
+  <div class="cam-duoi">${goi}
+  ${S.manual ? `<form class="manual" data-f="manual"><label for="mcode" class="sr">Mã tem</label><input id="mcode" placeholder="Mã tem" autocomplete="off" autocapitalize="characters"><button class="btn sm" type="submit">Nhập</button></form>` : ''}
+  <div class="cam-nut">${den}${bam}<button class="btn-kinh" aria-label="Gõ tay mã" data-a="manual">${ic('keyboard')}</button></div></div></div>`;
 }
 // Số mét đã dùng theo Bàn cắt và còn lại = xuất − đã dùng (R22)
 const daDung = c => S.banCat[c.id] || 0;
 const conMet = c => c.met - daDung(c);
 
 function scrLogin() {
-  return `<div class="scr" style="background:#F8FAFC;padding:56px 22px 20px;align-items:stretch">
-  <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:34px">
-  <div style="width:72px;height:72px;border-radius:20px;background:#007AFF;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,122,255,.3);margin-bottom:12px"><span style="color:#fff;font-size:36px;font-weight:800">R</span></div>
-  <b style="font-size:26px;letter-spacing:-.5px">u@Rolls</b></div>
+  return `<div class="scr login"><div class="brand"><span class="brand-mk">R</span><b>u@Rolls</b></div>
   <form data-f="login">
   <div class="field"><label for="tk">Tài khoản</label><input id="tk" value="binhtv.cat" autocomplete="off"></div>
   <div class="field"><label for="mk">Mật khẩu</label><input id="mk" type="password"></div>
-  <button class="cta" type="submit" style="width:100%;margin-top:8px">Đăng nhập</button></form>
-  <span style="margin-top:auto;text-align:center;font-size:12px;color:#64748B">Powered by TTSOFT</span></div>`;
+  <button class="btn full" type="submit">Đăng nhập</button></form>
+  <span class="foot">Powered by TTSOFT</span></div>`;
 }
-// Trang chính: đúng 3 nút việc, 3 dòng ngang nhau, chỉ ghi tên việc (R5). Lượt đang mở hiện số xe · số cây dưới tên việc của lượt đó
+// Giao diện sáng / tối: người dùng bật tắt ở menu ☰, nhớ trên máy (không theo tài khoản)
+const GD_KEY = 'urolls-giao-dien';
+let GD = (() => { try { return localStorage.getItem(GD_KEY) === 'dk' ? 'dk' : ''; } catch (e) { return ''; } })();
+function doiGiaoDien() { GD = GD === 'dk' ? '' : 'dk'; try { localStorage.setItem(GD_KEY, GD); } catch (e) {} }
+// Trang chính: 3 việc trong một thẻ danh sách, dồn xuống đáy màn (vùng ngón cái); lời chào canh giữa khoảng trống phía trên (R5).
+// Việc có lượt đang mở: gạch xanh mép trái + số xe · số cây dưới tên việc, chạm là quay lại lượt.
+// ☰ mở ngăn kéo (navigation drawer) trượt từ mép trái: Giao diện tối (công tắc) + Đổi người dùng (thoát tài khoản cho người sau đăng nhập); chạm nền mờ để đóng.
+// NGAN_VAO: chỉ lần vẽ ngay sau khi mở mới chạy hiệu ứng trượt, bật tắt giao diện tối thì ngăn đứng yên
+let menuMo = false, NGAN_VAO = false;
 function scrHome() {
   const s = S.sess, luot = v => s && s.man === v ? `${tx(s.xe, 1)} · ${s.ds.length} cây` : '';
-  const viec = [['xa', 'move_to_inbox', '', '#fff', 'Xả vải'], ['lay', 'outbox', '#D1FAE5', '#047857', 'Lấy vải'], ['ghep', 'merge', '#EBF6FF', '#007AFF', 'Ghép xe vải']];
+  const viec = (v, icon, t) => { const l = luot(v);
+    return `<button class="viec${l ? ' dang' : ''}" data-a="go" data-v="${v}"><span class="viec-ic">${ic(icon, 'i-m')}</span><span class="viec-t"><b>${t}</b>${l ? `<small class="viec-luot">${l}</small>` : ''}</span><span class="viec-go">${ic('chevron_right', 'i-m')}</span></button>`; };
+  const toi = GD === 'dk';
   return `<div class="scr">
-  <div class="home-dau"><div class="home-av">${I('person', 28, '#fff', 'f')}</div>
-  <div class="home-ten"><small>Xin chào,</small><b>${S.user.ten}</b><small>Nhà cắt · Xưởng 1</small></div>
-  <button class="ib" data-a="logout" aria-label="Đăng xuất">${I('logout', 24, '#0F172A')}</button></div>
-  <div class="scroll home-than" id="home"><div class="home-ds">
-  ${viec.map(([v, ic, nen, mau, t]) => { const l = luot(v), hero = v === 'xa';
-    return `<button class="viec dong-viec${hero ? ' hero' : ''}" data-a="go" data-v="${v}"><span class="dv-ic${hero ? ' kinh' : ''}"${hero ? '' : ` style="background:${nen}"`}>${I(ic, 30, mau)}</span><span class="dv-chu"><b class="viec-t">${t}</b>${l ? `<span class="viec-luot">${l}</span>` : ''}</span>${I('chevron_right', 24, hero ? '#fff' : '#94A3B8')}</button>`; }).join('')}</div>
-  <div class="home-chan">Powered by TTSOFT</div></div></div>`;
+  <div class="home-bar"><button class="ib" data-a="menu" aria-label="Menu" aria-expanded="${menuMo}">${ic('menu')}</button><span class="logo">u@Rolls<i></i></span></div>
+  <div class="body home-b" id="home"><div class="who"><span class="chao">Xin chào,</span><b>${esc(S.user.ten)}</b><span class="ovl">Nhà cắt · Xưởng 1</span></div><div class="card viecs">${viec('xa', 'move_to_inbox', 'Xả vải')}${viec('lay', 'outbox', 'Lấy vải')}${viec('ghep', 'all_inbox', 'Ghép xe vải')}</div></div>
+  <div class="home-menu"${menuMo ? '' : ' hidden'}><div class="drawer-bg" data-a="menu"></div><nav class="drawer${NGAN_VAO ? ' vao' : ''}" aria-label="Menu">
+  <div class="drawer-h"><span class="logo">u@Rolls<i></i></span><b>${esc(S.user.ten)}</b><span class="ovl">Nhà cắt · Xưởng 1</span></div>
+  <button class="nav-i" role="switch" aria-checked="${toi}" data-a="toi">${ic('dark_mode', 'c-2')}<span>Giao diện tối</span><i class="tg${toi ? ' on' : ''}"></i></button>
+  <button class="nav-i" data-a="logout">${ic('switch_account', 'c-2')}<span>Đổi người dùng</span></button>
+  <span class="drawer-f">Powered by TTSOFT</span></nav></div></div>`;
 }
 function scrXaXe() {
-  return `<div class="scr">${hdr('home', 'Xả vải', 'Quét tem xe')}${cam()}</div>`;
+  return quet('Xả vải', 'tem xe');
 }
 function scrGhepXe() {
-  return `<div class="scr">${hdr('home', 'Ghép xe vải', 'Quét tem xe')}${cam()}</div>`;
+  return quet('Ghép xe vải', 'tem xe');
 }
-const nutXe = s => s.ds.length ? `<button class="chip ket" data-a="ketthuc">Kết thúc xe</button>` : `<button class="chip ket" data-a="boxe">Đổi xe</button>`;
+const nutXe = s => s.ds.length ? nutBar('ketthuc', 'Kết thúc xe') : nutBar('boxe', 'Đổi xe');
 const so = x => String(x).replace('.', ',');
-// Bảng Lô hàng · Cây · Lot · Số mét các cây đã vào xe trong lượt xả, mới nhất trên cùng; vuốt dòng sang trái → Xoá (R7, R12)
+// Thẻ lớn của xe: số xe to, số cây; các cây đã vào xe trong lượt xả nằm trong thẻ, mới nhất trên cùng — dòng hai tầng: mã cây · số mét / Lot · Lô; vuốt dòng sang trái → Xoá (R7, R12)
 function bangLuot(s) {
   const ds = s.ds.slice().reverse();
-  const t = `<div class="luot-t" id="luot-t">Đã xả vào ${xeHopLe(s.xe) ? `xe <b>${s.xe}</b>` : `<b>${s.xe}</b>`} · <b>${ds.length}</b> cây</div>`;
-  if (!ds.length) return t + '<p class="rong">Chưa có cây.</p>';
-  return `${t}<div class="bang c4" id="bang-luot"><div class="bh"><span>Lô hàng</span><span>Cây</span><span>Lot</span><span class="sm">Số mét</span></div>
-  ${ds.map(e => { const c = cayBy(e.cay); return `<div class="sw${S.vuot === e.seq ? ' mo' : ''}" data-sw="${e.seq}"><div class="br sw-in"><span>${LO[c.lo].lo}</span><b>${c.ma}</b><span>${c.lot}</span><span class="sm">${so(c.met)}</span></div><button class="sw-xoa" data-a="xoa" data-v="${e.seq}" aria-label="Xoá ${c.ma}">Xoá</button></div>`; }).join('')}</div>`;
+  const than = ds.length ? `<div class="hero-body" id="bang-luot">${ds.map(e => { const c = cayBy(e.cay);
+    return `<div class="sw${S.vuot === e.seq ? ' mo' : ''}" data-sw="${e.seq}">${dongCay({ c, lo: LO[c.lo].lo, met: c.met, lop: ' sw-in' })}<button class="sw-xoa" data-a="xoa" data-v="${e.seq}" aria-label="Xoá ${esc(c.ma)}">${ic('delete', 'i-m')}Xoá</button></div>`; }).join('')}</div>`
+    : '<p class="hero-empty">Chưa có cây.</p>';
+  return heroXe('Đã xả vào', s.xe, ds.length, than);
 }
 // Lô còn cây chờ xả: phiếu xuất đã duyệt, chưa vào phiếu Xả vải nào (R8). Lô hết cây thì không có
 function dsLo() { const n = {}; xaMoi().forEach(c => { n[c.lo] = (n[c.lo] || 0) + 1; }); return Object.keys(LO).filter(lo => n[lo]).map(lo => ({ lo, n: n[lo] })); }
-// Màn xả của một xe (không có khung camera, R2): bảng của lượt + danh sách Lô còn cây chờ bên dưới (chạm → chọn cây của Lô đó) (R7, R8)
+// Màn xả của một xe (không có khung camera, R2): thẻ lớn của xe + danh sách Lô còn cây chờ bên dưới (chạm → chọn cây của Lô đó) (R7, R8)
 function scrXa() {
   const s = S.sess, ls = dsLo();
-  const lo = ls.length ? `<div class="ds-lo" id="ds-lo"><div class="ds-lo-t">Chọn cây theo Lô</div>${ls.map(x => `<button class="lo-dong" data-a="chonlo" data-v="${x.lo}"><b>${loTen(x.lo)}</b><span>${x.n} cây</span>${I('chevron_right', 22, '#64748B')}</button>`).join('')}</div>` : '';
-  return `<div class="scr">${hdr('home', tx(s.xe, 1), 'Xả vải', nutXe(s))}
-  <div class="scroll" id="ds-xa">${bangLuot(s)}${lo}</div></div>`;
+  const lo = ls.length ? `<div class="sect">Chọn cây theo Lô</div><div class="card" id="ds-lo">${ls.map(x => `<button class="nav" data-a="chonlo" data-v="${x.lo}"><b>${LO[x.lo].lo}</b><span>${x.n} cây</span>${ic('chevron_right', 'i-m c-3')}</button>`).join('')}</div>` : '';
+  return `<div class="scr">${bar('home', 'Xả vải', '', nutXe(s))}<div class="body" id="ds-xa"><div class="hero-gap"></div>${bangLuot(s)}${lo}</div>${gonXe('Đã xả vào', s.xe, s.ds.length)}</div>`;
 }
-// Chọn cây của một Lô: cây chưa xả có phiếu xuất đã duyệt (R8), nhóm theo PO · Lô · mã vải; chạm dòng là cây vào xe
+// Chọn cây của một Lô: cây chưa xả có phiếu xuất đã duyệt (R8), nhóm theo màu · mã vải rồi theo Lot, trong Lot xếp theo mã cây; chạm dòng là cây vào xe.
+// Đầu nhóm Lot (cùng nền thẻ, chữ xám) bấm để thu / bung nhóm; mặc định bung hết.
+// Góc phải đầu màn: viên số cây trên xe (XE 109 • 2 cây), đổi số thì nảy lên để người chạm thấy cây đã vào xe
+let DEM_CU = null;
 function scrChon() {
-  const s = S.sess, lo = S.params.lo;
-  const xs = xaMoi().filter(c => !lo || c.lo === lo).sort((a, b) => a.vai.localeCompare(b.vai) || a.lot.localeCompare(b.lot));
-  let nhom = '', than = '';
-  for (const c of xs) {
-    const k = loTen(c.lo) + ' · ' + VAI[c.vai];
-    if (k !== nhom) { nhom = k; than += `<div class="sub">${k}</div>`; }
-    than += `<button class="br" data-a="cham" data-v="${c.id}"><span>${LO[c.lo].lo}</span><b>${c.ma}</b><span>${c.lot}</span><span class="sm">${so(c.met)}</span></button>`;
-  }
-  return `<div class="scr">${hdr('xa', 'Chọn cây', tx(s.xe, 1) + ' · ' + s.ds.length + ' cây')}<div class="scroll" id="ds-chon" style="padding-top:10px">
-  ${xs.length ? `<div class="bang c4"><div class="bh"><span>Lô hàng</span><span>Cây</span><span>Lot</span><span class="sm">Số mét</span></div>${than}</div>` : '<p class="rong">Không còn cây.</p>'}</div></div>`;
+  const s = S.sess, lo = S.params.lo, g = {}, dong = S.params.dong || [];
+  xaMoi().filter(c => c.lo === lo).forEach(c => { const v = g[c.vai] = g[c.vai] || {}; (v[c.lot] = v[c.lot] || []).push(c); });
+  const tenVai = vai => { const [ten, mau] = VAI[vai].split(' · '); return mau ? `<span class="mau">${mau}</span> · ${ten}` : ten; };
+  const theoMa = (a, b) => a.ma.localeCompare(b.ma, 'vi', { numeric: true });
+  const than = Object.keys(g).sort().map(vai => `<div class="sect"><span>${tenVai(vai)}</span></div>` + Object.keys(g[vai]).sort().map(lot => { const k = vai + '|' + lot, mo = !dong.includes(k);
+    return `<div class="card"><button class="card-h nut" data-a="lot" data-v="${esc(k)}" aria-expanded="${mo}"><b>Lot ${esc(lot)}</b><span class="n">${g[vai][lot].length} cây</span><span class="act">${ic(mo ? 'expand_less' : 'expand_more', 'i-m c-2')}</span></button>${!mo ? '' : g[vai][lot].sort(theoMa).map(c =>
+    `<button class="row nut" data-a="cham" data-v="${c.id}" aria-label="Thêm ${esc(c.ma)} vào ${tx(s.xe)}"><b class="ma">${esc(c.ma)}</b><span class="m"><b>${so(c.met)}</b> m</span><span class="act">${ck(false)}</span></button>`).join('')}</div>`; }).join('')).join('');
+  const k = s.xe + '|' + s.ds.length, nay = DEM_CU && DEM_CU !== k && DEM_CU.split('|')[0] === s.xe; DEM_CU = k;
+  const dem = `<div class="dem" id="dem-xe"><span class="ovl">${tx(s.xe, 1)}</span><span class="sr"> · </span><i aria-hidden="true"></i><p><b${nay ? ' class="nay"' : ''}>${s.ds.length}</b> cây</p></div>`;
+  return `<div class="scr">${bar('xa', LO[lo].lo, '', dem)}<div class="body" id="ds-chon">${than || '<p class="note">Không còn cây.</p>'}</div></div>`;
 }
 function scrLay() {
-  return `<div class="scr">${hdr('home', 'Lấy vải', 'Quét tem bàn cắt')}${cam()}</div>`;
+  return quet('Lấy vải', 'tem bàn cắt');
 }
-// Bảng lấy của Bàn cắt: chỉ cây đúng Lô + mã vải · màu của bàn (R19). Nhóm "Cây vải đã trải" (lấy trước đó, còn ≥ chiều dài sơ đồ của bàn) trên cùng (R20);
+// Bảng lấy của Bàn cắt: chỉ cây đúng Lô + mã vải · màu của bàn (R19). Tab "Cây đã trải" (lấy trước đó, còn ≥ chiều dài sơ đồ của bàn) (R20, CR-001);
 // sau đó cây trên xe đã đủ ngày xả (cây chưa khai ngày xả cũng hiện — R24; cây chưa đủ không hiện) và cây vừa tích
 // ở màn này, nhóm theo xe: xe có cây xả lâu nhất trước, trong xe cây xả lâu nhất trước (R19)
 function bangBan(b, tich) {
@@ -701,40 +916,37 @@ function demBan(b, bb, duTich) {
   const du = bb.du.filter(x => duTich.includes(x.c.id)), co = tp(du) + tp(vua);
   return { can, co, vua, du, lop: [...du, ...vua].reduce((t, x) => t + lopDuoc(x.c, b), 0) };
 }
-// Cây đã xả bao lâu, tính từ giờ xả tới hiện tại: "xả 3 ngày 2 giờ" (R19)
+// Cây đã xả bao lâu, tính từ giờ xả tới hiện tại, gọn cho cột hẹp: "2d 6h" = 2 ngày 6 giờ (R19)
 function daXa(r) {
-  const t = Math.max(0, now() - r.gioXa), n = Math.floor(t / D), g = Math.floor(t % D / H);
-  return 'xả ' + (n || g ? [n ? n + ' ngày' : '', g ? g + ' giờ' : ''].filter(Boolean).join(' ') : 'dưới 1 giờ');
+  const t = Math.max(0, now() - r.gioXa);
+  return `${Math.floor(t / D)}d ${Math.floor(t % D / H)}h`;
 }
-const oXe = xe => xeHopLe(xe) ? esc(xe) : `Không rõ xe<small>${esc(txLa(xe))}</small>`;
-const tenXe = xe => esc(xeHopLe(xe) ? tx(xe) : 'Không rõ xe ' + txLa(xe));
-// Ô tích và một dòng của bảng Xe – Cây (màn Lấy vải theo Bàn cắt và màn Ghép xe vải): ô Xe ở dòng đầu nhóm
-// (có giu = bấm giữ được), Cây · Lot · Số mét · ô tích
-const oTich = (c, da, a = 'tich', ten = 'Đã lấy') => `<button class="tich" role="checkbox" aria-checked="${da}" aria-label="${ten} ${c.ma}" data-a="${a}" data-v="${c.id}">${I(da ? 'check_box' : 'check_box_outline_blank', 30, da ? '#047857' : '#94A3B8', da ? 'f' : '')}</button>`;
-function dongXeCay({ c, dau, xe, giu, lop = '', them = '', ghi = '', met, tich = '<span></span>' }) {
-  const o = !dau ? '<span></span>' : giu ? `<span class="oxe-o"><button class="oxe${xeHopLe(xe) ? '' : ' la'}" data-giu="${esc(xe)}" aria-label="${giu}">${oXe(xe)}</button></span>` : `<span class="oxe nhat">${oXe(xe)}</span>`;
-  return `<div class="br${lop}${dau ? ' dau' : ''}" data-cay="${c.id}"${them}>${o}<span><b>${c.ma}</b>${ghi}</span><span>${c.lot}</span><span class="sm">${so(met)}</span>${tich}</div>`;
-}
-const dauBang = cuoi => `<div class="bh"><span>Xe</span><span>Cây</span><span>Lot</span><span class="sm">Số mét</span><span style="text-align:center">${cuoi}</span></div>`;
-// Lấy vải theo Bàn cắt: đầu màn, thẻ đếm và dòng tiêu đề cột đứng yên, chỉ danh sách cây cuộn; không có khung camera, nút Đổi bàn về màn quét bàn. Đầu màn PO · Lô, dưới là mã Bàn cắt (R17); thẻ vải Màu SP · Loại BTP · Article; thẻ đếm Cần | Thiếu
-// và số cây dang dở (cây vải đã trải được tích) · số cây mới lấy · số lớp các cây đó trải được (R18). Khối "Cây vải đã trải" tách riêng: tích chỉ để tính vào Thiếu, không ghi phiếu (R20).
-// Bảng xe Xe · Cây · Lot · Số mét · Đã lấy — chạm ô Đã lấy = lấy / bỏ lấy một cây; bấm giữ ô Xe = lấy cả xe (R19)
+const tenXe = xe => esc(xeHopLe(xe) ? tx(xe) : 'xe không rõ, số đã ghi ' + txLa(xe));
+// Lấy vải theo Bàn cắt (không có khung camera, nút Đổi bàn về màn quét bàn). Đầu màn Lô, dưới là mã Bàn cắt (R17).
+// Khối dính đầu vùng cuộn: thẻ lớn Màu SP · Loại BTP · Article; Cần | Thiếu (Đủ: Thiếu 0 m xanh lá · thừa: nhãn Thừa cam), thanh tiến độ là viền trên phần trắng
+// (ẩn khi Đủ / Thừa), dưới Thiếu là số cây dở · mới · số lớp các cây đó trải được (R18); ngay dưới thẻ là 2 tab Cây trên xe (mặc định) · Cây đã trải.
+// Tab Cây đã trải: hiện hết cây, tích chỉ để tính vào Thiếu, không ghi phiếu (R20, CR-001). Tab Cây trên xe: mỗi xe một thẻ, chạm dòng = lấy / bỏ lấy cây đó;
+// bấm giữ nhãn xe = lấy cả xe (R19, CR-003)
 function scrLayBan() {
-  const b = BAN[S.params.ban], duTich = S.params.duTich || [], bb = bangBan(b, S.params.tich), dm = demBan(b, bb, duTich);
-  const thieu = dm.can - dm.co, pct = Math.min(100, Math.round(dm.co / dm.can * 100));
-  const trang = thieu > 0 ? `<b class="thieu">${so(thieu)} m</b>` : thieu === 0 ? '<b class="du-ok">Đủ</b>' : `<b class="thua">thừa ${so(-thieu)} m</b>`;
-  const ghi = (c, du) => { const r = lastRow(c.id).r, k = u(c, r).k; return (du ? '' : `<small class="da-xa">${daXa(r)}</small>`) + (daDung(c) && !du ? `<small>xuất ${so(c.met)} · dùng ${so(daDung(c))}</small>` : '') + (k === 'nokhai' ? '<small class="xam">chưa khai ngày xả</small>' : ''); };
-  const dong = ({ c, l }, i, xe) => dongXeCay({ c, dau: !i, xe, giu: 'Bấm giữ để lấy cả ' + tenXe(xe), ghi: ghi(c), met: conMet(c), tich: oTich(c, l.r.daLay) });
-  const dongDu = ({ c }) => dongXeCay({ c, them: ' data-du="1"', ghi: ghi(c, true), met: conMet(c), tich: oTich(c, duTich.includes(c.id), 'tichdu', 'Dùng phần dư') });
-  const khung = [['Màu SP', b.mau], ['Loại BTP', b.btp], ['Article', b.art]].map(([k, v]) => `<div><small>${k}</small><b>${esc(v)}</b></div>`).join('');
-  return `<div class="scr">${hdr('home', loTen(b.lo), b.so, '<button class="chip ket" data-a="doiban">Đổi bàn</button>')}
-  <div class="dem" id="dem-ban"><div class="dem-k" id="the-vai">${khung}</div><div class="bar"><i class="${thieu > 0 ? '' : thieu === 0 ? 'ok' : 'qua'}" style="width:${pct}%"></i></div>
-  <div class="dem-s" id="dem-so"><div class="dem-o"><small>Cần</small><b>${so(dm.can)} m</b><small class="dem-c" id="lop-dai">${b.lop} lớp × ${so(b.dai)} m</small></div><div class="dem-o"><small>Thiếu</small>${trang}<div class="dem-l" id="tong-lay">Đã lấy: <b>${dm.du.length}</b>c dang dở · <b>${dm.vua.length}</b>c mới · <b>${dm.lop}</b> lớp</div></div></div></div>
-  ${bb.du.length || bb.xe.length ? `<div class="bang cl dau-co" id="dau-ban">${dauBang('Đã lấy')}</div>` : ''}<div class="scroll" id="ds-ban">
-  ${bb.du.length ? `<div class="khoi-du" id="khoi-du"><div class="khoi-du-t" id="nhom-du">Cây vải đã trải · ${bb.du.length} cây</div><div class="bang cl">${bb.du.map(dongDu).join('')}</div></div>` : ''}
-  ${bb.xe.length ? `<div class="bang cl" id="bang-xe">${bb.xe.map(n => `<div class="nhom-xe">${n.ds.map((x, i) => dong(x, i, n.xe)).join('')}</div>`).join('')}</div>` : bb.du.length ? '' : `<p class="rong">${LO[b.lo].lo} chưa có cây ${VAI[b.vai]} đã xả.</p>`}</div></div>`;
+  const b = BAN[S.params.ban], P = S.params, duTich = P.duTich || [], bb = bangBan(b, P.tich), dm = demBan(b, bb, duTich), tab = P.tab || 'xe';
+  const thieu = dm.can - dm.co, pct = Math.min(100, Math.round(dm.co / dm.can * 100)), tt = thieu > 0 ? '' : thieu === 0 ? ' du' : ' thua';
+  const facts = [['Màu SP', b.mau], ['Loại BTP', b.btp], ['Article', b.art]].map(([k, v]) => `<div><span class="ovl">${k}</span><b>${esc(v)}</b></div>`).join('');
+  const nums = `<div class="nums" id="dem-so"><div><span class="ovl">Cần</span><p><b>${so(dm.can)}</b> m</p><span class="phu" id="lop-dai">${b.lop} lớp × ${so(b.dai)} m</span></div>`
+    + `<div class="thieu${tt}"><span class="ovl">${thieu < 0 ? 'Thừa' : 'Thiếu'}</span><p><b>${so(Math.abs(thieu))}</b> m</p><span class="phu da" id="tong-lay"><span><b>${dm.du.length}</b> dở</span><i>·</i><span><b>${dm.vua.length}</b> mới</span><i>·</i><span><b>${dm.lop}</b> lớp</span></span></div></div>`;
+  const prog = tt ? '' : `<div class="prog"><i style="width:${pct}%"></i></div>`;
+  const nXe = bb.xe.reduce((t, n) => t + n.ds.length, 0), nDu = bb.du.length;
+  const tb = (k, ten, n) => `<button role="tab" aria-selected="${tab === k}" data-a="tab" data-v="${k}"><span class="lb">${ten}<span class="bdg">· ${n}</span></span></button>`;
+  const hero = `<div class="stick" id="dem-ban"><div class="hero"><div class="facts" id="the-vai">${facts}</div><div class="hero-body pad">${prog}${nums}</div></div><div class="tabs" role="tablist">${tb('xe', 'Cây trên xe', nXe)}${tb('du', 'Cây đã trải', nDu)}</div></div>`;
+  const ghi = (c, r) => [daDung(c) ? `xuất ${so(c.met)} · dùng ${so(daDung(c))}` : '', u(c, r).k === 'nokhai' ? 'chưa khai ngày xả' : ''].filter(Boolean).join(' · ');
+  const than = tab === 'du'
+    ? (nDu ? `<div class="card sunk" id="khoi-du">${bb.du.map(({ c }) => dongCay({ c, met: conMet(c), on: duTich.includes(c.id), a: 'tichdu', ten: 'Dùng phần dư', them: ' data-du="1"' })).join('')}</div>`
+      : `<p class="note">Chưa có cây đã trải còn đủ ${so(b.dai)} m.</p>`)
+    : (bb.xe.length ? `<div id="bang-xe">${bb.xe.map(n => theXe(n.xe, n.ds.every(x => x.l.r.daLay), 'lấy cả ' + tenXe(n.xe),
+        n.ds.map(({ c, l }) => dongCay({ c, xa: daXa(l.r), met: conMet(c), ghi: ghi(c, l.r), on: l.r.daLay, a: 'tich', ten: 'Đã lấy' })).join(''), n.ds.length)).join('')}</div>`
+      : `<p class="note">${LO[b.lo].lo} chưa có cây ${VAI[b.vai]} đã xả.</p>`);
+  return `<div class="scr">${bar('home', LO[b.lo].lo, b.so, nutBar('doiban', 'Đổi bàn'))}<div class="body" id="ds-ban">${hero}<div class="tab-body">${than}</div></div></div>`;
 }
-// Ghép xe vải: xe đích đứng đầu (mờ — chỉ để xem trên xe đang có gì); sau đó các xe đang lấy dở: có ≥ 1 cây Đã lấy
+// Ghép xe vải: xe đích đứng đầu (chỉ để xem trên xe đang có gì); sau đó các xe đang lấy dở: có ≥ 1 cây Đã lấy
 // và còn ≥ 1 cây chưa lấy, trong xe chỉ cây chưa lấy. Cây Đã lấy (kể cả còn dư) không ghép (R15)
 function bangGhep(s) {
   const g = {}, gx = r => r.gioXa, xep = ds => ds.sort((a, b) => gx(a.l.r) - gx(b.l.r));
@@ -742,20 +954,18 @@ function bangGhep(s) {
   const khac = Object.keys(g).filter(xe => xe !== s.xe && g[xe].lay && g[xe].ds.length).map(xe => ({ xe, ds: xep(g[xe].ds) })).sort((a, b) => gx(a.ds[0].l.r) - gx(b.ds[0].l.r));
   return { dich: xep(g[s.xe] ? g[s.xe].ds : []), khac };
 }
-// Màn ghép của xe đích (đầu màn, tiêu đề cột đứng yên, không có khung camera; danh sách cuộn): chạm ô tích một cây = sang xe đích ngay (giữ giờ xả gốc, R16); chạm lại cây vừa ghép = về xe cũ;
-// bấm giữ ô Xe = mọi cây chưa lấy của xe đó sang xe đích
+// Màn ghép của xe đích (không có khung camera): thẻ lớn là xe đích — cây sẵn có chữ mờ, cây vừa ghép có tích (chạm dòng = về xe cũ).
+// Bên dưới là "Xe còn cây" (xe đang lấy dở): chạm dòng = cây sang xe đích ngay (giữ giờ xả gốc, R16); bấm giữ nhãn xe = mọi cây chưa lấy của xe đó sang xe đích (CR-003)
 function scrGhep() {
   const s = S.sess, { dich, khac } = bangGhep(s), vao = new Set(s.ds.filter(e => e.tu).map(e => e.cay));
-  const dongDich = ({ c }, i) => { const moi = vao.has(c.id);
-    return dongXeCay({ c, dau: !i, xe: s.xe, lop: moi ? '' : ' nhat', met: c.met, tich: moi ? oTich(c, true, 'ghept', 'Bỏ ghép') : '<span></span>' }); };
-  const dong = ({ c }, i, xe) => dongXeCay({ c, dau: !i, xe, giu: `Bấm giữ để ghép cả ${tenXe(xe)} sang ${tx(s.xe)}`, met: c.met, tich: oTich(c, false, 'ghept', 'Ghép') });
-  return `<div class="scr">${hdr('home', tx(s.xe, 1), 'Ghép xe vải', nutXe(s))}
-  <div class="bang cl dau-co" id="dau-ghep">${dauBang('Ghép')}</div><div class="scroll" id="ds-ghep"><div class="sub">Trên ${tx(s.xe)}</div>
-  ${dich.length ? `<div class="bang cl" id="bang-dich">${dich.map(dongDich).join('')}</div>` : `<p class="rong">${tx(s.xe, 1)} chưa có cây.</p>`}
-  <div class="sub">Xe đang lấy dở</div>
-  ${khac.length ? `<div class="bang cl" id="bang-ghep">${khac.map(n => `<div class="nhom-xe">${n.ds.map((x, i) => dong(x, i, n.xe)).join('')}</div>`).join('')}</div>` : '<p class="rong">Không có xe nào đang lấy dở.</p>'}</div></div>`;
+  const dongDich = ({ c, l }) => vao.has(c.id) ? dongCay({ c, xa: daXa(l.r), met: c.met, on: true, a: 'ghept', ten: 'Bỏ ghép' }) : dongCay({ c, met: c.met, cu: true });
+  const than = dich.length ? `<div class="hero-body" id="bang-dich">${dich.map(dongDich).join('')}</div>` : `<p class="hero-empty">${tx(s.xe, 1)} chưa có cây.</p>`;
+  const ds = khac.length ? `<div id="bang-ghep">${khac.map(n => theXe(n.xe, false, `ghép cả ${tenXe(n.xe)} sang ${tx(s.xe)}`,
+    n.ds.map(({ c, l }) => dongCay({ c, xa: daXa(l.r), met: c.met, a: 'ghept', ten: 'Ghép' })).join(''), n.ds.length)).join('')}</div>` : '<p class="note">Không có xe nào đang lấy dở.</p>';
+  return `<div class="scr">${bar('home', 'Ghép xe vải', '', nutXe(s))}<div class="body" id="ds-ghep"><div class="hero-gap"></div>${heroXe('Ghép vào', s.xe, dich.length, than)}
+  <div class="sect" id="sect-xe">Xe còn cây</div>${ds}</div>${gonXe('Ghép vào', s.xe, dich.length, 'Xe còn cây')}</div>`;
 }
-// Ghép nhiều cây (bấm giữ ô Xe): cây Lô khác → hỏi như R11; trả lời Thêm vào xe thì ghép tiếp số còn lại
+// Ghép nhiều cây (tích ô dòng xe): cây Lô khác → hỏi như R11; trả lời Thêm vào xe thì ghép tiếp số còn lại
 function ghepNhieu(ids) {
   for (let i = 0; i < ids.length; i++) { if (!online()) return; ghepCay(cayBy(ids[i])); if (S.sheet) { S.sheet.tiep = ids.slice(i + 1); return; } }
 }
@@ -763,47 +973,50 @@ function ghepXe(xe) {
   const n = bangGhep(S.sess).khac.find(n => n.xe === xe); if (!n) return;
   log(`Ghép cả ${tx(xe)} sang ${tx(S.sess.xe)}: ${n.ds.length} cây`, 'in'); ghepNhieu(n.ds.map(x => x.c.id));
 }
-// Chạm ô tích ở màn Ghép: cây vừa ghép trong lượt → bỏ ghép (về xe cũ, R12); cây ở xe khác → ghép sang.
+// Chạm dòng cây ở màn Ghép: cây vừa ghép trong lượt → bỏ ghép (về xe cũ, R12); cây ở xe khác → ghép sang.
 // Cây vừa xả vào xe trong cùng lượt (không có xe cũ) không bỏ ghép được ở đây — xoá ở màn xả (R12)
 function ghepTich(id) {
   const e = S.sess.ds.find(x => x.cay === id && x.tu);
   if (e) xoaDong(e.seq); else ghepCay(cayBy(id));
 }
-// Lấy cả xe (bấm giữ ô Xe): mọi cây chưa lấy của bàn cắt đang hiện trên xe đó, không hỏi (R19)
+// Tích ô ở dòng xe (màn Lấy vải): lấy mọi cây chưa lấy của bàn cắt đang hiện trên xe đó, không hỏi (R19).
+// Cả xe đã tích → tích lần nữa là bỏ lấy cả xe. Bỏ 1 cây thì ô xe tự bỏ tích (ô xe chỉ tích khi mọi cây của xe đã tích)
 function layXe(xe) {
-  const g = bangBan(BAN[S.params.ban], S.params.tich).xe.find(n => n.xe === xe); if (!g) return;
+  const g = bangBan(BAN[S.params.ban], S.params.tich).xe.find(n => n.xe === xe); if (!g || !online()) return;
   const con = g.ds.filter(x => !x.l.r.daLay);
-  if (!con.length || !online()) return;
-  con.forEach(x => layCay(x.c));
-  log(`Lấy cả ${tx(xe)}: ${con.length} cây`); S.sheet = null;
+  if (con.length) { con.forEach(x => layCay(x.c)); log(`Lấy cả ${tx(xe)}: ${con.length} cây`); }
+  else { g.ds.forEach(x => boLay(x.c)); log(`Bỏ lấy cả ${tx(xe)}: ${g.ds.length} cây`); }
+  S.sheet = null;
 }
 
-// ===== Hộp hỏi / cảnh báo =====
+// ===== Hộp hỏi / báo nổi =====
 function sheetHtml() {
   const sh = S.sheet; if (!sh) return '';
-  let h = '';
   const c = sh.cay ? cayBy(sh.cay) : null;
   if (sh.kind === 'tronlo') {
     const los = [...new Set(trenXe(S.sess.xe).map(x => LO[x.c.lo].lo))].join(', ');
-    h = `<div class="bao" style="background:#FEF3C7">${I('warning', 30, '#B45309', 'f')}<span style="display:flex;flex-direction:column;gap:2px"><b style="color:#78350F">${tx(S.sess.xe, 1)} đang có ${los}</b><span style="color:#78350F;font-size:15px;font-weight:600">Thêm cây ${LO[c.lo].lo} vào xe?</span></span></div>
-    <div class="two"><button class="cta grey" data-a="close">Huỷ</button><button class="cta" data-a="tronok">Thêm vào xe</button></div>`;
-  } else if (sh.kind === 'ketthuc') {
-    h = `<h3>Kết thúc ${tx(S.sess.xe)}?</h3>
-    <div class="two"><button class="cta grey" data-a="close">Chưa</button><button class="cta" data-a="ketthucok">Kết thúc</button></div>`;
+    return pop('warning', 'c-warn', true, `${tx(S.sess.xe, 1)} đang có ${los}`, `Thêm cây ${LO[c.lo].lo} vào xe?`, ['close', 'Huỷ'], ['tronok', 'Thêm vào xe']);
   }
-  return `<div class="dim" data-a="close"></div><div class="sheet"><div class="grab"></div>${h}</div>`;
+  // Biểu tượng hộp Kết thúc xe = biểu tượng của việc đang làm ở Trang chính (Xả vải / Ghép xe vải), không dùng xe tải
+  if (sh.kind === 'ketthuc') return pop(S.sess.man === 'ghep' ? 'all_inbox' : 'move_to_inbox', 'c-brand', false, `Kết thúc ${tx(S.sess.xe)}?`, '', ['close', 'Chưa'], ['ketthucok', 'Kết thúc']);
+  return '';
 }
+// Báo nổi đáy màn: một component cho mọi báo (mất mạng, tem sai, nhắc, xong), đè lên nội dung, không đẩy bố cục.
+// Mất mạng nằm dưới cùng tới khi có mạng lại (có mạng thì màn tự tải lại); báo thao tác nằm ngay trên. Màn quét báo ở nhãn dưới khung ngắm
+const MAN_QUET = ['xa-xe', 'ghep-xe', 'lay'];
 function overlays() {
   let o = '';
-  if (S.toast) o += `<div class="toast t-${S.toast.kind}" role="status">${I(S.toast.kind === 'ok' ? 'check_circle' : 'warning', 22, 'currentColor', 'f')}<span>${S.toast.msg}</span></div>`;
+  if (!MAN_QUET.includes(S.screen)) {
+    if (S.offline) o += `<div class="snack" role="status">${ic('wifi_off', 'i-m', true)}<b>Mất mạng, chưa ghi</b><span class="cho"><i></i><i></i><i></i></span></div>`;
+    if (S.toast) o += `<div class="snack ${S.toast.kind === 'err' ? '' : S.toast.kind}${S.offline ? ' tren' : ''}" role="alert" data-toast>${ic(TOAST_IC[S.toast.kind], 'i-m', true)}<b class="tmsg">${S.toast.msg}</b></div>`;
+  }
   return o + sheetHtml();
 }
 function phoneHtml() {
-  if (S.appOff) return `<div class="scr" style="background:#0B1220;align-items:center;justify-content:center;color:#94A3B8;font-size:13px">App đã thoát</div>`;
-  if (S.manTat) return `<div class="scr" style="background:#000;align-items:center;justify-content:center;color:#475569;font-size:13px">Màn hình tắt</div>`;
+  if (S.appOff) return `<div class="scr tat">App đã thoát</div>`;
+  if (S.manTat) return `<div class="scr tat" style="background:#000">Màn hình tắt</div>`;
   const map = { login: scrLogin, home: scrHome, 'xa-xe': scrXaXe, xa: scrXa, 'xa-chon': scrChon, 'ghep-xe': scrGhepXe, ghep: scrGhep, lay: scrLay, 'lay-ban': scrLayBan };
-  const off = S.offline ? `<div class="offl">${I('wifi_off', 22, '#fff', 'f')}<span>Mất mạng — chưa ghi</span></div>` : '';
-  return off + (map[S.screen] || scrHome)() + overlays();
+  return (map[S.screen] || scrHome)() + overlays();
 }
 
 // ===== Cột trái: cách thử =====
@@ -814,14 +1027,14 @@ const KICHBAN = [
   { t: 'Danh sách chỉ có cây chờ xả', d: 'Ở màn xả xe 109 chạm Lô 03: không có C-0807 (đã ở xe 109), C-0840 (đang ở xe 107), C-0799 (đã lấy ra trải). Lô 05 không có C-0999 (phiếu xuất chưa duyệt).', b: [['go', 'xa-xe'], ['scan', '109'], ['chonlo', 'L03']] },
   { t: 'Hai Lô chung một xe', d: 'Xe 109 đang có Lô 03, chạm Lô 04 → chạm C-0902 → app hỏi trước khi ghi. Bấm Thêm vào xe: Lô 04 có phiếu riêng.', b: [['go', 'xa-xe'], ['scan', '109'], ['chonlo', 'L03'], ['cham', 'k1'], ['go', 'xa'], ['chonlo', 'L04'], ['cham', 'k31']] },
   { t: 'Xoá dòng', d: 'Vuốt dòng C-0802 sang trái → bấm Xoá: dòng mất khỏi bảng và khỏi phiếu nháp trên SMB, cây về lại danh sách cây của Lô. Xoá được tới lúc Kết thúc xe.', b: [['go', 'xa-xe'], ['scan', '109'], ...CHAM2] },
-  { t: 'Ghép xe vải', d: 'Gom cây về xe 109: màn Ghép hiện xe 109 (mờ, chỉ để xem) và các xe đang lấy dở (xe 103). Chạm ô tích C-0790 → sang xe 109 ngay, giờ xả giữ nguyên; chạm lại → về xe 103. Bấm giữ khối Xe 103 → cả xe sang.', b: [['go', 'ghep-xe'], ['scan', '109'], ['ghept', 'k20']] },
+  { t: 'Ghép xe vải', d: 'Gom cây về xe 109: thẻ lớn là xe 109 (cây sẵn có chữ mờ, chỉ để xem), dưới là Xe còn cây (xe 103). Chạm dòng C-0790 → sang xe 109 ngay, giờ xả giữ nguyên; chạm lại → về xe 103. Bấm giữ nhãn Xe 103 → cả xe sang.', b: [['go', 'ghep-xe'], ['scan', '109'], ['ghept', 'k20']] },
   { t: 'Tem sai', d: 'Màn quét xe chỉ nhận tem xe 101–500: tem 650 và tem bàn cắt 26091234 → báo đỏ, không mở xe.', b: [['go', 'xa-xe'], ['scan', '650'], ['scan', '26091234']] },
   { t: 'Kết thúc xe', d: 'Xả xe 109 được 2 cây, bấm Kết thúc xe → hỏi. Bấm Kết thúc: phiếu của lượt Đã duyệt, phiếu nháp văn phòng GTV-0012 vẫn Nháp; app về màn quét xe, khung camera hiện lại.', b: [['go', 'xa-xe'], ['scan', '109'], ...CHAM2, ['ketthuc']] },
-  { t: 'Lấy theo bàn cắt', d: 'Quét tem bàn cắt 26091234 → khung camera ẩn, đầu màn PO 2451 · Lô 03 (dưới là BC-TSV-09-2026-1234); ba khung Màu SP Navy · Loại BTP Chính · Article CT32S-NV; Cần 50 lớp × 9 m = 450 m, Thiếu 450 m; Thiếu chỉ trừ số mét trải trọn lớp của mỗi cây (cây 80 m → 8 lớp = 72 m). Mỗi cây ghi đã xả bao lâu (xả 3 ngày 2 giờ). Khối Cây vải đã trải tách riêng trên cùng (C-0799 dư 35 m = 3 lớp 27 m): tích thì 27 m trừ vào Thiếu, không ghi phiếu. Dưới là các xe (xe xả lâu nhất trước), chỉ cây đã đủ ngày xả: C-0840, C-0842 trên xe 107 chưa đủ nên không hiện. Chạm ô Đã lấy = lấy / bỏ lấy một cây; bấm giữ khối Xe = lấy mọi cây đang hiện của xe đó. Bấm Đổi bàn → quét bàn khác.', b: [['go', 'lay'], ['scan', '26091234']] },
-  { t: 'Nhiều cây vải đã trải', d: 'Bàn 26091234 có 5 cây vải đã trải, mỗi cây còn dư sau bàn trước (C-0790 37 m, C-0791 30 m, C-0799 35 m, C-0812 25 m, C-0760 30 m). Khung Cây vải đã trải hiện 3 dòng, tiêu đề "Cây vải đã trải · 5 cây"; vuốt trong khung thấy 2 cây còn lại. Xe 7 và xe 109 vẫn nằm ngay dưới khung.', b: [['go', 'lay'], ['scan', '26091234'], ['tich', 'k20'], ['tich', 'k21'], ['tich', 'k25'], ['tich', 'k50'], ['doiban'], ['dung', 'k20:45'], ['dung', 'k21:50'], ['dung', 'k25:60'], ['dung', 'k50:40'], ['scan', '26091234']] },
+  { t: 'Lấy theo bàn cắt', d: 'Quét tem bàn cắt 26091234 → khung camera ẩn, đầu màn Lô 03 (dưới là BC-TSV-09-2026-1234); thẻ lớn Article CT32S-NV · Màu SP Navy · Loại BTP Chính; Cần 50 lớp × 9 m = 450 m, Thiếu 450 m; Thiếu chỉ trừ số mét trải trọn lớp của mỗi cây (cây 80 m → 8 lớp = 72 m). Dưới thẻ là 2 tab. Tab Cây trên xe: mỗi xe một thẻ (xe xả lâu nhất trước), chỉ cây đã đủ ngày xả — C-0840, C-0842 trên xe 107 chưa đủ nên không hiện; mỗi cây ghi đã xả bao lâu (2d 6h = 2 ngày 6 giờ). Chạm dòng cây = lấy, chạm lại = bỏ lấy; bấm giữ nhãn xe = lấy mọi cây đang hiện của xe đó. Tab Cây đã trải: C-0799 dư 35 m = 3 lớp 27 m, tích thì 27 m trừ vào Thiếu, không ghi phiếu. Bấm Đổi bàn → quét bàn khác.', b: [['go', 'lay'], ['scan', '26091234']] },
+  { t: 'Nhiều cây vải đã trải', d: 'Bàn 26091234 có 5 cây vải đã trải, mỗi cây còn dư sau bàn trước (C-0790 37 m, C-0791 30 m, C-0799 35 m, C-0812 25 m, C-0760 30 m). Tab Cây đã trải · 5 hiện đủ 5 cây; tab Cây trên xe vẫn có xe 7 (nhãn NaN “xe 7”) và xe 109.', b: [['go', 'lay'], ['scan', '26091234'], ['tich', 'k20'], ['tich', 'k21'], ['tich', 'k25'], ['tich', 'k50'], ['doiban'], ['dung', 'k20:45'], ['dung', 'k21:50'], ['dung', 'k25:60'], ['dung', 'k50:40'], ['scan', '26091234']] },
   { t: 'Cây chưa khai ngày xả', d: 'Bàn 26091236 (Lô 04 chưa khai ngày xả): C-0901 vẫn hiện, nhãn xám "chưa khai ngày xả", tích được như cây đủ.', b: [['go', 'lay'], ['scan', '26091236'], ['tich', 'k30']] },
   { t: 'Tem sai ở Lấy vải', d: 'Màn Lấy vải chỉ nhận tem bàn cắt: quét tem xe 107 → báo đỏ. Tem 26099999 không có bàn → báo đỏ.', b: [['go', 'lay'], ['scan', '107'], ['scan', '26099999']] },
-  { t: 'Mất mạng', d: 'Thanh đỏ trên cùng; chạm cây cũng không ghi.', b: [['go', 'xa-xe'], ['scan', '109'], ['net'], ['chonlo', 'L03'], ['cham', 'k1']] },
+  { t: 'Mất mạng', d: 'Báo đỏ nổi ở đáy màn “Mất mạng, chưa ghi”, không đẩy bố cục; chạm cây không ghi. Bấm Có mạng lại → báo tự tắt, màn tự tải lại.', b: [['go', 'xa-xe'], ['scan', '109'], ['net'], ['chonlo', 'L03'], ['cham', 'k1']] },
   { t: 'Tắt màn hình giữa chừng', d: 'Bật lại → vẫn ở xe 109.', b: [['go', 'xa-xe'], ['scan', '109'], ...CHAM2, ['mantat'], ['mantat']] },
   { t: 'Quét nhầm tem xe', d: 'Quét xe 109, chưa chọn cây nào → bấm Đổi xe ở góc trên: khung camera hiện lại, quét xe 110.', b: [['go', 'xa-xe'], ['scan', '109'], ['boxe'], ['scan', '110']] },
   { t: 'Thoát app giữa chừng', d: 'Đang xả xe 109 thì thoát app → phiếu của lượt tự Đã duyệt. Mở lại ở màn quét xe; xả tiếp xe 109 thì ra phiếu mới.', b: [['go', 'xa-xe'], ['scan', '109'], ...CHAM2, ['thoat'], ['thoat']] },
@@ -833,27 +1046,27 @@ function khayHtml() {
   const nut = (ma, gc, xe) => `<button class="tem${xe ? ' xe' : ''}" data-a="scan" data-v="${ma}">${ma}${gc ? `<small>${gc}</small>` : ''}</button>`;
   const nhom = (t, x) => `<div class="nhom"><div class="ten">${t}</div><div class="tems">${x}</div></div>`;
   return `<div class="hop"><h3>Cách thử</h3>
-  <div class="buoc"><b><span class="so">1</span>Đăng nhập</b>${S.user ? `<span class="gt">Đã đăng nhập: ${esc(S.user.ten)}.</span>` : `<div class="row"><button class="btn" data-a="dangnhap">Đăng nhập nhanh</button><span class="gt" style="margin:0">hoặc gõ mật khẩu <b>123456</b> trên điện thoại</span></div>`}</div>
+  <div class="buoc"><b><span class="so">1</span>Đăng nhập</b>${S.user ? `<span class="gt">Đã đăng nhập: ${esc(S.user.ten)}.</span>` : `<div class="hang"><button class="tbtn" data-a="dangnhap">Đăng nhập nhanh</button><span class="gt" style="margin:0">hoặc gõ mật khẩu <b>123456</b> trên điện thoại</span></div>`}</div>
   <div class="buoc"><b><span class="so">2</span>Chọn một tình huống</b><p class="gt">Bấm là app tự chạy tới đúng chỗ đó từ dữ liệu ban đầu. Sau đó bấm tiếp trên điện thoại.</p><div class="kb">
   ${KICHBAN.map((k, i) => `<button type="button" data-a="kb" data-v="${i}"><span class="t">${k.t}</span><span class="d">${k.d}</span></button>`).join('')}</div></div>
   <div class="buoc"><b><span class="so">3</span>Hoặc tự quét: bấm tem</b><p class="gt">Mỗi nút là một tem dán trên xe hoặc bàn cắt. Bấm = đưa tem vào camera (chỉ màn quét xe, màn quét bàn có camera). Cây vải không quét: chạm chọn trên điện thoại.</p>
   ${nhom('Tem xe', ['103', '107', '109', '110', '111'].map(x => nut(x, (() => { const t = trenXe(x); return t.length ? t.length + ' cây' : 'trống'; })(), 1)).join(''))}
   ${nhom('Bàn cắt', nut('26091234', 'Lô 03') + nut('26091235', 'Lô 05') + nut('26091236', 'Lô 04') + nut('26099999', 'không có bàn'))}
   ${nhom('Tem sai', nut('650', 'ngoài 101–500', 1))}
-  <form class="tay" data-f="go"><label for="gotay" style="position:absolute;left:-9999px">Mã tem</label><input id="gotay" placeholder="Gõ mã rồi Enter" autocomplete="off" spellcheck="false"><button class="btn" type="submit">Quét</button></form></div></div>
-  <div class="hop"><h3>Giả lập</h3><div class="row" style="margin-bottom:8px"><span class="clock">${fmt(now())}</span><button class="btn phu" data-a="clock" data-v="240">+4 giờ</button><button class="btn phu" data-a="clock" data-v="1440">+1 ngày</button></div>
-  <div class="row"><button class="btn ${S.offline ? 'on' : 'phu'}" data-a="net">${S.offline ? 'Có mạng lại' : 'Mất mạng'}</button><button class="btn phu" data-a="mantat"${S.appOff ? ' disabled' : ''}>${S.manTat ? 'Bật màn hình' : 'Tắt màn hình'}</button><button class="btn phu" data-a="thoat">${S.appOff ? 'Mở lại app' : 'Thoát app'}</button><button class="btn phu" data-a="homsau">Sáng hôm sau</button><button class="btn phu" data-a="reset">Làm lại từ đầu</button></div></div>
+  <form class="tay" data-f="go"><label for="gotay" style="position:absolute;left:-9999px">Mã tem</label><input id="gotay" placeholder="Gõ mã rồi Enter" autocomplete="off" spellcheck="false"><button class="tbtn" type="submit">Quét</button></form></div></div>
+  <div class="hop"><h3>Giả lập</h3><div class="hang" style="margin-bottom:8px"><span class="clock">${fmt(now())}</span><button class="tbtn phu" data-a="clock" data-v="240">+4 giờ</button><button class="tbtn phu" data-a="clock" data-v="1440">+1 ngày</button></div>
+  <div class="hang"><button class="tbtn ${S.offline ? 'on' : 'phu'}" data-a="net">${S.offline ? 'Có mạng lại' : 'Mất mạng'}</button><button class="tbtn phu" data-a="mantat"${S.appOff ? ' disabled' : ''}>${S.manTat ? 'Bật màn hình' : 'Tắt màn hình'}</button><button class="tbtn phu" data-a="thoat">${S.appOff ? 'Mở lại app' : 'Thoát app'}</button><button class="tbtn phu" data-a="homsau">Sáng hôm sau</button><button class="tbtn phu" data-a="reset">Làm lại từ đầu</button></div></div>
   <details class="hop" id="tem-hop"${TEM_MO ? ' open' : ''}><summary>${I('print', 20, 'currentColor')}Tem thử để quét bằng camera điện thoại</summary>
   <p class="gt">Mở trang này trên điện thoại, bấm <b>Bật camera sau</b>, rồi quét các tem dưới đây (hiện trên máy tính hoặc in ra giấy).</p>
   <div class="intem" id="tem-in">${TEM_IN.map(([m, g]) => `<figure><svg data-ma="${m}" role="img" aria-label="Mã vạch ${m}"></svg><figcaption>${g}</figcaption></figure>`).join('')}</div>
-  <div class="row" style="margin-top:8px"><button class="btn phu" data-a="intem">In tem</button></div></details>`;
+  <div class="hang" style="margin-top:8px"><button class="tbtn phu" data-a="intem">In tem</button></div></details>`;
 }
 // ===== Cột phải: phiếu SMB + nhật ký =====
 const TAG = { ok: 'GHI SMB', er: 'TỪ CHỐI', wr: 'HỎI', in: 'THAO TÁC' };
 function smbHtml() {
   const ps = S.phieu.slice().sort((a, b) => b.so.localeCompare(a.so));
   return `<div class="hop"><h3>Phiếu Xả vải trên SMB</h3><p class="gt">Văn phòng thấy gì sau mỗi lần công nhân bấm. Dòng vừa ghi tô xanh.</p>
-  ${ps.map(p => `<div class="ph"><div class="phh"><b class="so-phieu">${p.so}</b><span>Xe <b>${esc(p.xe)}</b></span><span>${loTen(p.lo)}</span><span>Style <b>${LO[p.lo].style}</b></span><span>ĐVSX <b>${LO[p.lo].dvsx}</b></span><span>Hạch toán <b data-o="ht">${fmt(p.ht).slice(0, 5)}</b></span><span>Thời gian xả vải <b data-o="tgxa">${gio(p.ht)}</b></span><span class="pill ${p.tt === 'nhap' ? 'p-warn' : 'p-ok'}">${p.tt === 'nhap' ? 'Nháp' : 'Đã duyệt'}</span><span class="pill p-n">lập từ ${p.nguon === 'app' ? 'app' : 'SMB'}</span></div>
+  ${ps.map(p => `<div class="ph"><div class="phh"><b class="so-phieu">${p.so}</b><span>Xe <b>${esc(p.xe)}</b></span><span>${loTen(p.lo)}</span><span>Style <b>${LO[p.lo].style}</b></span><span>ĐVSX <b>${LO[p.lo].dvsx}</b></span><span>Hạch toán <b data-o="ht">${fmt(p.ht).slice(0, 5)}</b></span><span>Thời gian xả vải <b data-o="tgxa">${gio(p.ht)}</b></span><span class="nhan ${p.tt === 'nhap' ? 'p-warn' : 'p-ok'}">${p.tt === 'nhap' ? 'Nháp' : 'Đã duyệt'}</span><span class="nhan p-n">lập từ ${p.nguon === 'app' ? 'app' : 'SMB'}</span></div>
   <div class="tbl"><table class="t"><thead><tr><th>Mã cây</th><th>Số mét</th><th>Giờ xả</th><th>Đã lấy</th><th>Giờ lấy</th><th>Người lấy</th></tr></thead><tbody>
   ${p.rows.map(r => { const c = cayBy(r.cay); return `<tr class="${r.seq === S.lastSeq ? 'new' : ''}"><td class="m">${c.ma}</td><td>${met(c.met)}</td><td>${fmt(r.gioXa)}</td><td>${r.daLay ? '☑' : '☐'}</td><td>${r.gioLay ? fmt(r.gioLay) : ''}</td><td>${r.nguoiLay ? esc(r.nguoiLay) : ''}</td></tr>`; }).join('')}</tbody></table></div></div>`).join('')}</div>
   <div class="hop nk"><h3>App vừa làm gì</h3><ol>${S.log.map(x => `<li class="${x.k}"><span class="ev">${TAG[x.k]}</span><span class="mo">${esc(x.msg)}</span><time>${gio(x.t)}</time></li>`).join('') || '<li class="in"><span class="mo">Chưa có thao tác.</span></li>'}</ol></div>`;
@@ -865,11 +1078,29 @@ function veMaVach() {
   const ve = () => document.querySelectorAll('#tem-in svg[data-ma]').forEach(s => { try { window.JsBarcode(s, s.dataset.ma, { format: 'CODE128', height: 60, width: 2, fontSize: 16, margin: 6 }); } catch (e) {} });
   if (window.JsBarcode) ve(); else napScript('https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js').then(ve, () => {});
 }
+// Nhãn xe dính ngay dưới khối dính đầu vùng cuộn (--dinh = cao khối đó): màn Lấy vải = thẻ lớn + thanh tab; màn xả / ghép = dải thu gọn khi đang hiện.
+// Màn xả / ghép: thẻ xe trôi khuất → hiện dải gọn; tiêu đề Xe còn cây đã trôi lên dưới dải → hiện theo dưới dải
+let CUON_K = '';
+function datDinh(bd) {
+  const st = bd.querySelector(':scope > .stick'), o = document.getElementById('gon');
+  if (st) { bd.style.setProperty('--dinh', st.offsetHeight + 'px'); return; }
+  if (!o) return;
+  const top = bd.getBoundingClientRect().top, hero = document.getElementById('xe-hero'), bar = bd.parentNode.querySelector('.bar');
+  o.style.top = (bar ? bar.offsetHeight : 0) + 'px';
+  o.hidden = !hero || bd.scrollTop <= 0 || hero.querySelector('.hero-h').getBoundingClientRect().bottom - top > 0;   // dòng Xe 109 · N cây đã trôi khuất
+  const td = o.querySelector('.sect'), that = document.getElementById('sect-xe');
+  if (td) td.hidden = o.hidden || !that || that.getBoundingClientRect().top - top > o.querySelector('.hero').offsetHeight + 8;
+  bd.style.setProperty('--dinh', (o.hidden ? 0 : o.offsetHeight) + 'px');
+}
+document.addEventListener('scroll', e => { const bd = e.target; if (bd.classList && bd.classList.contains('body') && bd.closest('#man')) datDinh(bd); }, true);
 function render() {
-  const ph = document.getElementById('phone'); ph.className = 'phone' + (S.offline ? ' off' : '');
+  const ph = document.getElementById('phone'); ph.className = 'phone' + (GD === 'dk' ? ' dk' : '');
   let man = document.getElementById('man');
   if (!man) { man = document.createElement('div'); man.id = 'man'; man.style.cssText = 'position:absolute;inset:0'; ph.appendChild(man); }
-  man.innerHTML = phoneHtml();
+  // vẽ lại cả màn sau mỗi chạm: giữ nguyên chỗ đang cuộn nếu vẫn là màn đó (chạm cây ở cuối danh sách không bị nhảy về đầu)
+  const bd0 = man.querySelector('.body'), k = S.screen + '|' + (S.screen === 'lay-ban' ? S.params.tab || 'xe' : ''), cuon0 = bd0 && CUON_K === k ? bd0.scrollTop : 0;
+  man.innerHTML = phoneHtml(); CUON_K = k;
+  const bd = man.querySelector('.body'); if (bd) { bd.scrollTop = cuon0; datDinh(bd); }
   document.getElementById('khay').innerHTML = khayHtml();
   document.getElementById('smb').innerHTML = smbHtml();
   datCam();
@@ -877,6 +1108,7 @@ function render() {
   veMaVach();
   const m = document.getElementById('mcode'); if (m) m.focus();
   luuTrangThai();
+  NGAN_VAO = false;
 }
 // Mở app sau khi thoát: chưa đăng nhập → đăng nhập; lượt còn mở (vì mất mạng lúc thoát) → vào lại, trừ khi đã sang ngày khác
 function moLai() {
@@ -900,11 +1132,14 @@ function doAct(a, v) {
     case 'boxe': { if (!S.sess) break; const man = S.sess.man; boXe(); go(man + '-xe'); break; }
     // Đổi bàn: về màn quét tem bàn cắt; cây đã tích đã ghi trên phiếu, giữ nguyên (R17)
     case 'doiban': if (S.screen === 'lay-ban') go('lay'); break;
-    case 'logout': if (S.sess && !tuKetThuc('đăng xuất')) break; S.user = null; go('login'); break;
+    case 'menu': menuMo = !menuMo; NGAN_VAO = menuMo; break;
+    // Đổi người dùng (menu ☰): lượt đang mở tự kết thúc như thoát app (R6), về màn đăng nhập cho người sau
+    case 'logout': menuMo = false; if (S.sess && !tuKetThuc('đổi người dùng')) break; S.user = null; go('login'); break;
+    case 'toi': doiGiaoDien(); log('Giao diện ' + (GD === 'dk' ? 'tối' : 'sáng'), 'in'); break;
     case 'cham': { const c = cayBy(v); S.sheet = null; if (S.sess && c && trangThai(v) === 'chua') vaoXe(c); break; }
     // Màn xả: chạm một Lô → chọn cây của Lô đó (R8)
     case 'chonlo': if (S.sess && LO[v]) go('xa-chon', { lo: v }); break;
-    // Màn Ghép: chạm ô tích → ghép / bỏ ghép một cây (R15)
+    // Màn Ghép: chạm dòng cây → ghép / bỏ ghép một cây (R15)
     case 'ghept': if (S.sess && S.screen === 'ghep' && cayBy(v)) ghepTich(v); break;
     // Nhóm Cây vải đã trải: tích chỉ để tính Thiếu và dòng Đã lấy, không ghi phiếu (R20)
     // Tình huống thử: cây đã được Bàn cắt trước dùng một phần (số mét đã dùng, D7)
@@ -916,7 +1151,12 @@ function doAct(a, v) {
     case 'ketthucok': ketThuc(); break;
     // Ô tích ở bảng lấy: tích = lấy (hỏi trước nếu chưa đủ ngày xả), bỏ tích = trả về chưa lấy (R19)
     case 'tich': { const c = cayBy(v); if (!c) break; const t = trangThai(v); if (t === 'lay') boLay(c); else if (t === 'tren') layCay(c); break; }
-    case 'giuxe': if (S.screen === 'lay-ban') layXe(v); else if (S.screen === 'ghep' && S.sess) ghepXe(v); break;
+    // Bấm giữ nhãn xe: màn Lấy vải = lấy / bỏ lấy cả xe (R19) · màn Ghép = ghép cả xe (R15)
+    case 'tichxe': if (S.screen === 'lay-ban') layXe(v); else if (S.screen === 'ghep' && S.sess) ghepXe(v); break;
+    // Màn Lô lấy vải: tab Cây trên xe · Cây đã trải (R20, CR-001)
+    case 'tab': if (S.screen === 'lay-ban' && (v === 'xe' || v === 'du')) S.params.tab = v; break;
+    // Màn Chọn cây: bấm đầu nhóm Lot → thu / bung nhóm đó
+    case 'lot': if (S.screen === 'xa-chon') { const t = S.params.dong = S.params.dong || [], i = t.indexOf(v); if (i < 0) t.push(v); else t.splice(i, 1); } break;
     case 'manual': S.manual = !S.manual; break;
     case 'camon': batCam(); break;
     case 'den': if (CAM.track && CAM.coDen) { const bat = !CAM.den; try { Promise.resolve(CAM.track.applyConstraints({ advanced: [{ torch: bat }] })).then(() => { CAM.den = bat; render(); }, () => {}); } catch (e) {} } break;
@@ -924,7 +1164,8 @@ function doAct(a, v) {
     // Huỷ ở hộp hỏi Lô khác khi đang ghép cả xe: chỉ cây của Lô đó ở lại xe cũ, các cây còn lại vẫn ghép tiếp (R15, R11)
     case 'close': { const sh = S.sheet; S.sheet = null; if (sh && sh.kind === 'tronlo' && sh.tiep && sh.tiep.length) { const lo = cayBy(sh.cay).lo; ghepNhieu(sh.tiep.filter(id => cayBy(id).lo !== lo)); } break; }
     case 'clock': S.offset += (+v) * MIN; log(`Tua giờ +${+v >= 1440 ? (+v / 1440) + ' ngày' : (+v / 60) + ' giờ'}`, 'in'); break;
-    case 'net': S.offline = !S.offline; log(S.offline ? 'Mất mạng' : 'Có mạng lại', 'in'); break;
+    // Có mạng lại: báo mất mạng tự tắt, màn tự tải lại dữ liệu mới (không cần bấm gì)
+    case 'net': S.offline = !S.offline; log(S.offline ? 'Mất mạng' : 'Có mạng lại — màn tự tải lại', 'in'); break;
     // Tắt màn hình / chuyển app khác: giữ nguyên xe đang mở (R6)
     case 'mantat': if (S.appOff) break; if (S.manTat) { S.manTat = false; log('Bật màn hình', 'in'); sangNgayKhac(); } else { S.manTat = true; S.sheet = null; log('Tắt màn hình', 'in'); } break;
     // Thoát app: lượt đang mở tự kết thúc (R6); mở lại → màn quét xe
@@ -942,6 +1183,13 @@ document.addEventListener('click', e => {
   const el = e.target.closest('[data-a]');
   // chạm ra ngoài dòng đang mở nút Xoá → đóng lại
   if (S.vuot != null && !e.target.closest('.sw')) { S.vuot = null; if (!el) { render(); return; } }
+  const giu = e.target.closest('[data-giu]');
+  if (giu && !el) {
+    if (Date.now() - GIU_LUC < 800) return;                     // nhả tay sau khi giữ đủ: đã làm rồi
+    if (e.detail === 0) doAct(giu.dataset.giu, giu.dataset.v);  // Enter / Space
+    else toast('warn', `Bấm giữ nhãn xe để ${S.screen === 'ghep' ? 'ghép' : 'lấy'} cả xe.`);
+    render(); return;
+  }
   if (!el) return;
   if (el.tagName === 'BUTTON' && el.getAttribute('type') === 'submit') return;
   if (el.dataset.a === 'scan' && S.user && !S.appOff && !S.manTat) pip();
@@ -960,10 +1208,11 @@ document.addEventListener('submit', e => {
   render();
 });
 // Vuốt dòng bảng sang trái ≥ 60 px → mở nút Xoá; vuốt phải hoặc chạm lại dòng đang mở → đóng (R12).
-// Dùng pointer events nên chạy được cả ngón tay lẫn chuột; nút Xoá luôn nằm dưới dòng, dòng trượt ra thì lộ nút
+// Dùng pointer events nên chạy được cả ngón tay lẫn chuột; dòng đứng yên, nút Xoá theo ngón tay trượt vào từ mép phải, che cột số mét
 let KEO = null;
-document.addEventListener('pointerdown', e => { const r = e.target.closest && e.target.closest('.sw-in'); KEO = r ? { r, x0: e.clientX, dx: 0, seq: +r.parentNode.dataset.sw } : null; if (r) r.classList.add('keo'); });
-document.addEventListener('pointermove', e => { if (!KEO) return; KEO.dx = e.clientX - KEO.x0; const goc = S.vuot === KEO.seq ? -88 : 0; KEO.r.style.transform = `translateX(${Math.max(-88, Math.min(0, goc + KEO.dx))}px)`; });
+const XOA_W = 76;
+document.addEventListener('pointerdown', e => { const r = e.target.closest && e.target.closest('.sw-in'); KEO = r ? { r: r.parentNode.querySelector('.sw-xoa'), x0: e.clientX, dx: 0, seq: +r.parentNode.dataset.sw } : null; if (KEO) KEO.r.classList.add('keo'); });
+document.addEventListener('pointermove', e => { if (!KEO) return; KEO.dx = e.clientX - KEO.x0; const goc = S.vuot === KEO.seq ? 0 : XOA_W; KEO.r.style.transform = `translateX(${Math.max(0, Math.min(XOA_W, goc + KEO.dx))}px)`; });
 function thaKeo() {
   if (!KEO) return; const k = KEO, truoc = S.vuot; KEO = null; k.r.classList.remove('keo'); k.r.style.transform = '';
   if (k.dx <= -60) S.vuot = k.seq; else if (k.dx >= 60 || (Math.abs(k.dx) < 10 && S.vuot === k.seq)) S.vuot = null;
@@ -971,15 +1220,20 @@ function thaKeo() {
 }
 document.addEventListener('pointerup', thaKeo);
 document.addEventListener('pointercancel', thaKeo);
-// Bấm giữ ô Xe ~600 ms → màn Lấy vải: lấy cả xe (R19) · màn Ghép: ghép cả xe (R15); nhả tay sớm hoặc kéo đi thì thôi. Ô Xe đích (mờ) không giữ được
-const GIU_MS = 600; let GIU = null;
-document.addEventListener('pointerdown', e => { const o = e.target.closest && e.target.closest('.oxe'); if (!o || o.dataset.giu == null) return; o.classList.add('giu');
-  GIU = { o, x: e.clientX, t: setTimeout(() => { GIU = null; o.classList.remove('giu'); doAct('giuxe', o.dataset.giu); render(); }, GIU_MS) }; });
-const thoiGiu = () => { if (!GIU) return; clearTimeout(GIU.t); GIU.o.classList.remove('giu'); GIU = null; };
-document.addEventListener('pointerup', thoiGiu);
-document.addEventListener('pointercancel', thoiGiu);
-document.addEventListener('pointermove', e => { if (GIU && Math.abs(e.clientX - GIU.x) > 12) thoiGiu(); });
-document.addEventListener('contextmenu', e => { if (e.target.closest && e.target.closest('.oxe')) e.preventDefault(); });
+// Bấm giữ nhãn xe ≥ 0,5 giây → lấy / ghép cả xe (R15, R19, CR-003). Chạm nhanh chỉ nhắc; trượt ngón (cuộn) thì huỷ.
+// Bàn phím (Enter / Space trên nhãn) không giữ được → làm luôn
+let GIU = null, GIU_LUC = 0;
+const GIU_MS = 500;
+document.addEventListener('pointerdown', e => {
+  const n = e.target.closest && e.target.closest('[data-giu]'); if (!n || S.appOff || S.manTat) return;
+  n.classList.add('giu');
+  GIU = { n, x: e.clientX, y: e.clientY, t: setTimeout(() => { GIU_LUC = Date.now(); GIU = null; moLoa(); doAct(n.dataset.giu, n.dataset.v); render(); }, GIU_MS) };
+});
+const boGiu = () => { if (!GIU) return; clearTimeout(GIU.t); GIU.n.classList.remove('giu'); GIU = null; };
+document.addEventListener('pointermove', e => { if (GIU && Math.hypot(e.clientX - GIU.x, e.clientY - GIU.y) > 10) boGiu(); });
+document.addEventListener('pointerup', boGiu);
+document.addEventListener('pointercancel', boGiu);
+document.addEventListener('contextmenu', e => { if (e.target.closest && e.target.closest('[data-giu]')) e.preventDefault(); });
 render();
 
 // ===== Góp ý (không cần đăng nhập): lưu trên máy người xem, chép ra để dán Zalo =====
@@ -1023,5 +1277,3 @@ const _render0 = render;
 render = function () { _render0(); gyVe(); };
 gyVe();
 </script>
-
-</html>
