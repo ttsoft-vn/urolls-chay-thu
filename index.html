@@ -231,6 +231,9 @@ tr.new td{animation:hl 2.4s ease-out}
 .phone .hero-body.xe-than{z-index:1;margin-top:calc(-1 * var(--r-l));border-radius:var(--r-l) var(--r-l) var(--r-xl) var(--r-xl);overflow:visible}
 .phone .hero-body.xe-than::before{content:'';position:absolute;z-index:-1;left:0;right:0;top:calc(-1 * var(--len, 0px));bottom:0;border-radius:var(--r-xl);box-shadow:var(--sh-hero);pointer-events:none}
 .phone .sect.dinh{position:sticky;top:60px;z-index:0;margin:0 calc(-1 * var(--gutter));padding:var(--s5) calc(var(--gutter) + var(--s1)) var(--s2);background:var(--bg)}
+.phone .nhom-vai>.sect{position:sticky;top:0;z-index:1;margin:0 calc(-1 * var(--gutter));padding:var(--s5) calc(var(--gutter) + var(--s1)) var(--s2);background:var(--bg)}
+.phone .hero-body.xe-than>:first-child{border-top-left-radius:var(--r-l);border-top-right-radius:var(--r-l)}
+.phone .hero-body.xe-than>:last-child{border-bottom-left-radius:var(--r-xl);border-bottom-right-radius:var(--r-xl)}
 .phone .hero.gon .hero-h{grid-template-columns:auto 1fr auto;align-items:baseline;align-content:center;min-height:56px;padding:var(--s2) var(--s3) var(--s2) var(--pad)}
 .phone .hero.gon .hero-h .ovl{grid-column:auto;color:var(--hero-ink-2)}
 .phone .hero.gon .hero-big{font-size:var(--t-num)}
@@ -885,7 +888,7 @@ function scrXa() {
   const lo = ls.length ? `<div class="sect${s.ds.length ? ' dinh' : ''}">Chọn cây theo Lô</div><div class="card" id="ds-lo">${ls.map(x => `<button class="nav" data-a="chonlo" data-v="${x.lo}"><b>${LO[x.lo].lo}</b><span>${x.n} cây</span>${ic('chevron_right', 'i-m c-3')}</button>`).join('')}</div>` : '';
   return `<div class="scr">${bar('home', 'Xả vải', '', nutXe(s))}<div class="body" id="ds-xa">${s.ds.length ? '' : '<div class="hero-gap"></div>'}${bangLuot(s)}${lo}</div></div>`;
 }
-// Chọn cây của một Lô: cây chưa xả có phiếu xuất đã duyệt (R8), nhóm theo màu · mã vải rồi theo Lot, trong Lot xếp theo mã cây; chạm dòng là cây vào xe.
+// Chọn cây của một Lô: cây chưa xả có phiếu xuất đã duyệt (R8), nhóm theo màu · mã vải (tiêu đề dính đầu vùng cuộn tới hết nhóm) rồi theo Lot, trong Lot xếp theo mã cây; chạm dòng là cây vào xe.
 // Đầu nhóm Lot (cùng nền thẻ, chữ xám) bấm để thu / bung nhóm; mặc định bung hết.
 // Góc phải đầu màn: viên số cây trên xe (XE 109 • 2 cây), đổi số thì nảy lên để người chạm thấy cây đã vào xe
 let DEM_CU = null;
@@ -894,9 +897,9 @@ function scrChon() {
   xaMoi().filter(c => c.lo === lo).forEach(c => { const v = g[c.vai] = g[c.vai] || {}; (v[c.lot] = v[c.lot] || []).push(c); });
   const tenVai = vai => { const [ten, mau] = VAI[vai].split(' · '); return mau ? `<span class="mau">${mau}</span> · ${ten}` : ten; };
   const theoMa = (a, b) => a.ma.localeCompare(b.ma, 'vi', { numeric: true });
-  const than = Object.keys(g).sort().map(vai => `<div class="sect"><span>${tenVai(vai)}</span></div>` + Object.keys(g[vai]).sort().map(lot => { const k = vai + '|' + lot, mo = !dong.includes(k);
+  const than = Object.keys(g).sort().map(vai => `<div class="nhom-vai"><div class="sect"><span>${tenVai(vai)}</span></div>` + Object.keys(g[vai]).sort().map(lot => { const k = vai + '|' + lot, mo = !dong.includes(k);
     return `<div class="card"><button class="card-h nut" data-a="lot" data-v="${esc(k)}" aria-expanded="${mo}"><b>Lot ${esc(lot)}</b><span class="n">${g[vai][lot].length} cây</span><span class="act">${ic(mo ? 'expand_less' : 'expand_more', 'i-m c-2')}</span></button>${!mo ? '' : g[vai][lot].sort(theoMa).map(c =>
-    `<button class="row nut" data-a="cham" data-v="${c.id}" aria-label="Thêm ${esc(c.ma)} vào ${tx(s.xe)}"><b class="ma">${esc(c.ma)}</b><span class="m"><b>${so(c.met)}</b> m</span><span class="act">${ck(false)}</span></button>`).join('')}</div>`; }).join('')).join('');
+    `<button class="row nut" data-a="cham" data-v="${c.id}" aria-label="Thêm ${esc(c.ma)} vào ${tx(s.xe)}"><b class="ma">${esc(c.ma)}</b><span class="m"><b>${so(c.met)}</b> m</span><span class="act">${ck(false)}</span></button>`).join('')}</div>`; }).join('') + '</div>').join('');
   const k = s.xe + '|' + s.ds.length, nay = DEM_CU && DEM_CU !== k && DEM_CU.split('|')[0] === s.xe; DEM_CU = k;
   const dem = `<div class="dem" id="dem-xe"><span class="ovl">${tx(s.xe, 1)}</span><span class="sr"> · </span><i aria-hidden="true"></i><p><b${nay ? ' class="nay"' : ''}>${s.ds.length}</b> cây</p></div>`;
   return `<div class="scr">${bar('xa', LO[lo].lo, '', dem)}<div class="body" id="ds-chon">${than || '<p class="note">Không còn cây.</p>'}</div></div>`;
