@@ -1108,7 +1108,7 @@ function doXeDinh(bd) {
   const H = d.offsetHeight, W = d.offsetWidth, ro = R(o, 1), rg = R(g, 1), rp = R(p), cy = GON / 2, kg = 20 / 32, kp = .82, cp = rp.y + rp.h / 2;
   const c = { x: 16 + ro.w + 12 - rg.x, y: cy - rg.h * kg / 2 - rg.y }, B = rg.y + (day(g) - rg.y) * kg + c.y;   // B: chân chữ "Xe 109" ở dải gọn
   const sect = bd.querySelector(':scope > .sect.dinh');
-  return { w, d, l, o, g, p, H, D: H - GON, dau: d.offsetTop, Lb: l.offsetTop + l.offsetHeight - bd.offsetTop, kg, kp, c,
+  return { w, d, l, o, g, p, H, mt: parseFloat(getComputedStyle(l).marginTop) || 0, D: H - GON, dau: d.offsetTop, Lb: l.offsetTop + l.offsetHeight - bd.offsetTop, kg, kp, c,
     a: { x: 16 - ro.x, y: B - day(o) }, e: { x: W - 12 - (rp.x + rp.w), y: B - (cp + (day(p) - cp) * kp) }, dinh: d.offsetTop + GON + (sect ? sect.offsetHeight : 0) };
 }
 function cuonXeDinh(bd, M) {
@@ -1120,6 +1120,8 @@ function cuonXeDinh(bd, M) {
   M.d.style.clipPath = `inset(0 0 ${cc}px 0 round ${r}px ${r}px ${bt}px ${bt}px)`;
   M.d.classList.toggle('dac', cc > 0);                                           // đang co: đáy phần xanh đặc, không lộ đáy bo của phần trắng
   M.w.style.setProperty('--nen', (M.dau + (cc > 0 ? Hv : M.H - 20)) + 'px');     // nền màn sau đầu thẻ tới đáy phần xanh đang hiện
+  // bóng danh sách bắt đầu từ mép dưới phần xanh đang hiện (như lúc chưa kéo): danh sách trôi lên dưới đầu thẻ thì bóng không lòi ra hai bên đầu thẻ; lúc co thành dải gọn thì đỉnh bóng lên dần theo t tới đỉnh dải
+  M.l.style.setProperty('--len', -Math.max(0, M.d.getBoundingClientRect().top + (Hv + M.mt) * (1 - t) - M.l.getBoundingClientRect().top) + 'px');
 }
 let XD = null;
 function datDinh(bd, doLai) {
